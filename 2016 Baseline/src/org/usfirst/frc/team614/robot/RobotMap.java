@@ -20,4 +20,24 @@ public class RobotMap {
 	// Gamepad USB ports
 	public static final int driverGamepad   = 1;
 	public static final int operatorGamepad = 2;
+	
+	//JOYSTICK CONSTANTS
+		public static final double JOYSTICK_DEADBAND = 0.2;
+	
+	// Drivetrain VictorSP ports
+		public static final int drivetrainFrontLeftMotor  = 0;
+		public static final int drivetrainFrontRightMotor   = 1;
+		public static final int drivetrainRearLeftMotor = 2;
+		public static final int drivetrainRearRightMotor  = 3;
+		public static final int drivetrainMidLeftMotor = 4;
+		public static final int drivetrainMidRightMotor  = 5;
+	
+	//Shooter VictorSP ports
+		public static final int shooterLeftMotor = 6;
+		public static final int shooterRightMotor = 7;
+		
+	//Solenoid port
+		public static final int solenoid_A = 0;
+		public static final int solenoid_B = 1;
+	
 }
