@@ -1,9 +1,12 @@
 package org.usfirst.frc.team614.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
-
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+
 import org.usfirst.frc.team614.robot.RobotMap;
+import org.usfirst.frc.team614.robot.commands.shooter.ServoTestDrive;
+
 import org.team708.robot.util.Gamepad;
 
 /**
@@ -38,9 +41,22 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
+	private static final int SERVO_TEST = Gamepad.button_A;
+	
+	
+	
+			
+	
 	
 	// Gamepads
 		public final static Gamepad driverGamepad = new Gamepad(RobotMap.driverGamepad);			// Driver gamepad
 		public final static Gamepad operatorGamepad = new Gamepad(RobotMap.operatorGamepad);		// Operator gamepad
+		
+		
+		private static final Button servoTest = new JoystickButton(driverGamepad, SERVO_TEST);
+		
+		public OI(){
+		servoTest.whenPressed(new ServoTestDrive(1));
 }
 
+}

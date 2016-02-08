@@ -24,7 +24,7 @@ public class RobotMap {
 	//JOYSTICK CONSTANTS
 		public static final double JOYSTICK_DEADBAND = 0.2;
 	
-	// Drivetrain VictorSP ports
+	// Drivetrain VictorSP ports (PWM)
 		public static final int drivetrainFrontLeftMotor  = 0;
 		public static final int drivetrainFrontRightMotor   = 1;
 		public static final int drivetrainRearLeftMotor = 2;
@@ -32,12 +32,23 @@ public class RobotMap {
 		public static final int drivetrainMidLeftMotor = 4;
 		public static final int drivetrainMidRightMotor  = 5;
 	
-	//Shooter VictorSP ports
+	//Shooter VictorSP ports (PWM)
 		public static final int shooterLeftMotor = 6;
 		public static final int shooterRightMotor = 7;
 		
-	//Solenoid port
+	//Solenoid port (PCM, Pneumatics Control Module)
 		public static final int solenoid_A = 0;
 		public static final int solenoid_B = 1;
+		
+	//Servo port (PWM)
+		public static final int servo_ID = 8;
+		
+	//Encoder ports (DIO)
+		public static final int leftShooterEncoder_A= 0;
+		public static final int leftShooterEncoder_B = 1; 
+		public static final int rightShooterEncoder_A = 2;
+		public static final int rightShooterEncoder_B = 3;
+		
+		
 	
 }
