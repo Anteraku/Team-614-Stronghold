@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
 import org.usfirst.frc.team614.robot.commands.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot {
 		
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new JoystickDrive());
+      
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }
@@ -50,7 +52,6 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
     }
 	
 	public void disabledPeriodic() {
@@ -89,6 +90,8 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        
+        
     }
 
     public void teleopInit() {

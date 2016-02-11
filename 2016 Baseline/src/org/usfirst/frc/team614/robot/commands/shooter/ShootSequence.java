@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ShootSequence extends CommandGroup {
     
+	private static final double timeToStart = 2;
+	
     public  ShootSequence() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
@@ -24,5 +26,18 @@ public class ShootSequence extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	setTimeout(timeToStart);
+    	/**
+    	addParallel(new Shoot(4.0));
+    	while(!isTimedOut())
+    	{
+    		d
+    	}
+    	addSequential(new ServoTestDrive(1));
+    	*/
+    	addSequential(new Shoot(4));
+    	addSequential(new ServoTestDrive(1));
+    	
     }
 }

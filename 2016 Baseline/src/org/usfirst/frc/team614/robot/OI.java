@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.shooter.ServoTestDrive;
-
+import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 import org.team708.robot.util.Gamepad;
 
 /**
@@ -42,6 +42,7 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
 	
 	private static final int SERVO_TEST = Gamepad.button_A;
+	private static final int SHOOT_SEQUENCE = Gamepad.button_B;
 	
 	
 	
@@ -54,9 +55,10 @@ public class OI {
 		
 		
 		private static final Button servoTest = new JoystickButton(driverGamepad, SERVO_TEST);
-		
+		private static final Button shootSequence = new JoystickButton(driverGamepad, SHOOT_SEQUENCE);
 		public OI(){
 		servoTest.whenPressed(new ServoTestDrive(1));
+		shootSequence.whenPressed(new ShootSequence());
 }
 
 }

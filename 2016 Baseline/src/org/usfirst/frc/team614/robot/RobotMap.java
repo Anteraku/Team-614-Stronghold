@@ -26,29 +26,43 @@ public class RobotMap {
 	
 	// Drivetrain VictorSP ports (PWM)
 		public static final int drivetrainFrontLeftMotor  = 0;
-		public static final int drivetrainFrontRightMotor   = 1;
-		public static final int drivetrainRearLeftMotor = 2;
+		public static final int drivetrainFrontRightMotor = 1;
+		public static final int drivetrainRearLeftMotor   = 2;
 		public static final int drivetrainRearRightMotor  = 3;
-		public static final int drivetrainMidLeftMotor = 4;
-		public static final int drivetrainMidRightMotor  = 5;
+		public static final int drivetrainMidLeftMotor    = 4;
+		public static final int drivetrainMidRightMotor   = 5;
+		
+	
 	
 	//Shooter VictorSP ports (PWM)
-		public static final int shooterLeftMotor = 6;
+		public static final int shooterLeftMotor  = 6;
 		public static final int shooterRightMotor = 7;
-		
-	//Solenoid port (PCM, Pneumatics Control Module)
-		public static final int solenoid_A = 0;
-		public static final int solenoid_B = 1;
+		public static final int shooterAngleMotor = 9;
 		
 	//Servo port (PWM)
 		public static final int servo_ID = 8;
+	
+	//Solenoid port (PCM, Pneumatics Control Module)
+		public static final int solenoid_A = 0;
+		public static final int solenoid_B = 1;
+	
+	//Analog Sensor IDs
+		public static final int gyro_ID = 0;
 		
 	//Encoder ports (DIO)
-		public static final int leftShooterEncoder_A= 0;
-		public static final int leftShooterEncoder_B = 1; 
+		
+		//Shooter Encoders
+		public static final int leftShooterEncoder_A  = 0;
+		public static final int leftShooterEncoder_B  = 1; 
 		public static final int rightShooterEncoder_A = 2;
 		public static final int rightShooterEncoder_B = 3;
+		public static final int angleShooterEncoder_A = 4;
+		public static final int angleShooterEncoder_B = 5;
 		
+		//Drivetrain Encoders
 		
-	
+		public static final int leftGeartrainEncoders_A = 6;
+		public static final int letGeartrainEncoder_B = 7;
+		public static final int rightGeartrainEncoder_A = 8;
+		public static final int rightGreatrainEncoder_B = 9;
 }
