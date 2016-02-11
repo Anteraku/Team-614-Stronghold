@@ -5,8 +5,12 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
+
+import java.io.IOException;
+
 import org.usfirst.frc.team614.robot.commands.JoystickDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,6 +30,7 @@ public class Robot extends IterativeRobot {
 
     Command autonomousCommand;
     SendableChooser chooser;
+    private final NetworkTable grip = NetworkTable.getTable("grip");
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,6 +43,15 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new JoystickDrive());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
+            /* Run GRIP in a new process */
+            try {
+                new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        
+
     }
 	
 	/**
@@ -85,6 +99,12 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+     
+		/* Get published values from GRIP using NetworkTables */
+        for (double area : grip.getNumberArray("targets/area", new double[0])) {
+            System.out.println("Got contour with area=" + area);
+        }
+
     }
 
     public void teleopInit() {

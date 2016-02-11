@@ -39,5 +39,10 @@ public class RobotMap {
 	//Solenoid port
 		public static final int solenoid_A = 0;
 		public static final int solenoid_B = 1;
+		
+	//vision processing data
+		public static final double targetArea = 420;
+		public static final int xPixels = 720;
+		
 	
 }
