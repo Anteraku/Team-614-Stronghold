@@ -31,7 +31,10 @@ public static final double MOTOR_TURN_SPEED = 0.3;
 	public static final double TARGET_RPM = 60 ; //to be changed when encoders come in
 	public static final double ANGLE_REDUCTION_SPEED = .1;
 
+	/*
+	 * Statistics / SmartDashboard
+	 */
 	
-	
+	public static final double SEND_STATS_INTERVAL = 0.25;
 	
 }

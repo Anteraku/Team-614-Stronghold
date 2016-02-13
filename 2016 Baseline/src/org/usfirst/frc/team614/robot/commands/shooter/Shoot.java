@@ -38,8 +38,13 @@ public class Shoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	//Robot.shooter.flickBall();
     	
+    	double endTimeout = .5; //delay so that the servo won't shoot prematurely even though the encoders read max rpm
+    	setTimeout(endTimeout);
+    	while(!isTimedOut()){    	}
+    	
+    	Robot.shooter.flickBall();
+    
     	//if flick doesn't not execute in time for the motors to slow down, add a delay
     	Robot.shooter.stopFlywheel();
     	

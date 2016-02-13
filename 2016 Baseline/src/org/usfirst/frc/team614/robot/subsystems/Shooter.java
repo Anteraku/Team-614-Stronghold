@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -29,17 +30,17 @@ public class Shooter extends Subsystem {
 		angleMotor = new VictorSP(RobotMap.shooterAngleMotor);
 	
 		//Initializes the encoders
-		//leftEncoder = new Encoder(RobotMap.leftShooterEncoder_A, RobotMap.leftShooterEncoder_B);
-		//rightEncoder = new Encoder(RobotMap.rightShooterEncoder_A, RobotMap.rightShooterEncoder_B);
-		//angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
+		leftEncoder = new Encoder(RobotMap.leftShooterEncoder_A, RobotMap.leftShooterEncoder_B);
+		rightEncoder = new Encoder(RobotMap.rightShooterEncoder_A, RobotMap.rightShooterEncoder_B);
+		angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
+		
+		resetEncoders();
 		
 		distancePerPulse = 10; //change to whatever the rate is when the encoder comes in
-		//leftEncoder.setDistancePerPulse(distancePerPulse);
-		//rightEncoder.setDistancePerPulse(distancePerPulse);
-		//angleEncoder.setDistancePerPulse(distancePerPulse);
-		//leftEncoder.reset();
-		//rightEncoder.reset();
-		//angleEncoder.reset();
+		leftEncoder.setDistancePerPulse(distancePerPulse);
+		rightEncoder.setDistancePerPulse(distancePerPulse);
+		angleEncoder.setDistancePerPulse(distancePerPulse);
+		
 		
 		//Initialize the servos
 		servo = new Servo(RobotMap.servo_ID);
@@ -48,7 +49,7 @@ public class Shooter extends Subsystem {
 	  public void initDefaultCommand() {
 	        // Set the default command for a subsystem here.
 	    	setDefaultCommand(new LiftDrive());
-	    	setDefaultCommand(new ShootSequence());
+	    	//setDefaultCommand(new ShootSequence());
 	    
 	    }
 	    
@@ -75,28 +76,12 @@ public class Shooter extends Subsystem {
 	/**
 	 * Moves the shooter up to shoot higher
 	 */
-	/**
-	public void angleUp(){
-		angleMotor.set(Constants.MOTOR_UP);
-	}
-	*/
-	/**
-	 * Moves the shooter down to shoot lower
-	 */
-	/**
-	public void angleDown(){
-		angleMotor.set(Constants.MOTOR_DOWN);
-	}
-	*/
+	
 	public void stopFlywheel(){
 		leftMotor.set(0);
 		rightMotor.set(0);
 	}
-	/**
-	public void stopAngle(){
-		angleMotor.set(0);
-	}
-	*/
+	
 	
 	/*
 	 * Servo Methods
@@ -122,10 +107,30 @@ public class Shooter extends Subsystem {
 		 angleMotor.set(motorSpeed* Constants.ANGLE_REDUCTION_SPEED);
 	 }
 	 
+	 /*
+	 * Moves the shooter up to shoot higher
+	 */
+	public void angleUp(){
+		angleMotor.set(Constants.MOTOR_UP);
+	}
+		
+	/*
+	 * Moves the shooter down to shoot lower
+	 */	
+	public void angleDown(){
+		angleMotor.set(Constants.MOTOR_DOWN);
+	}
+	
+	public void stopAngle(){
+		angleMotor.set(0);
+	}
+	
 	/*
 	 * Encoder Methods
 	 */
-	/*
+	
+	
+	
 	public double getLeftEncoderRPM(){
 		return leftEncoder.getRate();
 	}
@@ -134,15 +139,30 @@ public class Shooter extends Subsystem {
 		return rightEncoder.getRate();
 	}
 	
-	public void resetFlywheelEncoder(){
+	public double getAngleEncoderRPM(){
+		return angleEncoder.getRate();
+	}
+	
+	public void resetFlywheelEncoders(){
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}
-	/**
-	public void returnAngleEncoder(){
-		servo.set(0);
+	
+	public void resetAngleEncoder(){
+		angleEncoder.reset();
 	}
-	*/
+	
+	public void resetEncoders(){
+		leftEncoder.reset();
+		rightEncoder.reset();
+		angleEncoder.reset();
+	}
+	
+	public void sendToDashboard(){
+		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
+		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
+		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
+	}
 
  
 }

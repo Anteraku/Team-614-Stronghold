@@ -2,6 +2,7 @@
 package org.usfirst.frc.team614.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -9,7 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
 import org.usfirst.frc.team614.robot.commands.JoystickDrive;
-import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
+import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,22 +29,23 @@ public class Robot extends IterativeRobot {
 	 public static Shooter shooter;
 
     Command autonomousCommand;
-    SendableChooser chooser;
+    SendableChooser autonomousMode;
 
+    Timer statsTimer;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-		oi = new OI();
+    	statsTimer = new Timer();
+    	statsTimer.start();
+		
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
 		
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new JoystickDrive());
-      
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
+		oi = new OI();
+		
+        autonomousMode = new SendableChooser();
     }
 	
 	/**
@@ -56,6 +58,7 @@ public class Robot extends IterativeRobot {
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		sendStatistics();
 	}
 
 	/**
@@ -68,7 +71,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
+        autonomousCommand = (Command) autonomousMode.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -90,6 +93,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        sendStatistics();
         
         
     }
@@ -107,6 +111,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        sendStatistics();
     }
     
     /**
@@ -114,5 +119,14 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    private void sendStatistics() {
+    	if(statsTimer.get() >= Constants.SEND_STATS_INTERVAL){
+    		statsTimer.reset();
+    		
+    		drivetrain.sendToDashboard();
+    		shooter.sendToDashboard();
+    	}
     }
 }
