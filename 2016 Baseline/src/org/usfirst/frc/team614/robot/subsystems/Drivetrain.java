@@ -21,7 +21,7 @@ public class Drivetrain extends Subsystem {
 	private VictorSP frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor; 
 	/**private VictorSP leftMotor, rightMotor; */ //for use when PWMS split into 2
 	
-	private Encoder frontLeftEncoder, frontRightEncoder, rearLeftEncoder, rearRightEncoder, midLeftEncoder, midRightEncoder;
+	private Encoder frontLeftEncoder, frontRightEncoder, rearLeftEncoder, rearRightEncoder, midLeftEncoder, midRightEncoder, leftGeartrainEncoder, rightGeartrainEncoder;
 	
 	private Solenoid Piston;
 	
@@ -55,6 +55,8 @@ public class Drivetrain extends Subsystem {
     	 midLeftEncoder = new Encoder(RobotMap.midLeftEncoder_A, RobotMap.midLeftEncoder_B);
 		 midRightEncoder = new Encoder(RobotMap.midRightEncoder_A, RobotMap.midRightEncoder_B);
 		*/
+    	 leftGeartrainEncoder = new Encoder(RobotMap.leftGeartrainEncoders_A, RobotMap.leftGeartrainEncoders_B);
+    	 rightGeartrainEncoder = new Encoder(RobotMap.rightGeartrainEncoder_A, RobotMap.rightGreatrainEncoder_B);
 		//Initializes gryo
 		 Gyro = new AnalogGyro(RobotMap.gyro_ID);
 		 Gyro.reset();
@@ -147,8 +149,43 @@ public class Drivetrain extends Subsystem {
     	Gyro.reset();
     }
     
+    public void stopDrive() {
+    	drivetrain.stopMotor();
+    }
+    
+    public void resetDistance() {
+    	leftGeartrainEncoder.reset();
+    	rightGeartrainEncoder.reset();
+    }
     
     
-   
+    public double getDistanceTravelled() {
+    	double distanceTravelled = 0.0;
+    	int encoders = 0;
+    	for(int i = 0; i < 2; i++) {
+    		double distance  = getEncoder(i).getDistance();
+    		if(Math.abs(distance) > 2) {//taken from last year's code
+    			distanceTravelled += distance;
+    			encoders++;
+    		}
+    	}
+    	if(encoders != 0) {
+    		return distanceTravelled / encoders;
+    	} else {
+        	System.out.println("WARNING: NO ENCODER DATA READABLE. FIX IMMEDIANTLY");
+    		return 0;
+    	}
+    }
+    
+    public Encoder getEncoder(int id) {
+    	switch(id) {
+    		case 0:
+    			return leftGeartrainEncoder;
+    		case 1:
+    			return rightGeartrainEncoder;
+    		default:
+    			return null;
+    	}
+    }
 }
 

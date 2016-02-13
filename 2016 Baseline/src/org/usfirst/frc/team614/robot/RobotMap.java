@@ -62,7 +62,7 @@ public class RobotMap {
 		//Drivetrain Encoders
 		
 		public static final int leftGeartrainEncoders_A = 6;
-		public static final int letGeartrainEncoder_B = 7;
+		public static final int leftGeartrainEncoders_B = 7;
 		public static final int rightGeartrainEncoder_A = 8;
 		public static final int rightGreatrainEncoder_B = 9;
 }
