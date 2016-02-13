@@ -32,12 +32,7 @@ public class DriveDistance extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.stopDrive();
-    	
-    	if(driveForward){
-    		distance += Robot.drivetrain.getDistanceTravelled();
-    	}else{
-    		distance -= Robot.drivetrain.getDistanceTravelled();
-    	}
+    	Robot.drivetrain.resetDistance();
     	setTimeout(timeout);
     }
 

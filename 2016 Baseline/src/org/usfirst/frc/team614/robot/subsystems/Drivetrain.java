@@ -153,6 +153,11 @@ public class Drivetrain extends Subsystem {
     	drivetrain.stopMotor();
     }
     
+    public void resetDistance() {
+    	leftGeartrainEncoder.reset();
+    	rightGeartrainEncoder.reset();
+    }
+    
     
     public double getDistanceTravelled() {
     	double distanceTravelled = 0.0;
