@@ -21,6 +21,12 @@ public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
 	public static final double MOTOR_FORWARD = .85;
 	public static final double MOTOR_REVERSE = .5;
 	
+	//Vision Processor
+	public static final double targetArea = 420;
+	public static final int xPixels = 720;
+	public static final double shooterTolerance = 0.03;
+	public static final double motorsBetterNotGoTooFast = 2;
+	
 	
 	
 	
