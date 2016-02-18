@@ -28,7 +28,7 @@ public class DriveToDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double move = 0;
+    	double move = 0; 
     	if((area / Constants.targetArea)-1 > Constants.shooterTolerance){
     		if((area / Constants.targetArea) > 1.0){
     			move = ((area / Constants.targetArea)-1);
