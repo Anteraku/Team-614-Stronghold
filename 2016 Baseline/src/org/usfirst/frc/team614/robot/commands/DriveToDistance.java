@@ -22,8 +22,7 @@ public class DriveToDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//Robot.drivetrain.arcadeDriveMode(speed, 0.0);
-    	
+    	//Robot.drivetrain.arcadeDriveMode(speed, 0.0);	
     }
 
     // Called repeatedly when this Command is scheduled to run
