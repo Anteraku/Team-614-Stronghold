@@ -31,11 +31,17 @@ public class DriveToDistance extends Command {
     	double move = 0;
     	if((area / Constants.targetArea)-1 > Constants.shooterTolerance){
     		if((area / Constants.targetArea) > 1.0){
-    			move = ((area / Constants.targetArea)-1)/Constants.motorsBetterNotGoTooFast;
-    			Robot.drivetrain.arcadeDriveMode(-move, 0.0);
+    			move = ((area / Constants.targetArea)-1);
+    			if(move > 1){
+    				move = 1;
+    				Robot.drivetrain.arcadeDriveMode(-move, 0.0);
+    			}
     		}else{
-    			move = ((area / Constants.targetArea)-1)/Constants.motorsBetterNotGoTooFast;
-    			Robot.drivetrain.arcadeDriveMode(move, 0.0);
+    			move = ((area / Constants.targetArea)-1);
+    			if(move > 1){
+    				move = 1;
+        			Robot.drivetrain.arcadeDriveMode(move, 0.0);
+    			}
     		}
     	}
     }
