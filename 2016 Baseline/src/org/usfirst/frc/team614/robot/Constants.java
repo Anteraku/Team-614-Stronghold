@@ -37,4 +37,19 @@ public static final double MOTOR_TURN_SPEED = 0.3;
 	
 	public static final double SEND_STATS_INTERVAL = 0.25;
 	
+	/*
+	 * PID Tuning Parameters
+	 */
+	
+	public static final double Kp = 0.0;
+	public static final double Ki = 0.0;
+	public static final double Kd = 0.0;
+	
+	public static final double KpDrive =0.1;
+	public static final double KiDrive = 0.01;
+	public static final double KdDrive = .005;
+	
+	public static final double pid_tolerance = 1;
+			
+	
 }

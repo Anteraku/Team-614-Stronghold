@@ -1,5 +1,6 @@
 package org.usfirst.frc.team614.robot.subsystems;
 
+import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.JoystickDrive;
@@ -12,14 +13,21 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+  
  */
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
     
-
+	private boolean usePID = true;
+	
+	//Variables specific for drivetrain PID loop
+	private double moveSpeed = 0.0;
+	private double pidOutput = 0.0;
+	
+	
 	private VictorSP frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor; 
 	/**private VictorSP leftMotor, rightMotor; */ //for use when PWMS split into 2
 	
@@ -34,7 +42,10 @@ public class Drivetrain extends Subsystem {
 	
 	private RobotDrive drivetrain;											// FRC provided drivetrain class
 	
+	private double previousRPM = 0.0;
 	public Drivetrain(){
+		
+		super("Drivetrain", Constants.Kp, Constants.Ki, Constants.Kd);
 	
 		//Initializes the motors
 		 frontLeftMotor = new VictorSP(RobotMap.drivetrainFrontLeftMotor);
@@ -65,7 +76,7 @@ public class Drivetrain extends Subsystem {
     	 rightGeartrainEncoder = new Encoder(RobotMap.rightGeartrainEncoder_A, RobotMap.rightGeartrainEncoder_B);
     	 
     	 resetEncoders();
-		//Initializes gryo
+		//Initializes gyro
 		 Gyro = new AnalogGyro(RobotMap.gyro_ID);
 		 Gyro.reset();
 		
@@ -85,8 +96,39 @@ public class Drivetrain extends Subsystem {
     /*
      * Motor Methods
      */
-    public void arcadeDriveMode(double leftValue, double rightValue){
-    /**	
+    public void arcadeDriveMode(double move, double rotate){
+  
+    
+    	move = move * Constants.DRIVE_MOTOR_MAX_SPEED;
+    	rotate = rotate * Constants.ROTATE_MOTOR_MAX_SPEED;
+    	
+    	if(usePID){
+    		if(rotate == 0.0 && move != 0.0) {
+    			
+    			if(!getPIDController().isEnable()){
+    				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+    				getPIDController().reset();
+    				Gyro.reset();
+    				enable();
+    				Gyro.reset();
+    			}
+    			//Set the forward move speed to the move parameter
+    			moveSpeed = move;
+    		
+    		} else {
+    			//Disables the PID controller if it is enabled so the drivetrain can move freely
+    			if(getPIDController().isEnable()) {
+    				getPIDController().reset();
+    			}
+    			drivetrain.arcadeDrive(move, rotate);
+    		}
+    	} else {
+    		//Disables the PID Controller if it is enables so the drivetrain can move freely
+    		if(getPIDController().isEnable())
+    		getPIDController().reset();
+    	}
+    	
+    	/**	
     	// Simplified IF statement. If leftValue is in the deadband range(-JoystickDeadband, JoystickDeadband), it returns 0
     	leftValue = (leftValue < RobotMap.JOYSTICK_DEADBAND && leftValue > -RobotMap.JOYSTICK_DEADBAND ? 0 : leftValue);
     	
@@ -95,7 +137,7 @@ public class Drivetrain extends Subsystem {
     	
     	//System.out.println("Tank Drive: " + leftValue + ", " + rightValue);
     */
-    	drivetrain.arcadeDrive(leftValue, rightValue);
+    	drivetrain.arcadeDrive(move, rotate);
     }
     
     /*
@@ -224,6 +266,7 @@ public class Drivetrain extends Subsystem {
     public double getEncoderRPM(int encoderNum){
     	switch(encoderNum){
     		case LEncoder: //if = 0
+    			previousRPM = leftGeartrainEncoder.getRate();
     			return leftGeartrainEncoder.getRate();
     		case REncoder: //if = 1
     			return rightGeartrainEncoder.getRate();
@@ -282,6 +325,33 @@ public class Drivetrain extends Subsystem {
     }
     
     
+    /* PID Methods
+     * 
+     */
+    
+    public double returnPIDInput(){
+    	return Gyro.getAngle();
+    }
+    
+    public boolean getUsePID() {
+    	return usePID;
+    }
+    
+    public void setUsePID(boolean usePID){
+    	this.usePID = usePID;
+    }
+    
+    public void usePIDOutput(double output){
+    	pidOutput = output;
+    	drivetrain.arcadeDrive(moveSpeed, -output);
+    }
+    
+
+    
+    
+    
+    
+    
     /* For Logging the Encoder and Gyro Values to the SmartDashboard */
     public void sendToDashboard(){
     	/**
@@ -319,18 +389,20 @@ public class Drivetrain extends Subsystem {
     	SmartDashboard.putNumber("Right Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(REncoder));
     	
     	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
-    			
+    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(Robot.drivetrain.getEncoderRPM(LEncoder) - Robot.drivetrain.getEncoderRPM(REncoder)));
     	SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
     	
-    	System.out.println(Robot.drivetrain.getEncoderDistance(LEncoder));
-    	System.out.println(Robot.drivetrain.getEncoderDirection(LEncoder));
-    	System.out.println("DSAUFLDSAHFB");
+    	
+    
     }
+	
+		
+	}
   
     
     
     
     
    
-}
+
 
