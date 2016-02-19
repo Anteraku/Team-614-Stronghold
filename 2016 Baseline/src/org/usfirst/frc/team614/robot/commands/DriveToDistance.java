@@ -1,13 +1,13 @@
-package org.usfirst.frc.team614.robot.commands;
+/*package org.usfirst.frc.team614.robot.commands;
 
 import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.Constants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
+*//**
  *
- */
+ *//*
 public class DriveToDistance extends Command {
 	
 	//double speed = 1.0;
@@ -61,3 +61,4 @@ public class DriveToDistance extends Command {
     protected void interrupted() {
     }
 }
+*/

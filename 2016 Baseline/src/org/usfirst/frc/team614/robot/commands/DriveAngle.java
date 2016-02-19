@@ -1,12 +1,12 @@
-package org.usfirst.frc.team614.robot.commands;
+/*package org.usfirst.frc.team614.robot.commands;
 import java.lang.Math;
 import org.usfirst.frc.team614.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team614.robot.Constants;
 
-/**
+*//**
  *
- */
+ *//*
 public class DriveAngle extends Command {
 
 	//double speed = 1.0;
@@ -23,11 +23,16 @@ public class DriveAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	//getAngle(center_x, width);
-    	double angle = center_x / ((Constants.xPixels / 2) / (width / 2));
+    	double angle1 = center_x / ((Constants.xPixels / 2) / (width / 2));
     	Robot.drivetrain.resetEncoders();
-    	while(Robot.drivetrain.getEncoderDistance(int encoderNum) < Constants.shortEncoderDistance)
-    	Robot.drivetrain.arcadeDriveMode(0.45, 90 - angle);
-    	double driveDistance = Constants.bestDistance * Math.sin(angle);
+    	while(Robot.drivetrain.getEncoderDistance(LFEncoder) < Constants.shortEncoderDistance){
+    		Robot.drivetrain.arcadeDriveMode(0.45, 90 - angle1);
+    	}
+    	double angle2 = center_x / ((Constants.xPixels / 2) / (width / 2));
+    	if(angle1 > angle2){
+    		double driveDistance = Constants.bestDistance * Math.sin(angle2);
+    	}
+    	//double driveDistance = Constants.bestDistance * Math.sin(angle);
     	
     }
 
@@ -50,3 +55,4 @@ public class DriveAngle extends Command {
     protected void interrupted() {
     }
 }
+*/
