@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team614.robot.subsystems.VisionProcesessor;
 
 import java.io.IOException;
 
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	 public static Drivetrain drivetrain;
+	public static VisionProcesessor visionProcessor;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -39,6 +41,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
 		drivetrain = new Drivetrain();
+		visionProcessor = new VisionProcesessor();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new JoystickDrive());
 //        chooser.addObject("My Auto", new MyAutoCommand());
