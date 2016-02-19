@@ -2,10 +2,13 @@ package org.usfirst.frc.team614.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
 
 import org.usfirst.frc.team614.robot.RobotMap;
-import org.usfirst.frc.team614.robot.commands.shooter.ServoTestDrive;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureRetrieve;
 import org.usfirst.frc.team614.robot.commands.shooter.Shoot;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 import org.team708.robot.util.Gamepad;
@@ -42,8 +45,11 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	private static final int SERVO_TEST = Gamepad.button_A;
-	private static final int SHOOT = Gamepad.button_B;
+	public static final int PEW_PEW_SHOOT = Gamepad.button_R_Shoulder;
+	//public static final int PEW_PEW_SHOOT = Gamepad.shoulderAxisRight;
+
+	public static final int PEW_PEW_MEASURE_OUT = Gamepad.button_A;
+	public static final int PEW_PEW_MEASURE_RETRIEVE = Gamepad.button_B;
 	
 	
 	
@@ -55,13 +61,21 @@ public class OI {
 		public final static Gamepad operatorGamepad = new Gamepad(RobotMap.operatorGamepad);		// Operator gamepad
 		
 		
-		private static final Button servoTest = new JoystickButton(driverGamepad, SERVO_TEST);
-		private static final Button shoot = new JoystickButton(driverGamepad, SHOOT);
+		private static final Button pewPewShoot = new JoystickButton(driverGamepad, PEW_PEW_SHOOT);
+		//private static final Trigger pewPewShoot2 = new JoystickButton(driverGamepad, PEW_PEW_SHOOT);
+		private static final Button pewPewOut = new JoystickButton(driverGamepad, PEW_PEW_MEASURE_OUT);
+		private static final Button pewPewIn = new JoystickButton(driverGamepad, PEW_PEW_MEASURE_RETRIEVE);
+		
 		
 		public OI(){
-			servoTest.whenPressed(new ServoTestDrive(1));
-			shoot.whenPressed(new Shoot(1));
+	
+		pewPewShoot.toggleWhenPressed(new PewPewShoot(1));
+		//pewPewShoot2.toggleWhenActive(new PewPewShoot(1));	
+		pewPewOut.toggleWhenActive(new PewPewMeasureOut());
+		pewPewIn.toggleWhenActive(new PewPewMeasureRetrieve());
+		
+	
 		//shootSequence.whenPressed(new ShootSequence());
 }
-
 }
+

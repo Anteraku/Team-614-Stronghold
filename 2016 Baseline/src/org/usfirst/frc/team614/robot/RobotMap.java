@@ -18,8 +18,8 @@ public class RobotMap {
 	
 	
 	// Gamepad USB ports
-	public static final int driverGamepad   = 0;
-	public static final int operatorGamepad = 1;;
+	public static final int driverGamepad   = 1;
+	public static final int operatorGamepad = 2;
 	
 	//JOYSTICK CONSTANTS
 		public static final double JOYSTICK_DEADBAND = 0.2;

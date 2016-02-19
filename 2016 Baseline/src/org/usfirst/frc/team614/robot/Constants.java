@@ -30,6 +30,9 @@ public static final double MOTOR_TURN_SPEED = 0.3;
 	public static final double SERVO_ANGLE = 135;
 	public static final double TARGET_RPM = 60 ; //to be changed when encoders come in
 	public static final double ANGLE_REDUCTION_SPEED = .1;
+	
+	public static final double FLYWHEEL_SHOOT_SPEED = 1;
+	public static final double FLYWHEEL_RETRIEVE_SPEED = -0.6;
 
 	/*
 	 * Statistics / SmartDashboard
