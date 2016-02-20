@@ -3,7 +3,7 @@ package org.usfirst.frc.team614.robot.subsystems;
 import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.RobotMap;
-import org.usfirst.frc.team614.robot.commands.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.RobotDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,8 +28,8 @@ public class Drivetrain extends PIDSubsystem {
 	private double pidOutput = 0.0;
 	
 	
-	private VictorSP frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor; 
-	/**private VictorSP leftMotor, rightMotor; */ //for use when PWMS split into 2
+	//private VictorSP frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor; 
+	private VictorSP leftMotor, rightMotor; //for use when PWMS split into 2
 	
 	//private Encoder frontLeftEncoder, frontRightEncoder, rearLeftEncoder, rearRightEncoder, midLeftEncoder, midRightEncoder;
 	private Encoder leftGeartrainEncoder, rightGeartrainEncoder;
@@ -48,17 +48,18 @@ public class Drivetrain extends PIDSubsystem {
 		super("Drivetrain", Constants.Kp, Constants.Ki, Constants.Kd);
 	
 		//Initializes the motors
+		/**
 		 frontLeftMotor = new VictorSP(RobotMap.drivetrainFrontLeftMotor);
     	 rearLeftMotor = new VictorSP(RobotMap.drivetrainRearLeftMotor);
     	 frontRightMotor = new VictorSP(RobotMap.drivetrainFrontRightMotor);
     	 rearRightMotor = new VictorSP(RobotMap.drivetrainRearRightMotor);
     	 midLeftMotor = new VictorSP(RobotMap.drivetrainMidLeftMotor);
     	 midRightMotor = new VictorSP(RobotMap.drivetrainMidRightMotor);
-    	 
-    	 /**  FOR USE WHEN PWMS SPLIT INTO 2
- 		leftMotor = new VictorSP(RobotMap.drivetrainFrontLeftMotor);
- 		rightMotor = new VictorSP(RobotMap.drivetrainFrontRightMotor);
- 		*/
+    	 */
+    	 //  FOR USE WHEN PWMS SPLIT INTO 2
+ 		leftMotor = new VictorSP(RobotMap.leftGeartrainMotor);
+ 		rightMotor = new VictorSP(RobotMap.rightGeartrainMotor);
+ 		
     	 //Initializes the solenoid
     	 Piston = new Solenoid(RobotMap.solenoid_A, RobotMap.solenoid_B);
     	 
@@ -81,8 +82,8 @@ public class Drivetrain extends PIDSubsystem {
 		 Gyro.reset();
 		
 		 //Initializes drivetrain class
-		 drivetrain = new RobotDrive(frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor);
-		 //drivetrain = new RobotDrive(leftMotor, rightMotor);		// Initializes drivetrain class; for use when PWMS split into 2
+		 //drivetrain = new RobotDrive(frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor);
+		 drivetrain = new RobotDrive(leftMotor, rightMotor);		// Initializes drivetrain class; for use when PWMS split into 2
 		
 	
 	}
@@ -96,16 +97,17 @@ public class Drivetrain extends PIDSubsystem {
     /*
      * Motor Methods
      */
-    public void arcadeDriveMode(double move, double rotate){
+    public void arcadeDriveMode(double move, double rotate, boolean usePID){
   
     
     	move = move * Constants.DRIVE_MOTOR_MAX_SPEED;
     	rotate = rotate * Constants.ROTATE_MOTOR_MAX_SPEED;
     	
+    	
     	if(usePID){
     		if(rotate == 0.0 && move != 0.0) {
     			
-    			if(!getPIDController().isEnable()){
+    			if(!getPIDController().isEnabled()){
     				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
     				getPIDController().reset();
     				Gyro.reset();
@@ -117,14 +119,14 @@ public class Drivetrain extends PIDSubsystem {
     		
     		} else {
     			//Disables the PID controller if it is enabled so the drivetrain can move freely
-    			if(getPIDController().isEnable()) {
+    			if(getPIDController().isEnabled()) {
     				getPIDController().reset();
     			}
     			drivetrain.arcadeDrive(move, rotate);
     		}
     	} else {
-    		//Disables the PID Controller if it is enables so the drivetrain can move freely
-    		if(getPIDController().isEnable())
+    		//Disables the PID Controller if it is enabled so the drivetrain can move freely
+    		if(getPIDController().isEnabled())
     		getPIDController().reset();
     	}
     	
@@ -140,15 +142,20 @@ public class Drivetrain extends PIDSubsystem {
     	drivetrain.arcadeDrive(move, rotate);
     }
     
+    public void stop(){
+    	drivetrain.arcadeDrive(0,0);
+    }
+    
+    
     /*
      * Solenoid Methods
      */
     public void extend(){
-    Piston.set(true);	
+    	Piston.set(true);	
     }
     
     public void retract(){
-    Piston.set(false);	
+    	Piston.set(false);	
     }
     
     

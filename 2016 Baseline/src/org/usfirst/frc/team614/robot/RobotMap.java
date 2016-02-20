@@ -18,26 +18,29 @@ public class RobotMap {
 	
 	
 	// Gamepad USB ports
-	public static final int driverGamepad   = 1;
-	public static final int operatorGamepad = 2;
+	public static final int driverGamepad   = 0;
+	public static final int operatorGamepad = 1;
 	
 	//JOYSTICK CONSTANTS
 		public static final double JOYSTICK_DEADBAND = 0.2;
 	
 	// Drivetrain VictorSP ports (PWM)
-		public static final int drivetrainFrontLeftMotor  = 0;
-		public static final int drivetrainFrontRightMotor = 1;
-		public static final int drivetrainRearLeftMotor   = 2;
-		public static final int drivetrainRearRightMotor  = 3;
-		public static final int drivetrainMidLeftMotor    = 4;
-		public static final int drivetrainMidRightMotor   = 5;
+		//public static final int drivetrainFrontLeftMotor  = 0;
+		//public static final int drivetrainFrontRightMotor = 1;
+		//public static final int drivetrainRearLeftMotor   = 2;
+		//public static final int drivetrainRearRightMotor  = 3;
+		//public static final int drivetrainMidLeftMotor    = 4;
+		//public static final int drivetrainMidRightMotor   = 5;
+		
+		public static final int leftGeartrainMotor = 0;
+		public static final int rightGeartrainMotor = 1;
 		
 	
 	
 	//Shooter VictorSP ports (PWM)
-		public static final int shooterLeftMotor  = 6;
-		public static final int shooterRightMotor = 7;
-		public static final int shooterAngleMotor = 9;
+		public static final int shooterLeftMotor  = 2;
+		public static final int shooterRightMotor = 3;
+		public static final int shooterAngleMotor = 4;
 		
 	//Servo port (PWM)
 		public static final int servo_ID = 8;

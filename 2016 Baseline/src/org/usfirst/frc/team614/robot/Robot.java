@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
-import org.usfirst.frc.team614.robot.commands.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;

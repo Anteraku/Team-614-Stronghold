@@ -1,45 +1,36 @@
-package org.usfirst.frc.team614.robot.commands;
+package org.usfirst.frc.team614.robot.commands.drivetrain;
 
-import org.usfirst.frc.team614.robot.Constants;
-import org.usfirst.frc.team614.robot.Robot;
+
+
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team614.robot.OI;
+import org.usfirst.frc.team614.robot.Robot;
+import org.team708.robot.util.Gamepad;
 
 /**
  *
  */
-public class TurnToAngle extends Command {
+public class JoystickDrive extends Command {
 
-	private double targetAngle = 0;
-
-	
-    public TurnToAngle(double targetAngle) {
+    public JoystickDrive() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.drivetrain);
-    	this.targetAngle = targetAngle;
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	/**
-    	if (targetAngle >= 0) {
-    		Robot.drivetrain.arcadeDriveMode(Constants.MOTOR_TURN_SPEED, 0);
-    	} else {
-    		Robot.drivetrain.arcadeDriveMode(0, Constants.MOTOR_TURN_SPEED);
-    	}
-    	*/
+    	Robot.drivetrain.arcadeDriveMode(OI.driverGamepad.getAxis(Gamepad.leftStick_Y), -OI.driverGamepad.getAxis(Gamepad.rightStick_X), true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		return false;
-       
+        return false;
     }
 
     // Called once after isFinished returns true

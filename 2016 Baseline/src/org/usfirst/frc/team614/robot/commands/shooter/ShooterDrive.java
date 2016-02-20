@@ -1,22 +1,20 @@
-package org.usfirst.frc.team614.robot.commands;
+package org.usfirst.frc.team614.robot.commands.shooter;
 
-
-
+import org.team708.robot.util.Gamepad;
+import org.usfirst.frc.team614.robot.OI;
+import org.usfirst.frc.team614.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc.team614.robot.OI;
-import org.usfirst.frc.team614.robot.Robot;
-import org.team708.robot.util.Gamepad;
-
 /**
- *
+ *Combines both the flywheel system and lift
  */
-public class JoystickDrive extends Command {
+public class ShooterDrive extends Command {
 
-    public JoystickDrive() {
+    public ShooterDrive() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
+        // eg. requires(chassis);
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -25,7 +23,8 @@ public class JoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.arcadeDriveMode(OI.driverGamepad.getAxis(Gamepad.leftStick_Y), -OI.driverGamepad.getAxis(Gamepad.rightStick_X));
+    	Robot.shooter.setMotorSpeed(OI.driverGamepad.getAxis(Gamepad.rightStick_Y));
+    	Robot.shooter.shootMode(OI.driverGamepad.getAxis(Gamepad.leftStick_X), true);
     }
 
     // Make this return true when this Command no longer needs to run execute()

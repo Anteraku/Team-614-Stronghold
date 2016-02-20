@@ -2,9 +2,8 @@ package org.usfirst.frc.team614.robot.subsystems;
 
 import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.RobotMap;
-import org.usfirst.frc.team614.robot.commands.JoystickDrive;
-import org.usfirst.frc.team614.robot.commands.shooter.FlywheelDrive;
-import org.usfirst.frc.team614.robot.commands.shooter.LiftDrive;
+import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.shooter.ShooterDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -68,7 +67,8 @@ public class Shooter extends PIDSubsystem {
 	
 	  public void initDefaultCommand() {
 	        // Set the default command for a subsystem here.
-	    	setDefaultCommand(new FlywheelDrive());
+	    	setDefaultCommand(new ShooterDrive());
+	
 	    	//setDefaultCommand(new ShootSequence());
 	    
 	    }
@@ -81,20 +81,27 @@ public class Shooter extends PIDSubsystem {
 	 * Spins up the shooter flywheel to shoot out
 	 */
 	  
-	  public void shootMode(double value){
+	  public void shootMode(double value, boolean usePID){
 		  
-		  value = value * Constants.DRIVE_MOTOR_MAX_SPEED;
+		//  value = value * Constants.DRIVE_MOTOR_MAX_SPEED;
 	    	
 	    	if(usePID){
 	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
-	    		if(getPIDController().isEnable()) {
+	    		if(!getPIDController().isEnabled())
+	    		{
+	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
+	    		getPIDController().reset();
+	    		enable();
+	    		
+	    		}
+	    		else if(getPIDController().isEnabled()) {
 	    			getPIDController().reset();
 	    		}
 	    		
 	    		flywheelDrive.arcadeDrive(value, value);
 	    		
 	    		//Disables the PID Controller if it is enables so the drivetrain can move freely
-	    		if(getPIDController().isEnable())
+	    		if(getPIDController().isEnabled())
 	    		getPIDController().reset();
 	    	}
 	    	
