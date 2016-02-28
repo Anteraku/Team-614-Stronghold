@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
 
 import org.usfirst.frc.team614.robot.RobotMap;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
+import org.usfirst.frc.team614.robot.commands.drivetrain.SwitchGears;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
@@ -53,24 +55,39 @@ public class OI {
 	public static final int TURN_TO_ANGLE = Gamepad.button_L_Shoulder;
 	public static final int PEW_PEW_SHOOT = Gamepad.button_R_Shoulder;
 	
+	public static final int SWITCH_GEARS = Gamepad.button_Start;
+	
+	public static final int DRIVE_STRAIGHT_DISTANCE = Gamepad.button_Y;
+	
 	
 	// Gamepads
 		public final static Gamepad driverGamepad = new Gamepad(RobotMap.driverGamepad);			// Driver gamepad
 		public final static Gamepad operatorGamepad = new Gamepad(RobotMap.operatorGamepad);		// Operator gamepad
 		
 		
-	
-		private static final Button pewPewOut = new JoystickButton(driverGamepad, PEW_PEW_MEASURE_OUT);
-		private static final Button pewPewIn = new JoystickButton(driverGamepad, PEW_PEW_MEASURE_RETRIEVE);
+		//Operator Gamepad
+		private static final Button pewPewOut = new JoystickButton(operatorGamepad, PEW_PEW_MEASURE_OUT);
+		private static final Button pewPewIn = new JoystickButton(operatorGamepad, PEW_PEW_MEASURE_RETRIEVE);
+		private static final Button pewPewShoot = new JoystickButton(operatorGamepad, PEW_PEW_SHOOT);
+		
+		
+		//Driver Gamepad
 		private static final Button turnToAngle = new JoystickButton(driverGamepad, TURN_TO_ANGLE);
-		private static final Button pewPewShoot = new JoystickButton(driverGamepad, PEW_PEW_SHOOT);
+		private static final Button switchGears = new JoystickButton(driverGamepad, SWITCH_GEARS);
+		private static final Button driveDistance = new JoystickButton(driverGamepad, DRIVE_STRAIGHT_DISTANCE);
 		
 		public OI(){
-
 		pewPewOut.toggleWhenActive(new PewPewMeasureOut());
 		pewPewIn.toggleWhenActive(new PewPewMeasureRetrieve());
 		turnToAngle.whenPressed(new TurnToAngle(90, Constants.MOTOR_TURN_SPEED));
 		pewPewShoot.toggleWhenPressed(new PewPewShoot(1));
+		switchGears.toggleWhenPressed(new SwitchGears());
+		driveDistance.whenPressed(new DriveStraightForADistance(.7, 12));
+		
+		
+		
+		
+		
 	
 }
 }

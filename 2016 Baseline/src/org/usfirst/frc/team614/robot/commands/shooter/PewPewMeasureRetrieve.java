@@ -22,7 +22,7 @@ public class PewPewMeasureRetrieve extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shootMode(Constants.FLYWHEEL_RETRIEVE_SPEED, true);
+    	Robot.shooter.shootMode(-Constants.FLYWHEEL_RETRIEVE_SPEED, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()

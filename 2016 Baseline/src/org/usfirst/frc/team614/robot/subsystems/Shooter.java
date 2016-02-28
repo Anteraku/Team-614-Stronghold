@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team614.robot.subsystems;
 
 import org.usfirst.frc.team614.robot.Constants;
@@ -8,8 +9,10 @@ import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,13 +24,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends PIDSubsystem {
     
 	private VictorSP leftMotor, rightMotor, angleMotor;
+	private Talon TEDMotor;
 	private Servo servo;
 	private Encoder leftEncoder, rightEncoder, angleEncoder;
 	private double distancePerPulse;
 	private RobotDrive flywheelDrive;
 	
+
 	private double moveSpeed = 0.0;
 	private double pidOutput = 0.0;
+	private PIDController leftFlywheelPID, rightFlywheelPID;
 	
 	private AnalogGyro Gyro;
 	
@@ -40,19 +46,23 @@ public class Shooter extends PIDSubsystem {
 		leftMotor = new VictorSP(RobotMap.shooterLeftMotor);
 		rightMotor = new VictorSP(RobotMap.shooterRightMotor);
 		angleMotor = new VictorSP(RobotMap.shooterAngleMotor);
+		TEDMotor = new Talon(RobotMap.TEDMotor);
 	
 		//Initializes the encoders
 		leftEncoder = new Encoder(RobotMap.leftShooterEncoder_A, RobotMap.leftShooterEncoder_B);
 		rightEncoder = new Encoder(RobotMap.rightShooterEncoder_A, RobotMap.rightShooterEncoder_B);
-		angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
+		//angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
 		
 		resetEncoders();
+		
 		
 		distancePerPulse = 10; //change to whatever the rate is when the encoder comes in
 		leftEncoder.setDistancePerPulse(distancePerPulse);
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		angleEncoder.setDistancePerPulse(distancePerPulse);
 		
+		leftFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, leftEncoder, leftMotor);
+		rightFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, rightEncoder, rightMotor);
 		
 		//Initialize the servos
 		servo = new Servo(RobotMap.servo_ID);
@@ -62,7 +72,22 @@ public class Shooter extends PIDSubsystem {
 		flywheelDrive = new RobotDrive(leftMotor, rightMotor);
 		
 		
+		//PID Stuff; change these when we find the desired rpm for the flywheel 
+		
+		
+		
+		setInputRange(0, 800000);
+		setAbsoluteTolerance(1000);
+		setSetpoint(Constants.TARGET_RATE);
+	 
+		leftFlywheelPID.setInputRange(0,800000);
+		leftFlywheelPID.setAbsoluteTolerance(1000);
+		leftFlywheelPID.setSetpoint(Constants.TARGET_RATE);
 	
+		rightFlywheelPID.setInputRange(0, 8000000);
+		rightFlywheelPID.setAbsoluteTolerance(1000);
+		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
+
 	}
 	
 	  public void initDefaultCommand() {
@@ -87,15 +112,29 @@ public class Shooter extends PIDSubsystem {
 	    	
 	    	if(usePID){
 	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
-	    		if(!getPIDController().isEnabled())
+	    		if(!getPIDController().isEnabled() || !leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
 	    		{
 	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
 	    		getPIDController().reset();
-	    		enable();
+	    
+	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+	    		leftFlywheelPID.reset();
 	    		
+	    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+	    		rightFlywheelPID.reset();
+	    	
+	    		resetFlywheelEncoders();
+	    		enable();
+	    		resetFlywheelEncoders();
 	    		}
-	    		else if(getPIDController().isEnabled()) {
+	    		else if(getPIDController().isEnabled() || leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled()) {
 	    			getPIDController().reset();
+	    			
+	    			leftFlywheelPID.reset();
+	    			rightFlywheelPID.reset(); 
+	    			
+	    		
+	    			
 	    		}
 	    		
 	    		flywheelDrive.arcadeDrive(value, value);
@@ -103,6 +142,10 @@ public class Shooter extends PIDSubsystem {
 	    		//Disables the PID Controller if it is enables so the drivetrain can move freely
 	    		if(getPIDController().isEnabled())
 	    		getPIDController().reset();
+	    		
+	    		leftFlywheelPID.reset();
+	    		rightFlywheelPID.reset();
+	    	
 	    	}
 	    	
 		  flywheelDrive.tankDrive(value, value);
@@ -175,6 +218,14 @@ public class Shooter extends PIDSubsystem {
 	}
 	
 	/*
+	 * TED Methods
+	 */
+	
+	public void controlTED(double motorSpeed){
+		TEDMotor.set(motorSpeed * Constants.TED_REDUCTION_SPEED);
+	}
+	
+	/*
 	 * Encoder Methods
 	 */
 	
@@ -213,7 +264,7 @@ public class Shooter extends PIDSubsystem {
      */
     
     public double returnPIDInput(){
-    	return 0;
+    	return leftEncoder.getRate();
     }
    
     
@@ -235,6 +286,8 @@ public class Shooter extends PIDSubsystem {
 		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
 		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
 		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
+		
+		System.out.println(getLeftEncoderRPM() + "      " + getRightEncoderRPM());
 	}
 
 

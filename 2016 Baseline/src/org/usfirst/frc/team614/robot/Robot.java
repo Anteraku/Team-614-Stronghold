@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team614.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,6 +10,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
+//import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
+//import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
+//import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 
@@ -27,6 +31,9 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	 public static Drivetrain drivetrain;
 	 public static Shooter shooter;
+	// public static VisionProcessor visionProcessor;
+	 public static CameraServer camera;
+
 
     Command autonomousCommand;
     SendableChooser autonomousMode;
@@ -35,6 +42,7 @@ public class Robot extends IterativeRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
+     * 
      */
     public void robotInit() {
     	statsTimer = new Timer();
@@ -42,10 +50,17 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
+		//visionProcessor = new VisionProcessor();
 		
 		oi = new OI();
 		
+		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData(shooter);
+		
         autonomousMode = new SendableChooser();
+//        addAutonomousModes();
+        
+        CameraServer.getInstance().startAutomaticCapture();
     }
 	
 	/**
@@ -129,4 +144,9 @@ public class Robot extends IterativeRobot {
     		shooter.sendToDashboard();
     	}
     }
+    
+//    private void addAutonomousModes() {
+//    	autonomousMode.addDefault("Drive For Time", new DriveStraightForATime(1.0, 1.0));
+//    	autonomousMode.addObject("Drive For Time 2", new DriveStraightForATime(1.0, 1.0));
+//    }
 }

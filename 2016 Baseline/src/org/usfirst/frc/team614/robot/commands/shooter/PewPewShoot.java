@@ -17,6 +17,7 @@ public class PewPewShoot extends Command {
     public PewPewShoot(double time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooter);
     	timeout = time;
     }
 

@@ -41,14 +41,22 @@ public class RobotMap {
 		public static final int shooterLeftMotor  = 2;
 		public static final int shooterRightMotor = 3;
 		public static final int shooterAngleMotor = 4;
+		public static final int TEDMotor = 5;
 		
 	//Servo port (PWM)
 		public static final int servo_ID = 8;
 	
 	//Solenoid port (PCM, Pneumatics Control Module)
-		public static final int solenoid_A = 0;
-		public static final int solenoid_B = 1;
-	
+		/**
+			public static final int solenoid_A = 0;
+		public static final int solenoid = 1;
+		public static final int solenoid2_B = 2;
+		public static final int solenoid2_A = 3;
+	*/
+		
+		public static final int solenoid = 1;
+		//public static final int solenoid2 = 1;;
+		
 	//Analog Sensor IDs
 		public static final int gyro_ID = 0;
 		
