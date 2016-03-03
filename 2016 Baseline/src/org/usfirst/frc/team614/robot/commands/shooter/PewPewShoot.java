@@ -24,21 +24,26 @@ public class PewPewShoot extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	 setTimeout(timeout);
+    	 Robot.shooter.TEDOut();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.flickBall();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return !(OI.operatorGamepad.getButton(OI.operatorGamepad.button_R_Shoulder));
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.resetServo();
+    	Robot.shooter.TEDIn();
+    	setTimeout(.5);
+    	while(!isTimedOut()){
+    		Robot.shooter.stopTED();
+    	}
     }
 
     // Called when another command which requires one or more of the same

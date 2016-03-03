@@ -1,5 +1,9 @@
 
 package org.usfirst.frc.team614.robot;
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -8,16 +12,21 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
-//import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
-//import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
-//import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
+import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
+import org.usfirst.frc.team614.robot.util.CameraFeeds;
+import org.usfirst.frc.team614.robot.commands.DoNothing;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
+import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,14 +40,21 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	 public static Drivetrain drivetrain;
 	 public static Shooter shooter;
-	// public static VisionProcessor visionProcessor;
-	 public static CameraServer camera;
+	 public static VisionProcessor visionProcessor;
+	 //public static CameraServer shootCamera = CameraServer.getInstance();
+	 //public static CameraServer topCamera = CameraServer.getInstance();
+	 
 
+//	public static USBCamera shootCam;
+	//public static USBCamera topCam;
 
     Command autonomousCommand;
     SendableChooser autonomousMode;
 
     Timer statsTimer;
+   
+    CameraFeeds cameraFeeds = new CameraFeeds(OI.driverGamepad);
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -50,17 +66,28 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
-		//visionProcessor = new VisionProcessor();
+		
 		
 		oi = new OI();
+		
+		//frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		
+		//the camera name (ex "cam0") can be found through the roborio web interface
+		//session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		//NIVision.IMAQdxConfigureGrab(session);
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
 		
         autonomousMode = new SendableChooser();
-//        addAutonomousModes();
+        addAutonomousModes();
         
-        CameraServer.getInstance().startAutomaticCapture();
+      CameraServer.getInstance().startAutomaticCapture();
+  
+      
+        
+               
+//     
     }
 	
 	/**
@@ -69,10 +96,13 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
+//    	cameraFeeds.end();
+//    	cameraFeeds.init();
     }
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+//	cameraFeeds.run();
 		sendStatistics();
 	}
 
@@ -88,16 +118,16 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand = (Command) autonomousMode.getSelected();
         
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
+//		 String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+//		switch(autoSelected) {
+//		case "My Auto":
+//			autonomousCommand = new TurnToAngle(90,.5);
+//			break;
+//		case "Default Auto":
+//		default:
+//			autonomousCommand = new DoNothing();
+//			break;
+//		} 
     	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
@@ -108,6 +138,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+       
         sendStatistics();
         
         
@@ -118,7 +149,10 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	
         if (autonomousCommand != null) autonomousCommand.cancel();
+//        cameraFeeds.end();
+//        cameraFeeds.init();
     }
 
     /**
@@ -126,6 +160,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+       
+//		cameraFeeds.run();
         sendStatistics();
     }
     
@@ -144,9 +180,35 @@ public class Robot extends IterativeRobot {
     		shooter.sendToDashboard();
     	}
     }
+    /*
+    public void cameraStuff() {
+        NIVision.IMAQdxStartAcquisition(session);
+
+     
+      //    grab an image, draw the circle, and provide it for the camera server
+        //  which will in turn send it to the dashboard.
+         
+        NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+
+        while (isOperatorControl() && isEnabled()) {
+
+            NIVision.IMAQdxGrab(session, frame, 1);
+            NIVision.imaqDrawShapeOnImage(frame, frame, rect,
+                    DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+            
+            CameraServer.getInstance().setImage(frame);
+
+            
+            Timer.delay(0.005);		// wait for a motor update time
+        }
+        NIVision.IMAQdxStopAcquisition(session);
+    }*/
     
-//    private void addAutonomousModes() {
-//    	autonomousMode.addDefault("Drive For Time", new DriveStraightForATime(1.0, 1.0));
-//    	autonomousMode.addObject("Drive For Time 2", new DriveStraightForATime(1.0, 1.0));
-//    }
+  private void addAutonomousModes() {
+	autonomousMode.addObject("1) Do Nothing", new DoNothing());
+	autonomousMode.addDefault("2) Drive For Time", new DriveStraightForATime(1.0, 1.0, true));
+	autonomousMode.addObject("3) Drive For Time 2", new DriveStraightForATime(1.0, 1.0, true));
+	autonomousMode.addObject("4) TEDOut", new TEDOut(7.));
+	SmartDashboard.putData("Autonomous Selection", autonomousMode);
+}
 }

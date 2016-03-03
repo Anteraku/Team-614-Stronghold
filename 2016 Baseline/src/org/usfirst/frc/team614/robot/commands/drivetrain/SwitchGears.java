@@ -1,36 +1,32 @@
-package org.usfirst.frc.team614.robot.commands.shooter;
+package org.usfirst.frc.team614.robot.commands.drivetrain;
 
-import org.team708.robot.util.Gamepad;
-import org.usfirst.frc.team614.robot.OI;
 import org.usfirst.frc.team614.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *Combines both the flywheel system and lift
+ *If the piston state 
  */
-public class ShooterDrive extends Command {
+public class SwitchGears extends Command {
 
-    public ShooterDrive() {
+    public SwitchGears() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooter);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.togglePiston();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.setMotorSpeed(OI.operatorGamepad.getAxis(Gamepad.rightStick_Y));
-    	Robot.shooter.shootMode(-OI.operatorGamepad.getAxis(Gamepad.leftStick_X), false);
-    	Robot.shooter.controlTED(OI.operatorGamepad.getAxis(Gamepad.rightStick_X));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

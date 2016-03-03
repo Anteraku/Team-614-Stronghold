@@ -27,7 +27,16 @@ public class ShootSequence extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	 
-    
+//    	Bring the TED outwards to shoot the ball through the flywheels
+    	//addSequential(new TEDIn(.5));
+    	
+    	//**Now assume that the flywheels are already spinning
+    	
+    	//Bring the TED inwards to be ready to load the next ball
+    	addSequential(new TEDOut(.5));
+    	
+    	addSequential(new TEDIn(1));
+    	
     
     }
 }

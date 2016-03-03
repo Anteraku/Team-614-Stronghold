@@ -85,7 +85,12 @@ public class Drivetrain extends PIDSubsystem {
 		 setSetpoint(0.0);
 	
 		 disable();
+		 
+	drivetrain.setSafetyEnabled(false);
+	leftMotor.setSafetyEnabled(false);
+	rightMotor.setSafetyEnabled(false);
 	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new JoystickDrive());
@@ -96,6 +101,27 @@ public class Drivetrain extends PIDSubsystem {
     /*
      * Motor Methods
      */
+    
+    
+    
+    public void arcadeDriveMode(double moveValue, double rotateValue){
+    	drivetrain.arcadeDrive(moveValue, rotateValue);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void arcadeDriveMode(double move, double rotate, boolean usePID){
   
     
@@ -253,6 +279,11 @@ public class Drivetrain extends PIDSubsystem {
     	drivetrain.arcadeDrive(moveSpeed, -output);
     }
     
+    public void togglePID(){
+    	usePID = !usePID;
+    }
+    
+    
 
     
     
@@ -273,6 +304,8 @@ public class Drivetrain extends PIDSubsystem {
     	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
     	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(Robot.drivetrain.getEncoderRPM(LEncoder) - Robot.drivetrain.getEncoderRPM(REncoder)));
     	SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
+    	
+    	SmartDashboard.putBoolean("Drivetrain PID", getUsePID());
    
     }
 	

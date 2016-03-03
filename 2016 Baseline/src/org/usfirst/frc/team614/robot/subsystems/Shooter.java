@@ -41,6 +41,7 @@ public class Shooter extends PIDSubsystem {
 	
 	public Shooter() {
 		
+		
 		super("Shooter", Constants.Kp, Constants.Ki, Constants.Kd);
 		//Initializes the motors
 		leftMotor = new VictorSP(RobotMap.shooterLeftMotor);
@@ -51,7 +52,7 @@ public class Shooter extends PIDSubsystem {
 		//Initializes the encoders
 		leftEncoder = new Encoder(RobotMap.leftShooterEncoder_A, RobotMap.leftShooterEncoder_B);
 		rightEncoder = new Encoder(RobotMap.rightShooterEncoder_A, RobotMap.rightShooterEncoder_B);
-		//angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
+		angleEncoder = new Encoder(RobotMap.angleShooterEncoder_A, RobotMap.angleShooterEncoder_B);
 		
 		resetEncoders();
 		
@@ -61,8 +62,8 @@ public class Shooter extends PIDSubsystem {
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		angleEncoder.setDistancePerPulse(distancePerPulse);
 		
-		leftFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, leftEncoder, leftMotor);
-		rightFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, rightEncoder, rightMotor);
+		//leftFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, leftEncoder, leftMotor);
+		//rightFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, rightEncoder, rightMotor);
 		
 		//Initialize the servos
 		servo = new Servo(RobotMap.servo_ID);
@@ -80,14 +81,17 @@ public class Shooter extends PIDSubsystem {
 		setAbsoluteTolerance(1000);
 		setSetpoint(Constants.TARGET_RATE);
 	 
-		leftFlywheelPID.setInputRange(0,800000);
-		leftFlywheelPID.setAbsoluteTolerance(1000);
-		leftFlywheelPID.setSetpoint(Constants.TARGET_RATE);
-	
-		rightFlywheelPID.setInputRange(0, 8000000);
-		rightFlywheelPID.setAbsoluteTolerance(1000);
-		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
-
+//		leftFlywheelPID.setInputRange(0,800000);
+//		leftFlywheelPID.setAbsoluteTolerance(1000);
+//		leftFlywheelPID.setSetpoint(Constants.TARGET_RATE);
+//	
+//		rightFlywheelPID.setInputRange(0, 8000000);
+//		rightFlywheelPID.setAbsoluteTolerance(1000);
+//		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
+		
+		leftMotor.setSafetyEnabled(false);
+		rightMotor.setSafetyEnabled(false);
+		TEDMotor.setSafetyEnabled(false);
 	}
 	
 	  public void initDefaultCommand() {
@@ -112,26 +116,26 @@ public class Shooter extends PIDSubsystem {
 	    	
 	    	if(usePID){
 	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
-	    		if(!getPIDController().isEnabled() || !leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
+	    		if(!getPIDController().isEnabled() /**|| !leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled() */)
 	    		{
 	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
 	    		getPIDController().reset();
 	    
-	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-	    		leftFlywheelPID.reset();
-	    		
-	    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-	    		rightFlywheelPID.reset();
+//	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+//	    		leftFlywheelPID.reset();
+//	    		
+//	    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+//	    		rightFlywheelPID.reset();
 	    	
 	    		resetFlywheelEncoders();
 	    		enable();
 	    		resetFlywheelEncoders();
 	    		}
-	    		else if(getPIDController().isEnabled() || leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled()) {
+	    		else if(getPIDController().isEnabled() /**|| leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled() */) {
 	    			getPIDController().reset();
-	    			
-	    			leftFlywheelPID.reset();
-	    			rightFlywheelPID.reset(); 
+//	    			
+//	    			leftFlywheelPID.reset();
+//	    			rightFlywheelPID.reset(); 
 	    			
 	    		
 	    			
@@ -143,8 +147,8 @@ public class Shooter extends PIDSubsystem {
 	    		if(getPIDController().isEnabled())
 	    		getPIDController().reset();
 	    		
-	    		leftFlywheelPID.reset();
-	    		rightFlywheelPID.reset();
+//	    		leftFlywheelPID.reset();
+//	    		rightFlywheelPID.reset();
 	    	
 	    	}
 	    	
@@ -196,7 +200,13 @@ public class Shooter extends PIDSubsystem {
 	 */
 	 
 	 public void setMotorSpeed(double motorSpeed){
-		 angleMotor.set(motorSpeed* Constants.ANGLE_REDUCTION_SPEED);
+		 if(motorSpeed <0){
+			 angleMotor.set(motorSpeed*Constants.ANGLE_REDUCTION_SPEED_DOWN);
+		 }
+		 if(motorSpeed>0){
+			 angleMotor.set(motorSpeed* Constants.ANGLE_REDUCTION_SPEED_UP);
+		 }
+		
 	 }
 	 
 	 /*
@@ -224,6 +234,19 @@ public class Shooter extends PIDSubsystem {
 	public void controlTED(double motorSpeed){
 		TEDMotor.set(motorSpeed * Constants.TED_REDUCTION_SPEED);
 	}
+	public void TEDOut(){
+		TEDMotor.set(.7);
+	}
+	
+	public void TEDIn(){
+		TEDMotor.set(-.1);//to swing back very fast but for a short time
+		//TEDMotor.set(-.3); //to swing slower but for a longer time
+	}
+	
+	public void stopTED(){
+		TEDMotor.set(0);
+	}
+	
 	
 	/*
 	 * Encoder Methods
@@ -255,7 +278,7 @@ public class Shooter extends PIDSubsystem {
 	public void resetEncoders(){
 		leftEncoder.reset();
 		rightEncoder.reset();
-		angleEncoder.reset();
+		//angleEncoder.reset();
 	}
 	
 	
@@ -280,13 +303,17 @@ public class Shooter extends PIDSubsystem {
     	pidOutput = output;
     	flywheelDrive.arcadeDrive(moveSpeed, -output);
     }
+    
+    public void togglePID(){
+    	usePID = !usePID;
+    }
 	
 	
 	public void sendToDashboard(){
 		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
 		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
 		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
-		
+		SmartDashboard.putBoolean("Shooter PID", getUsePID());
 		System.out.println(getLeftEncoderRPM() + "      " + getRightEncoderRPM());
 	}
 
