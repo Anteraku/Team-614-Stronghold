@@ -24,12 +24,13 @@ public class PewPewShoot extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	 setTimeout(timeout);
-    	 Robot.shooter.TEDOut();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	if(isTimedOut()){
+   	 Robot.shooter.TEDOut();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,7 +41,7 @@ public class PewPewShoot extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.shooter.TEDIn();
-    	setTimeout(.5);
+    	setTimeout(.25);
     	while(!isTimedOut()){
     		Robot.shooter.stopTED();
     	}

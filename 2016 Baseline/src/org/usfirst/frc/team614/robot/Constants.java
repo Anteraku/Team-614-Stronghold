@@ -4,11 +4,21 @@ public final class Constants {
 
 	
 	/*
+	 * Field Dimensions
+	 */
+	public static final double FIELD_LENGTH = 27.0416;
+	public static final double FIELD_WIDTH = 26.583;
+	public static final double DEFENSE_WIDTH = 3.5;
+	public static final double DEFENSE_LENGTH = 4;
+	public static final double DISTANCE_TO_SHOOT_ZONE = 16.041667;
+	
+	
+	/*
 	 * Motor Controllers
 	 */
-public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
-public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
-public static final double MOTOR_TURN_SPEED = 0.3;
+	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
+	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
+	public static final double MOTOR_TURN_SPEED = 0.7;
 
 	/*
 	 * Drivetrain
