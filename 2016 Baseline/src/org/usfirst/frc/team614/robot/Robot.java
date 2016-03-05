@@ -20,6 +20,7 @@ import org.usfirst.frc.team614.robot.commands.DoNothing;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveInASquare;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByDistance;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByTime;
+import org.usfirst.frc.team614.robot.commands.autonomous.ShootFromSpyBox;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
@@ -190,7 +191,9 @@ public class Robot extends IterativeRobot {
     
   private void addAutonomousModes() {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
-	autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(5, 1.0, true, true));
+	autonomousMode.addDefault("1) Shoot From Spy Box", new ShootFromSpyBox());
+	
+	  autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(10, 1.0, true, true));
 	autonomousMode.addObject("3) Drive For Time 2", new DriveStraightForATime(3, 1.0, true, false));
 	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, 1.0, true, true));
 	autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, 1.0, true, true));
@@ -204,6 +207,8 @@ public class Robot extends IterativeRobot {
 	
 	autonomousMode.addObject("T) Lower Lift", new LowerLift());
 	autonomousMode.addObject("T)Raise Lift", new RaiseLift());
+	
+	
 	
 	//(firstTurn, alignDistance, secondTurn, crossDistance, shootAngle)
 	//(firstTurn, alignTime, secondTurn, crossTime, shootAngle)

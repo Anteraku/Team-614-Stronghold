@@ -90,9 +90,9 @@ public class Drivetrain extends PIDSubsystem {
 		 setSetpoint(0.0);
 	
 		 disable();
-		 drivetrain.setSafetyEnabled(false);
-	leftMotor.setSafetyEnabled(false);
-	rightMotor.setSafetyEnabled(false);
+//		 drivetrain.setSafetyEnabled(false);
+//		 leftMotor.setSafetyEnabled(false);
+//		 rightMotor.setSafetyEnabled(false);
 	}
 	
     public void initDefaultCommand() {

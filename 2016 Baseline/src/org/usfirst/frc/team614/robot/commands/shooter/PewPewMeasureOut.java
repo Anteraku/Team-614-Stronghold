@@ -19,15 +19,15 @@ public class PewPewMeasureOut extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(5);
-    	Robot.shooter.leftFlywheelPID.setInputRange(0,800000);
-    	Robot.shooter.leftFlywheelPID.setAbsoluteTolerance(1000.0);
-    	Robot.shooter.leftFlywheelPID.setSetpoint(760000.0);
+//    	Robot.shooter.leftFlywheelPID.setInputRange(0,800000);
+//    	Robot.shooter.leftFlywheelPID.setAbsoluteTolerance(1000.0);
+//    	Robot.shooter.leftFlywheelPID.setSetpoint(760000.0);
+//    	
+//    	Robot.shooter.rightFlywheelPID.setInputRange(0,800000);
+//    	Robot.shooter.rightFlywheelPID.setAbsoluteTolerance(1000.0);
+//    	Robot.shooter.rightFlywheelPID.setSetpoint(760000.0 * .5);
     	
-    	Robot.shooter.rightFlywheelPID.setInputRange(0,800000);
-    	Robot.shooter.rightFlywheelPID.setAbsoluteTolerance(1000.0);
-    	Robot.shooter.rightFlywheelPID.setSetpoint(760000.0 * .5);
-    	
-    	Robot.shooter.shootMode(Constants.MOTOR_FORWARD, true);
+    	Robot.shooter.shootMode(Constants.MOTOR_FORWARD, false);
     }
 
     // Called repeatedly when this Command is scheduled to run

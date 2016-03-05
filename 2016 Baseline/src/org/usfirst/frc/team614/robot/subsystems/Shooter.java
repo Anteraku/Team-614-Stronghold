@@ -90,9 +90,9 @@ public class Shooter extends PIDSubsystem {
 		rightFlywheelPID.setAbsoluteTolerance(1000);
 		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
 		
-		leftMotor.setSafetyEnabled(false);
-		rightMotor.setSafetyEnabled(false);
-		TEDMotor.setSafetyEnabled(false);
+//		leftMotor.setSafetyEnabled(false);
+//		rightMotor.setSafetyEnabled(false);
+//		TEDMotor.setSafetyEnabled(false);
 	}
 	
 	  public void initDefaultCommand() {
@@ -124,6 +124,7 @@ public class Shooter extends PIDSubsystem {
 	    
 	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
 	    		leftFlywheelPID.reset();
+	    		
 	    		
 	    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
 	    		rightFlywheelPID.reset();
