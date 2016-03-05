@@ -17,13 +17,15 @@ import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
 import org.usfirst.frc.team614.robot.util.CameraFeeds;
 import org.usfirst.frc.team614.robot.commands.DoNothing;
-import org.usfirst.frc.team614.robot.commands.DriveThroughLowBarByDistance;
-import org.usfirst.frc.team614.robot.commands.DriveThroughLowBarByTime;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveInASquare;
+import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByDistance;
+import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByTime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
+import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 
@@ -73,7 +75,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		
-		CameraServer.getInstance().startAutomaticCapture("cam0");
+		CameraServer.getInstance().startAutomaticCapture("cam1");
 		
 		//frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
@@ -187,16 +189,27 @@ public class Robot extends IterativeRobot {
    
     
   private void addAutonomousModes() {
-	autonomousMode.addObject("1) Do Nothing", new DoNothing());
-	autonomousMode.addDefault("2) Drive For Time", new DriveStraightForATime(5, 1.0, true, true));
+	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
+	autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(5, 1.0, true, true));
 	autonomousMode.addObject("3) Drive For Time 2", new DriveStraightForATime(3, 1.0, true, false));
 	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, 1.0, true, true));
 	autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, 1.0, true, true));
-	autonomousMode.addObject("T) YEET", new DriveStraightForADistance(5000, 1.0, true, true));
+
 	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
 	autonomousMode.addObject("7) Drive Through Low Bar by Distance", new DriveThroughLowBarByDistance());
 	autonomousMode.addObject("8) Drive Through Low Bar by Time", new DriveThroughLowBarByTime());
-	autonomousMode.addObject("9) Drive In A Square", new DriveInASquare());
+	//autonomousMode.addObject("9) Drive In A Square", new DriveInASquare());
+	
+	autonomousMode.addObject("T) Lower Lift", new LowerLift());
+	autonomousMode.addObject("T)Raise Lift", new RaiseLift());
+	
+	//(firstTurn, alignDistance, secondTurn, crossDistance, shootAngle)
+	//(firstTurn, alignTime, secondTurn, crossTime, shootAngle)
+	//autonomousMode.addObject("1) Drive Through Low Bar in Front (Distance)", new DriveThroughLowBarByDistance(0,0,0,Constants.DISTANCE_TO_SHOOT_ZONE, 30));
+	//autonomousMode.addObject("2) Drive Through Low Bar in Front (Time)", new DriveThroughLowBarByTime(0,0,0,5,30));
+	
+	//autonomousMode.addObject("3) Drive Through Rock Wall in Front (Distance)", )
 	SmartDashboard.putData("Autonomous Selection", autonomousMode);
+	
 }
 }

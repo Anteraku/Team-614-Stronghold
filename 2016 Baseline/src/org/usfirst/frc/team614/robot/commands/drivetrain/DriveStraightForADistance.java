@@ -32,8 +32,14 @@ public class DriveStraightForADistance extends Command {
     protected void initialize() {
     	Robot.drivetrain.resetEncoders();
     	Robot.drivetrain.resetGyro();
-    	Robot.drivetrain.arcadeDriveMode(speed, 0.0, usePID);
     	
+    	
+    	if(goForward){
+    		Robot.drivetrain.arcadeDriveMode(speed, 0.0, usePID);
+    	}
+    	if(!goForward){
+    		Robot.drivetrain.arcadeDriveMode(-speed, 0.0, usePID);
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -44,8 +50,27 @@ public class DriveStraightForADistance extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	//return Robot.drivetrain.getEncoderTrueDistance(Robot.drivetrain.LEncoder) >= distance || Robot.drivetrain.getEncoderTrueDistance(Robot.drivetrain.REncoder) >= distance;    
-    return Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) >= distance/Robot.drivetrain.distancePerPulse || Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) >distance/Robot.drivetrain.distancePerPulse;
-
+    //return Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) >= distance/Robot.drivetrain.distancePerPulse || Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) >distance/Robot.drivetrain.distancePerPulse;
+    	if(Robot.drivetrain.LEncoder > Robot.drivetrain.REncoder){
+    	
+    		if(goForward) {
+    			return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) >= distance);
+    		} else {
+    			return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) <= distance);
+    		}
+    	}
+    	
+    	else if(Robot.drivetrain.REncoder > Robot.drivetrain.LEncoder){
+        	
+        	if(goForward) {
+            	return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) >= distance);
+            } else {
+            	return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) <= distance);
+            }
+    	}
+    	
+    	return false;
+    
     }
 
     // Called once after isFinished returns true

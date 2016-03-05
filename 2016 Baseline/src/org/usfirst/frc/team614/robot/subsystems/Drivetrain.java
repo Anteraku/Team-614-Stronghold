@@ -78,6 +78,7 @@ public class Drivetrain extends PIDSubsystem {
     	 //Initializes gyro
 		 Gyro = new AnalogGyro(RobotMap.gyro_ID);
 		 Gyro.reset();
+	
 		
 		 //Initializes drivetrain class
 		 
