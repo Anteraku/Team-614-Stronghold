@@ -4,11 +4,21 @@ public final class Constants {
 
 	
 	/*
+	 * Field Dimensions
+	 */
+	public static final double FIELD_LENGTH = 27.0416;
+	public static final double FIELD_WIDTH = 26.583;
+	public static final double DEFENSE_WIDTH = 3.5;
+	public static final double DEFENSE_LENGTH = 4;
+	public static final double DISTANCE_TO_SHOOT_ZONE = 16.041667;
+	
+	
+	/*
 	 * Motor Controllers
 	 */
-public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
-public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
-public static final double MOTOR_TURN_SPEED = 0.3;
+	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
+	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
+	public static final double MOTOR_TURN_SPEED = 0.7;
 
 	/*
 	 * Drivetrain
@@ -29,7 +39,8 @@ public static final double MOTOR_TURN_SPEED = 0.3;
 	public static final double SERVO_ANGLE = 135;
 	public static final double TARGET_RPM = 60 ; //to be changed when encoders come in
 	public static final double TARGET_RATE = 760000; //to be changed when the max rate of the flywheels are
-	public static final double ANGLE_REDUCTION_SPEED = .5;
+	public static final double ANGLE_REDUCTION_SPEED_DOWN = .5;
+	public static final double ANGLE_REDUCTION_SPEED_UP = .85;
 	public static final double AUTO_ANGLE_SPEED = .2;
 	public static final double FLYWHEEL_SHOOT_SPEED = 1;
 	public static final double FLYWHEEL_RETRIEVE_SPEED = -0.6;
