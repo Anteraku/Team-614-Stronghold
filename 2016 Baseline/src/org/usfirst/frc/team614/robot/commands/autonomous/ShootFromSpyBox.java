@@ -22,7 +22,7 @@ public class ShootFromSpyBox extends CommandGroup {
     	addParallel(new PewPewMeasureOut());
     	
     	addSequential(new WaitCommand(3));
-    	addSequential(new PewPewShoot(2));
+    	addSequential(new TEDOut(1));
     	
     	
     	

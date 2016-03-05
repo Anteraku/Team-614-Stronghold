@@ -90,9 +90,9 @@ public class Shooter extends PIDSubsystem {
 		rightFlywheelPID.setAbsoluteTolerance(1000);
 		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
 		
-//		leftMotor.setSafetyEnabled(false);
-//		rightMotor.setSafetyEnabled(false);
-//		TEDMotor.setSafetyEnabled(false);
+		leftMotor.setSafetyEnabled(false);
+		rightMotor.setSafetyEnabled(false);
+		TEDMotor.setSafetyEnabled(false);
 	}
 	
 	  public void initDefaultCommand() {
@@ -159,16 +159,16 @@ public class Shooter extends PIDSubsystem {
 	  
 	  
 	public void revUpForward(){
-		leftMotor.set(Constants.MOTOR_FORWARD);
-		rightMotor.set(-Constants.MOTOR_FORWARD);
+		leftMotor.set(-Constants.MOTOR_FORWARD);
+		rightMotor.set(Constants.MOTOR_FORWARD);
 		
 	}
 	/**
 	 * Spins up the shooter flywheel to bring in the ball
 	 */
 	public void revUpReverse(){
-		leftMotor.set(Constants.MOTOR_REVERSE);
-		rightMotor.set(-Constants.MOTOR_REVERSE);
+		leftMotor.set(-Constants.MOTOR_REVERSE);
+		rightMotor.set(Constants.MOTOR_REVERSE);
 	}
 	
 	/**

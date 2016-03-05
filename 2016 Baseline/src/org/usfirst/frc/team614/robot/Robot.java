@@ -26,8 +26,10 @@ import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
 import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
+import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -86,6 +88,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
+		SmartDashboard.putData(new PewPewMeasureOut());
 		
         autonomousMode = new SendableChooser();
         addAutonomousModes();
@@ -193,14 +196,15 @@ public class Robot extends IterativeRobot {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
 	autonomousMode.addDefault("1) Shoot From Spy Box", new ShootFromSpyBox());
 	
-	  autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(10, 1.0, true, true));
-	autonomousMode.addObject("3) Drive For Time 2", new DriveStraightForATime(3, 1.0, true, false));
+	  autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(8, 1.0, true, true));
+	autonomousMode.addObject("3) Drive For Time Backwards", new DriveStraightForATime(8, 1.0, true, false));
 	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, 1.0, true, true));
 	autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, 1.0, true, true));
-	autonomousMode.addObject("9) No move, shoot", new Shoot(3));
-	autonomousMode.addObject("10) Drive Straight then shoot", new DriveStraightThenShoot());
+	//autonomousMode.addObject("9) No move, shoot", new Shoot(3));
+	//autonomousMode.addObject("10) Drive Straight then shoot", new DriveStraightThenShoot());
 
 	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
+	autonomousMode.addObject("T) TedIn", new TEDIn(.7));
 	autonomousMode.addObject("7) Drive Through Low Bar by Distance", new DriveThroughLowBarByDistance());
 	autonomousMode.addObject("8) Drive Through Low Bar by Time", new DriveThroughLowBarByTime());
 	//autonomousMode.addObject("9) Drive In A Square", new DriveInASquare());

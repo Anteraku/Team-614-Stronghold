@@ -21,7 +21,7 @@ public class RaiseLift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(.5);
+    	setTimeout(1);
     	Robot.shooter.setMotorSpeed(RAISE_SPEED);
     }
 
