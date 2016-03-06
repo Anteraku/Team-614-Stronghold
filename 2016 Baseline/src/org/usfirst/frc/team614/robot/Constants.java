@@ -18,9 +18,9 @@ public final class Constants {
 	/*
 	 * Motor Controllers
 	 */
-//	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
-//	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
-//	public static final double MOTOR_TURN_SPEED = 0.7;
+	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
+	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
+	public static final double MOTOR_TURN_SPEED = 0.7;
 
 	/*
 	 * Drivetrain

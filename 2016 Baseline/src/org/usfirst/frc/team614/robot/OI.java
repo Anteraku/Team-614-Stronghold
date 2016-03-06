@@ -15,7 +15,7 @@ import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureRetrieve;
-import org.usfirst.frc.team614.robot.commands.shooter.Shoot;
+
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;

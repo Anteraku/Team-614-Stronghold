@@ -39,7 +39,7 @@ public class DriveThroughLowBarByTime extends CommandGroup {
     	
     	//AlignTime
     	//Drive towards the low bar to become aligned with it
-    	addSequential(new DriveStraightForATime(3, driveStraightSpeed, true, true));
+    	addSequential(new DriveStraightForATime(3, driveStraightSpeed, false, true));
     	addSequential(new WaitCommand(1));
     	addSequential(new DriveStraightForATime(1, .5, true, false));
     	addSequential(new WaitCommand(1));
@@ -51,7 +51,7 @@ public class DriveThroughLowBarByTime extends CommandGroup {
     	
     	//CrossTime
     	//Drive through the low bar
-    	addSequential(new DriveStraightForATime(driveStraightTime, driveStraightSpeed, true, true));
+    	addSequential(new DriveStraightForATime(driveStraightTime, driveStraightSpeed, false, true));
     	addSequential(new WaitCommand(1));
     	
     	

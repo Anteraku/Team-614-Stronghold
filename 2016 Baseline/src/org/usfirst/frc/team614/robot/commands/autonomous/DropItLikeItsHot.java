@@ -2,7 +2,6 @@ package org.usfirst.frc.team614.robot.commands.autonomous;
 
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
-import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -10,22 +9,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class DriveStraightThroughRockWallByTime extends CommandGroup {
+public class DropItLikeItsHot extends CommandGroup {
     
-	private static final double driveStraightSpeed = 0.8;
-	private static final double driveStraightTime = 7;
-	
-	private static final double turnSpeed = .5;
-	private static final double shootAngle = 30;
-	
-    public  DriveStraightThroughRockWallByTime() {
+    public  DropItLikeItsHot() {
     	
-//    	addSequential(new RaiseLift());
-	    addParallel(new DriveStraightForATime(driveStraightTime, driveStraightSpeed, true, false));
-	    
-	    addSequential(new WaitCommand(4));
-	    addSequential(new LowerLift());
-	    
+    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
+    	addSequential(new LowerLift());
+    	addSequential(new WaitCommand(2.0));
+    	addSequential(new DriveStraightForATime(4.0, 0.7, true, false));
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

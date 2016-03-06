@@ -78,9 +78,9 @@ public class Shooter extends PIDSubsystem {
 		
 		
 		
-		setInputRange(0, 800000);
-		setAbsoluteTolerance(1000);
-		setSetpoint(Constants.TARGET_RATE);
+//		setInputRange(0, 800000);
+//		setAbsoluteTolerance(1000);
+//		setSetpoint(Constants.TARGET_RATE);
 	 
 		leftFlywheelPID.setInputRange(0,800000);
 		leftFlywheelPID.setAbsoluteTolerance(1000);
@@ -117,10 +117,10 @@ public class Shooter extends PIDSubsystem {
 	    	
 	    	if(usePID){
 	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
-	    		if(!getPIDController().isEnabled() || !leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
+	    		if(!leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
 	    		{
-	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
-	    		getPIDController().reset();
+//	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
+//	    		getPIDController().reset();
 	    
 	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
 	    		leftFlywheelPID.reset();
@@ -133,8 +133,8 @@ public class Shooter extends PIDSubsystem {
 	    		enable();
 	    		resetFlywheelEncoders();
 	    		}
-	    		else if(getPIDController().isEnabled() || leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled()) {
-	    			getPIDController().reset();
+	    		else if(leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled()) {
+//	    			getPIDController().reset();
 	    			
 	    			leftFlywheelPID.reset();
 	    			rightFlywheelPID.reset(); 
@@ -146,8 +146,8 @@ public class Shooter extends PIDSubsystem {
 	    		flywheelDrive.arcadeDrive(value, value);
 	    		
 	    		//Disables the PID Controller if it is enables so the drivetrain can move freely
-	    		if(getPIDController().isEnabled())
-	    		getPIDController().reset();
+	    		if(leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled())
+//	    		getPIDController().reset();
 	    		
 	    		leftFlywheelPID.reset();
 	    		rightFlywheelPID.reset();
@@ -188,10 +188,10 @@ public class Shooter extends PIDSubsystem {
 	/**
 	 * Moves the servo to hit the ball into the flywheel
 	 */
-	public void flickBall(){
-		servo.set(Constants.SERVO_ANGLE);
-	}
-	
+//	public void flickBall(){
+//		servo.set(Constants.SERVO_ANGLE);
+//	}
+//	
 	public void resetServo(){
 		servo.set(0);
 	}

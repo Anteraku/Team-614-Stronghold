@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class DriveStraightThroughLowBarByTime extends CommandGroup {
     
 
-	private static final double driveStraightSpeed = 1;
-	private static final double driveStraightTime = 5;
+	private static final double driveStraightSpeed = .8;
+	private static final double driveStraightTime = 3;
 	
 	private static final double turnSpeed = .5;
 	private static final double shootAngle = 30;

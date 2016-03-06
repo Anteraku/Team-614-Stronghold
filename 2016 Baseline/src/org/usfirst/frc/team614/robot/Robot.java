@@ -20,6 +20,7 @@ import org.usfirst.frc.team614.robot.commands.DoNothing;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveInASquare;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByDistance;
 import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByTime;
+import org.usfirst.frc.team614.robot.commands.autonomous.DropItLikeItsHot;
 import org.usfirst.frc.team614.robot.commands.autonomous.ShootFromSpyBox;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
@@ -89,7 +90,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(new PewPewMeasureOut());
-		
+		SmartDashboard.putData(new PewPewMeasureOut());
+		SmartDashboard.putData(new TEDIn(.5));
+		SmartDashboard.putData(new TEDOut(.5));
         autonomousMode = new SendableChooser();
         addAutonomousModes();
       
@@ -196,19 +199,20 @@ public class Robot extends IterativeRobot {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
 	autonomousMode.addDefault("1) Shoot From Spy Box", new ShootFromSpyBox());
 	
-	  autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(8, 1.0, true, true));
-	autonomousMode.addObject("3) Drive For Time Backwards", new DriveStraightForATime(8, 1.0, true, false));
-	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, 1.0, true, true));
-	autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, 1.0, true, true));
+	autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(3, .8, true, true));
+	autonomousMode.addObject("3) Drive For Time Backwards", new DriveStraightForATime(3, .8, true, false));
+//	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, .8, true, true));
+//autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, .8, true, true));
 
-	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
-	autonomousMode.addObject("T) TedIn", new TEDIn(.7));
-	autonomousMode.addObject("7) Drive Through Low Bar by Distance", new DriveThroughLowBarByDistance());
-	autonomousMode.addObject("8) Drive Through Low Bar by Time", new DriveThroughLowBarByTime());
+//	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
+//	autonomousMode.addObject("T) TedIn", new TEDIn(.7));
+//	autonomousMode.addObject("6) Drive Through Low Bar by Distance", new DriveThroughLowBarByDistance());
+//autonomousMode.addObject("7) Drive Through Low Bar by Time", new DriveThroughLowBarByTime());
+	autonomousMode.addObject("4) How Low Can You Go", new DropItLikeItsHot());
 	//autonomousMode.addObject("9) Drive In A Square", new DriveInASquare());
 	
-	autonomousMode.addObject("T) Lower Lift", new LowerLift());
-	autonomousMode.addObject("T)Raise Lift", new RaiseLift());
+//	autonomousMode.addObject("T) Lower Lift", new LowerLift());
+//	autonomousMode.addObject("T)Raise Lift", new RaiseLift());
 	
 	
 	
