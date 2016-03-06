@@ -108,8 +108,8 @@ public class Drivetrain extends PIDSubsystem {
     public void arcadeDriveMode(double move, double rotate, boolean usePID){
   
     
-    	move = move * Constants.DRIVE_MOTOR_MAX_SPEED;
-    	rotate = rotate * Constants.ROTATE_MOTOR_MAX_SPEED;
+    	move = move; //* Constants.DRIVE_MOTOR_MAX_SPEED;
+    	rotate = rotate; //* Constants.ROTATE_MOTOR_MAX_SPEED;
     	
     	if(usePID){
     		if(rotate == 0.0 && move != 0.0) {
@@ -276,7 +276,7 @@ public class Drivetrain extends PIDSubsystem {
     
     /* For Logging the Encoder and Gyro Values to the SmartDashboard */
     public void sendToDashboard(){
-    	
+    	if(Constants.DEBUG){
     	SmartDashboard.putNumber("Left Geartrain Encoder Distance: ", Robot.drivetrain.getEncoderDistance(LEncoder));
     	SmartDashboard.putString("Left Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(LEncoder) ? "Clockwise" : "Counter-Clockwise"));
     	SmartDashboard.putNumber("Left Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(LEncoder));
@@ -287,13 +287,16 @@ public class Drivetrain extends PIDSubsystem {
     	
     	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
     	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(Robot.drivetrain.getEncoderRPM(LEncoder) - Robot.drivetrain.getEncoderRPM(REncoder)));
+    	
+    	}
+    	
     	SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
     	
     	
     	
     	SmartDashboard.putBoolean("Drivetrain PID", getUsePID());
     	
-    	SmartDashboard.putString("TEST", "SKDJFBSJDKFB");
+    	
    
     }
 	

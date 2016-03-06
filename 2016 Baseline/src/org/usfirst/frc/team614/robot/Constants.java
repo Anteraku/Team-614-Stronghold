@@ -3,6 +3,8 @@ package org.usfirst.frc.team614.robot;
 public final class Constants {
 
 	
+	public static final boolean DEBUG = false;
+	
 	/*
 	 * Field Dimensions
 	 */
@@ -16,9 +18,9 @@ public final class Constants {
 	/*
 	 * Motor Controllers
 	 */
-	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
-	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
-	public static final double MOTOR_TURN_SPEED = 0.7;
+//	public static final double ROTATE_MOTOR_MAX_SPEED = 0.7;
+//	public static final double DRIVE_MOTOR_MAX_SPEED = 0.7;
+//	public static final double MOTOR_TURN_SPEED = 0.7;
 
 	/*
 	 * Drivetrain
@@ -34,17 +36,17 @@ public final class Constants {
 	 */
 	public static final double MOTOR_FORWARD = 1;
 	public static final double MOTOR_REVERSE = 1.0;
-	public static final double MOTOR_UP = .1;
-	public static final double MOTOR_DOWN = .1;
-	public static final double SERVO_ANGLE = 135;
+	public static final double MOTOR_UP = .1; //not used
+	public static final double MOTOR_DOWN = .1; //not used
+	//public static final double SERVO_ANGLE = 135;
 	public static final double TARGET_RPM = 60 ; //to be changed when encoders come in
 	public static final double TARGET_RATE = 760000; //to be changed when the max rate of the flywheels are
-	public static final double ANGLE_REDUCTION_SPEED_DOWN = .5;
-	public static final double ANGLE_REDUCTION_SPEED_UP = .85;
-	public static final double AUTO_ANGLE_SPEED = .2;
+	public static final double ANGLE_REDUCTION_SPEED_DOWN = 1;//.5;
+	public static final double ANGLE_REDUCTION_SPEED_UP = 1;//.85;
+	//public static final double AUTO_ANGLE_SPEED = .2;
 	public static final double FLYWHEEL_SHOOT_SPEED = 1;
 	public static final double FLYWHEEL_RETRIEVE_SPEED = -0.6;
-	public static final double SHOOTER_WHEEL_DIAMETER = 5;
+	//public static final double SHOOTER_WHEEL_DIAMETER = 5;
 	public static final double TED_REDUCTION_SPEED = .5;
 
 	/*

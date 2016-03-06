@@ -200,8 +200,6 @@ public class Robot extends IterativeRobot {
 	autonomousMode.addObject("3) Drive For Time Backwards", new DriveStraightForATime(8, 1.0, true, false));
 	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, 1.0, true, true));
 	autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, 1.0, true, true));
-	//autonomousMode.addObject("9) No move, shoot", new Shoot(3));
-	//autonomousMode.addObject("10) Drive Straight then shoot", new DriveStraightThenShoot());
 
 	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
 	autonomousMode.addObject("T) TedIn", new TEDIn(.7));
