@@ -33,7 +33,7 @@ public final class Constants {
 	 * Shooter
 	 */
 	public static final double MOTOR_FORWARD = 1;
-	public static final double MOTOR_REVERSE = .5;
+	public static final double MOTOR_REVERSE = 1.0;
 	public static final double MOTOR_UP = .1;
 	public static final double MOTOR_DOWN = .1;
 	public static final double SERVO_ANGLE = 135;
