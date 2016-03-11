@@ -1,6 +1,14 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
+import org.usfirst.frc.team614.robot.AutoConstants;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
+import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
+import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -8,6 +16,19 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class GoOverCF extends CommandGroup {
     
     public  GoOverCF() {
+    	
+    	//addSequential(new RaiseLift());
+    	
+    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
+    	
+    	addSequential(new DriveStraightForATime(.5, 0.7, true, true));
+    	addSequential(new LowerLift());
+    	addSequential(new WaitCommand(1));
+    	addSequential(new DriveStraightForATime(1, 0.7, true, true));
+    	
+    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
+    	
+    	addSequential(new TurnToAngle(180, 0.7, 0));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

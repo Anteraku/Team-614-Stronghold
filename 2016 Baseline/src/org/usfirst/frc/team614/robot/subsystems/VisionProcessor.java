@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 public class VisionProcessor extends Subsystem {
   
 	private NetworkTable roboRealmInfo;
-	private NumberArray goalBoundaries;
-	private NumberArray containerCrosshair;
+	//private NumberArray goalBoundaries;
+	//private NumberArray containerCrosshair;
 	private boolean hasGoal;
 	public boolean hasContainer;
+	private double blobCount;
 	
 	private final double imageWidth = 320;
 	private double targetX;
@@ -31,9 +32,9 @@ public class VisionProcessor extends Subsystem {
 	
 	public VisionProcessor() {
 		super("Vision Processor");
-		roboRealmInfo = NetworkTable.getTable("vision");
-		goalBoundaries = new NumberArray();
-		containerCrosshair = new NumberArray();
+		roboRealmInfo = NetworkTable.getTable("SmartDashboard");
+		//goalBoundaries = new NumberArray();
+		//containerCrosshair = new NumberArray();
 		targetX = imageWidth / 1.6;
 	}
 	
@@ -46,13 +47,10 @@ public class VisionProcessor extends Subsystem {
 //			} else {
 //				hasContainer = false;
 //			}
-			
-			roboRealmInfo.retrieveValue("MEQ_COORDINATES", goalBoundaries);
-			if (goalBoundaries.size() > 0) {
-				goalX[0] = goalBoundaries.get(0);
-				goalX[1] = goalBoundaries.get(2);
-			
-				
+			blobCount = roboRealmInfo.getNumber("BLOB_COUNT", blobCount);
+			roboRealmInfo.getNumberArray("MEW_COORDINATES", goalX);
+//			roboRealmInfo.getNumberArray("MEQ_COORDINATES", goalBoundaries);
+			if (goalX.length >0) {			
 				hasGoal = true;
 			} else {
 				hasGoal = false;
@@ -129,13 +127,12 @@ public class VisionProcessor extends Subsystem {
 	public void sendToDashboard() {
 		SmartDashboard.putBoolean("Has Goal", isHasGoal());
 		SmartDashboard.putNumber("Target Width", goalWidth);
-		SmartDashboard.putNumber("Crosshair Size", containerCrosshair.size());
-		SmartDashboard.putNumber("Tote Coordinates", goalBoundaries.size());
+	
 		SmartDashboard.putNumber("Rotate Speed", getRotate());
 		SmartDashboard.putNumber("goalX[0]", goalX[0]);
 		SmartDashboard.putNumber("goalX[1]", goalX[1]);
-		SmartDashboard.putNumber("goalBoundaries.size()", goalBoundaries.size());
-		SmartDashboard.putNumber("TEST", 5);
+		SmartDashboard.putNumber("goalX.length", goalX.length);
+		SmartDashboard.putNumber("Blob Count", blobCount);
 	
 	}
 

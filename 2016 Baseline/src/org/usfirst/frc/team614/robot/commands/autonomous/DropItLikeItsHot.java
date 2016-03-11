@@ -17,11 +17,11 @@ public class DropItLikeItsHot extends CommandGroup {
 	
 	
     public  DropItLikeItsHot() {
-    	//Just with time
-    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
-    	addSequential(new LowerLift());
-    	addSequential(new WaitCommand(2.0));
-    	addSequential(new DriveStraightForATime(4.0, 0.7, true, false));
+//    	//Just with time
+//    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
+//    	addSequential(new LowerLift());
+//    	addSequential(new WaitCommand(2.0));
+//    	addSequential(new DriveStraightForATime(4.0, 0.7, true, false));
     	
     	
     	//With time and distance

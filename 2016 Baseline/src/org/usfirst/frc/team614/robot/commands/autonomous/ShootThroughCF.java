@@ -1,5 +1,8 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
+import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -7,7 +10,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ShootThroughCF extends CommandGroup {
     
-    public  ShootThroughCF() {
+    public  ShootThroughCF(int position) {
+    	
+    	addSequential(new GoOverCF());
+    	
+    	addSequential(new TurnToAngle(0, 0.7, position));
+    	
+    	addSequential(new LineUpShot());
+    	
+    	addSequential(new Shoot());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

@@ -2,6 +2,7 @@ package org.usfirst.frc.team614.robot.commands.autonomous;
 
 import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 import org.usfirst.frc.team614.robot.commands.autonomous.DropItLikeItsHot;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 
@@ -18,7 +19,9 @@ public class ShootThroughLowBar extends CommandGroup {
     	addSequential(new DropItLikeItsHot()); //Drive through lowbar
     	
    
-    	addSequential(new TurnToAngle(shotAngle, Robot.visionProcessor.getRotate(), 1)); //turn to goal
+    	addSequential(new TurnToAngle(shotAngle, 0.7, 1)); //turn to goal
+    	
+    	addSequential(new LineUpShot());
     	
     	addSequential(new Shoot());//shoot
     	

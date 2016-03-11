@@ -1,6 +1,7 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,6 +16,8 @@ public class ShootThroughRockWall extends CommandGroup {
     	addSequential(new GoOverRockwall());
     	
     	addSequential(new TurnToAngle(0, 0.7, position));
+    	
+    	addSequential(new LineUpShot());
     	
     	addSequential(new Shoot());
         // Add Commands here:

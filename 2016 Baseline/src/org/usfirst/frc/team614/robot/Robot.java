@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
-		SmartDashboard.putData(visionProcessor);
+//		SmartDashboard.putData(visionProcessor);
 		SmartDashboard.putData(new PewPewRevOut());
 		SmartDashboard.putData(new TEDIn(.5));
 		SmartDashboard.putData(new TEDOut(.5));
@@ -184,7 +184,7 @@ public class Robot extends IterativeRobot {
     		
     		drivetrain.sendToDashboard();
     		shooter.sendToDashboard();
-    		visionProcessor.sendToDashboard();
+//    		visionProcessor.sendToDashboard();
     	}
     }
    
