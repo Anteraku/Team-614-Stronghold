@@ -1,28 +1,14 @@
 package org.usfirst.frc.team614.robot;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.Joystick;
 
-import org.usfirst.frc.team614.robot.RobotMap;
-import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
-import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
+
+import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.commands.drivetrain.SwitchGears;
 import org.usfirst.frc.team614.robot.commands.drivetrain.ToggleDrivetrainPID;
-//import org.usfirst.frc.team614.robot.commands.drivetrain.ToggleDrivetrainPID;
-import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureRetrieve;
-
-import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 import org.usfirst.frc.team614.robot.commands.shooter.ToggleShooterPID;
-//import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
-//import org.usfirst.frc.team614.robot.commands.shooter.ToggleShooterPID;
-import org.team708.robot.util.Gamepad;
+import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,10 +54,7 @@ public class OI {
 			
 		//Driver Gamepad
 			public static final int TURN_TO_ANGLE = Gamepad.button_X;
-			
 			public static final int SWITCH_GEARS = Gamepad.button_Start;
-			public static final int DRIVE_STRAIGHT_DISTANCE = Gamepad.button_Y;
-			public static final int DRIVE_STRAIGHT_TIME = Gamepad.button_X;
 			public static final int TOGGLE_DRIVETRAIN_PID = Gamepad.button_Back;
 	
 	
@@ -82,17 +65,11 @@ public class OI {
 		
 		
 		//Operator Gamepad
-			private static final Button pewPewOut = new JoystickButton(operatorGamepad, PEW_PEW_MEASURE_OUT);
-			private static final Button pewPewIn = new JoystickButton(operatorGamepad, PEW_PEW_MEASURE_RETRIEVE);
-			private static final Button pewPewShoot = new JoystickButton(operatorGamepad, TED_OUT);
 			private static final Button toggleShooterPID = new JoystickButton(operatorGamepad, TOGGLE_SHOOTER_PID);
-			//private static final Button TEDOut = new JoystickButton(operatorGamepad, TED_OUT);
-		
+			
 		//Driver Gamepad
 			private static final Button turnToAngle = new JoystickButton(driverGamepad, TURN_TO_ANGLE);
 			private static final Button switchGears = new JoystickButton(driverGamepad, SWITCH_GEARS);
-			private static final Button driveDistance = new JoystickButton(driverGamepad, DRIVE_STRAIGHT_DISTANCE);
-			private static final Button driveTime = new JoystickButton(driverGamepad, DRIVE_STRAIGHT_TIME);
 			private static final Button toggleDrivetrainPID = new JoystickButton(driverGamepad, TOGGLE_DRIVETRAIN_PID);
 		
 	public OI(){
@@ -100,10 +77,7 @@ public class OI {
 	//Operator Commands
 		
 		//Control Buttons
-			//pewPewOut.whileActive(new PewPewMeasureOut());
-			//pewPewIn.whileActive(new PewPewMeasureRetrieve());
-			//pewPewShoot.toggleWhenPressed(new PewPewShoot(1)); //replaces by shootSequence since the servo was removed
-			//pewPewShoot.whenPressed(new PewPewShoot(0));
+		
 
 		//Technical Buttons
 			toggleShooterPID.whenPressed(new ToggleShooterPID());
@@ -112,9 +86,7 @@ public class OI {
 	//Driver Commands
 		
 		//Control Buttons
-			turnToAngle.whenPressed(new TurnToAngle(90, Constants.MOTOR_TURN_SPEED));
-			driveDistance.whenPressed(new DriveStraightForADistance(.7, 12, Robot.drivetrain.getUsePID(), true));
-			driveTime.whenPressed(new DriveStraightForATime(.7, 5, Robot.drivetrain.getUsePID(), true));
+			turnToAngle.whenPressed(new TurnToAngle(90, Constants.MOTOR_TURN_SPEED, 0));
 		//Technical Buttons
 			switchGears.toggleWhenPressed(new SwitchGears());
 			toggleDrivetrainPID.whenPressed(new ToggleDrivetrainPID());

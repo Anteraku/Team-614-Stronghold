@@ -1,31 +1,26 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
+import org.usfirst.frc.team614.robot.AutoConstants;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
-import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
-import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
+import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class DriveStraightThroughRockWallByTime extends CommandGroup {
+public class GoOverRockwall extends CommandGroup {
     
-	private static final double driveStraightSpeed = 0.8;
-	private static final double driveStraightTime = 7;
-	
-	private static final double turnSpeed = .5;
-	private static final double shootAngle = 30;
-	
-    public  DriveStraightThroughRockWallByTime() {
+    public  GoOverRockwall() {
     	
-//    	addSequential(new RaiseLift());
-	    addParallel(new DriveStraightForATime(driveStraightTime, driveStraightSpeed, true, false));
-	    
-	    addSequential(new WaitCommand(4));
-	    addSequential(new LowerLift());
-	    
+    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
+    	addSequential(new DriveStraightForATime(3, 0.7, true , true));
+    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
+    	
+    	addSequential(new TurnToAngle(180.0, 0.7, 0)); //turn so that shooter is facing the tower
+    	
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

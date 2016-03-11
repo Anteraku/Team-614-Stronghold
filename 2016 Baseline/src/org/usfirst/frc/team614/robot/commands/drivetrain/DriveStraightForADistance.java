@@ -25,13 +25,13 @@ public class DriveStraightForADistance extends Command {
     	this.usePID = usePID;
     	this.goForward = goForward;
     	Robot.drivetrain.resetEncoders();
-    	Robot.drivetrain.resetGyro();
+    	Robot.drivetrain.resetAngle();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.resetEncoders();
-    	Robot.drivetrain.resetGyro();
+    	Robot.drivetrain.resetAngle();
     	
     	
     	if(goForward){
@@ -54,21 +54,15 @@ public class DriveStraightForADistance extends Command {
     	if(Robot.drivetrain.LEncoder > Robot.drivetrain.REncoder){
     	
     		if(goForward) {
-    			return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) >= distance);
-    		} else {
-    			return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) <= distance);
+    			return (Math.abs(Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder)) >= distance);
     		}
     	}
-    	
     	else if(Robot.drivetrain.REncoder > Robot.drivetrain.LEncoder){
         	
         	if(goForward) {
-            	return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) >= distance);
-            } else {
-            	return (Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) <= distance);
-            }
+            	return (Math.abs(Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder)) >= distance);
+        	}
     	}
-    	
     	return false;
     
     }

@@ -15,19 +15,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team614.robot.subsystems.Shooter;
+import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
 import org.usfirst.frc.team614.robot.util.CameraFeeds;
 import org.usfirst.frc.team614.robot.commands.DoNothing;
-import org.usfirst.frc.team614.robot.commands.autonomous.DriveInASquare;
-import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByDistance;
-import org.usfirst.frc.team614.robot.commands.autonomous.DriveThroughLowBarByTime;
 import org.usfirst.frc.team614.robot.commands.autonomous.DropItLikeItsHot;
-import org.usfirst.frc.team614.robot.commands.autonomous.ShootFromSpyBox;
+import org.usfirst.frc.team614.robot.commands.autonomous.Shoot;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
+import org.usfirst.frc.team614.robot.commands.drivetrain.ResetDrivetrainEncoders;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
 import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
 import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
@@ -49,6 +48,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	 public static Drivetrain drivetrain;
 	 public static Shooter shooter;
+	 public static VisionProcessor visionProcessor;
 	 //public static CameraServer shootCamera = CameraServer.getInstance();
 	 //public static CameraServer topCamera = CameraServer.getInstance();
 	 
@@ -74,12 +74,13 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
+		visionProcessor = new VisionProcessor();
 		
 		
 		oi = new OI();
 		
 		
-		CameraServer.getInstance().startAutomaticCapture("cam1");
+		CameraServer.getInstance().startAutomaticCapture("cam0");
 		
 		//frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
@@ -89,10 +90,12 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
-		SmartDashboard.putData(new PewPewMeasureOut());
-		SmartDashboard.putData(new PewPewMeasureOut());
+		SmartDashboard.putData(visionProcessor);
+		SmartDashboard.putData(new PewPewRevOut());
 		SmartDashboard.putData(new TEDIn(.5));
 		SmartDashboard.putData(new TEDOut(.5));
+		SmartDashboard.putData(new ResetDrivetrainEncoders());
+		SmartDashboard.putData(new TurnToAngle(90, 1, 0));
         autonomousMode = new SendableChooser();
         addAutonomousModes();
       
@@ -130,19 +133,9 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) autonomousMode.getSelected();
-        
-//		 String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-//		switch(autoSelected) {
-//		case "My Auto":
-//			autonomousCommand = new TurnToAngle(90,.5);
-//			break;
-//		case "Default Auto":
-//		default:
-//			autonomousCommand = new DoNothing();
-//			break;
-//		} 
+     
     	
-    	// schedule the autonomous command (example)
+    
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
@@ -191,35 +184,21 @@ public class Robot extends IterativeRobot {
     		
     		drivetrain.sendToDashboard();
     		shooter.sendToDashboard();
+    		visionProcessor.sendToDashboard();
     	}
     }
    
     
   private void addAutonomousModes() {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
-	autonomousMode.addDefault("1) Shoot From Spy Box", new ShootFromSpyBox());
 	
-	autonomousMode.addObject("2) Drive For Time", new DriveStraightForATime(3, .8, true, true));
-	autonomousMode.addObject("3) Drive For Time Backwards", new DriveStraightForATime(3, .8, true, false));
-//	autonomousMode.addObject("4) Drive For a Distance", new DriveStraightForADistance(4, .8, true, true));
-//autonomousMode.addObject("5) Drive For a Distance 2", new DriveStraightForADistance(8, .8, true, true));
+	autonomousMode.addDefault("1) Shoot From Spy Box", new Shoot());
+	autonomousMode.addObject("2) How Low Can You Go", new DropItLikeItsHot());
 
-//	autonomousMode.addObject("6) TEDOut", new TEDOut(7.));
-//	autonomousMode.addObject("T) TedIn", new TEDIn(.7));
-//	autonomousMode.addObject("6) Drive Through Low Bar by Distance", new DriveThroughLowBarByDistance());
-//autonomousMode.addObject("7) Drive Through Low Bar by Time", new DriveThroughLowBarByTime());
-	autonomousMode.addObject("4) How Low Can You Go", new DropItLikeItsHot());
-	//autonomousMode.addObject("9) Drive In A Square", new DriveInASquare());
-	
-//	autonomousMode.addObject("T) Lower Lift", new LowerLift());
-//	autonomousMode.addObject("T)Raise Lift", new RaiseLift());
-	
-	
-	
-	//(firstTurn, alignDistance, secondTurn, crossDistance, shootAngle)
-	//(firstTurn, alignTime, secondTurn, crossTime, shootAngle)
-	//autonomousMode.addObject("1) Drive Through Low Bar in Front (Distance)", new DriveThroughLowBarByDistance(0,0,0,Constants.DISTANCE_TO_SHOOT_ZONE, 30));
-	//autonomousMode.addObject("2) Drive Through Low Bar in Front (Time)", new DriveThroughLowBarByTime(0,0,0,5,30));
+	autonomousMode.addObject("3) Drive For Time: 3, .8, F", new DriveStraightForATime(3, .8, true, true));
+	autonomousMode.addObject("4) Drive For Time Backwards: 3, .8, B", new DriveStraightForATime(3, .8, true, false));
+	autonomousMode.addObject("5) Drive For a Distance: 24, .8, F", new DriveStraightForADistance(24, .8, true, false));
+	autonomousMode.addObject("6) Drive For a Distance Backwards: 24, .8, B", new DriveStraightForADistance(24, .8, true, true));
 	
 	//autonomousMode.addObject("3) Drive Through Rock Wall in Front (Distance)", )
 	SmartDashboard.putData("Autonomous Selection", autonomousMode);

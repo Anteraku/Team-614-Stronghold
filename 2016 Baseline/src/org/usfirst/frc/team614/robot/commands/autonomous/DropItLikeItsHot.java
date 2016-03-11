@@ -1,7 +1,10 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
+import org.usfirst.frc.team614.robot.AutoConstants;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
+import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -11,12 +14,24 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class DropItLikeItsHot extends CommandGroup {
     
+	
+	
     public  DropItLikeItsHot() {
-    	
+    	//Just with time
     	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
     	addSequential(new LowerLift());
     	addSequential(new WaitCommand(2.0));
     	addSequential(new DriveStraightForATime(4.0, 0.7, true, false));
+    	
+    	
+    	//With time and distance
+    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, false));
+    	addSequential(new LowerLift());
+    	addSequential(new WaitCommand(1.0));
+    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
+    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, false));
+    	addSequential(new RaiseLift());
+    	
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());

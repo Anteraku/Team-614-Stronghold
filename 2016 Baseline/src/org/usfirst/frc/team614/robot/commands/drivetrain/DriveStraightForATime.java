@@ -27,8 +27,15 @@ public class DriveStraightForATime extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.arcadeDriveMode(speed, 0, usePID);
+    
     	setTimeout(time);
+    
+    	if(goForward){
+    		Robot.drivetrain.arcadeDriveMode(-speed, 0.0, usePID);
+    	}
+    	if(!goForward){
+    		Robot.drivetrain.arcadeDriveMode(speed, 0.0, usePID);
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

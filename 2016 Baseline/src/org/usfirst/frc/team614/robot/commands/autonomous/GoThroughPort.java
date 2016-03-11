@@ -1,29 +1,13 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewMeasureOut;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class ShootFromSpyBox extends CommandGroup {
+public class GoThroughPort extends CommandGroup {
     
-    public  ShootFromSpyBox() {
-    	
-    	addSequential(new TEDIn(.5));
-    	addSequential(new WaitCommand(1));
-    	
-    	//Rev up and shoot at goal
-    	addParallel(new PewPewMeasureOut());
-    	
-    	addSequential(new WaitCommand(3));
-    	addSequential(new TEDOut(1));
-    	
+    public  GoThroughPort() {
     	
     	
         // Add Commands here:

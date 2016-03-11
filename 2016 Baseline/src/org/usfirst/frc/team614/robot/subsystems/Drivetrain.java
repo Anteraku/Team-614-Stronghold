@@ -1,5 +1,6 @@
 package org.usfirst.frc.team614.robot.subsystems;
 
+import org.team708.robot.util.EncoderRotationSensor;
 import org.team708.robot.util.Math708;
 import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.Robot;
@@ -9,6 +10,7 @@ import org.usfirst.frc.team614.robot.RobotDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -23,73 +25,70 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Drivetrain extends PIDSubsystem {
     
-	private boolean usePID = true;
+	
+	private RobotDrive drivetrain;
+	
+	private VictorSP leftMotor,rightMotor; 
+	
+	private Encoder leftGeartrainEncoder, rightGeartrainEncoder;
+	public static final int LEncoder = 0;
+	public static final int REncoder = 1;
+	public double distancePerPulse;
 	
 	//Variables specific for drivetrain PID loop
+	private boolean usePID = true;
 	private double moveSpeed = 0.0;
 	private double pidOutput = 0.0;
 	
+	public Solenoid piston;
 	
+	private AnalogGyro gyro;
+	private EncoderRotationSensor rotationSensor;
+	private BuiltInAccelerometer accelerometer;
 	
-	private VictorSP leftMotor,rightMotor; //for use when PWMS split into 2
-	
-	
-	private Encoder leftGeartrainEncoder, rightGeartrainEncoder;
-	
-	public static final int LEncoder = 0;
-	public static final int REncoder = 1;
-	
-	public double distancePerPulse;
-	
-	public Solenoid Piston;
-	
-	private AnalogGyro Gyro;
-	
-	private RobotDrive drivetrain;											// FRC provided drivetrain class
+	// FRC provided drivetrain class
 	
 	
 	public Drivetrain(){
 		
 		super("Drivetrain", Constants.Kp, Constants.Ki, Constants.Kd);
 			
+		 //Initializes drivetrain class
+		 drivetrain = new RobotDrive(rightMotor, leftMotor);
+		 
 		//Initializes the motors
-	
-    	 //  FOR USE WHEN PWMS SPLIT INTO 2
  		leftMotor = new VictorSP(RobotMap.leftGeartrainMotor);
  		rightMotor = new VictorSP(RobotMap.rightGeartrainMotor);
  		
- 		
-    	 //Initializes the solenoid
-    	 Piston = new Solenoid(RobotMap.solenoid);
-    	// Piston2 = new Solenoid(RobotMap.solenoid2_A, RobotMap.solenoid2_B);
-    	
-		//Initializes the Encoders
+ 		//Initializes the Encoders
+ 		leftGeartrainEncoder = new Encoder(RobotMap.leftGeartrainEncoder_A, RobotMap.leftGeartrainEncoder_B);
+ 		rightGeartrainEncoder = new Encoder(RobotMap.rightGeartrainEncoder_A, RobotMap.rightGeartrainEncoder_B);
+
+ 		distancePerPulse = (Constants.DRIVETRAIN_WHEEL_DIAMETER * Math.PI) / Constants.DRIVETRAIN_ENCODER_PULSES_PER_REV;
+ 		leftGeartrainEncoder.setDistancePerPulse(distancePerPulse);
+ 		rightGeartrainEncoder.setDistancePerPulse(distancePerPulse);
+ 		rightGeartrainEncoder.setReverseDirection(true);
+ 		resetEncoders();
+
+    	//Initializes the solenoid
+    	piston = new Solenoid(RobotMap.solenoid);
     
-    	 
-    	 leftGeartrainEncoder = new Encoder(RobotMap.leftGeartrainEncoder_A, RobotMap.leftGeartrainEncoder_B);
-    	 rightGeartrainEncoder = new Encoder(RobotMap.rightGeartrainEncoder_A, RobotMap.rightGeartrainEncoder_B);
-    	 
-    	 resetEncoders();
+    	//Initializes gyro
+		gyro = new AnalogGyro(RobotMap.gyro_ID);
+		gyro.reset();
 		
-    	 distancePerPulse = (Constants.DRIVETRAIN_WHEEL_DIAMETER * Math.PI) / Constants.DRIVETRAIN_ENCODER_PULSES_PER_REV;
-     	 leftGeartrainEncoder.setDistancePerPulse(distancePerPulse);
-     	 rightGeartrainEncoder.setDistancePerPulse(distancePerPulse);
-    	 
-    	 //Initializes gyro
-		 Gyro = new AnalogGyro(RobotMap.gyro_ID);
-		 Gyro.reset();
-	
+		//Initializes the encoder rotation sensor
+		rotationSensor = new EncoderRotationSensor(leftGeartrainEncoder, rightGeartrainEncoder, Constants.ROBOT_DIAMETER_IN);
 		
-		 //Initializes drivetrain class
-		 
-		 //drivetrain = new RobotDrive(frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor, midLeftMotor, midRightMotor);
-		 drivetrain = new RobotDrive(rightMotor, leftMotor);		// Initializes drivetrain class; for use when PWMS split into 2
+		accelerometer = new BuiltInAccelerometer();
 		
 		 setInputRange(-25.0, 25.0);
 		 setAbsoluteTolerance(Constants.pid_tolerance);
 		 setSetpoint(0.0);
 	
 		 disable();
+		 
+		 
 //		 drivetrain.setSafetyEnabled(false);
 //		 leftMotor.setSafetyEnabled(false);
 //		 rightMotor.setSafetyEnabled(false);
@@ -98,7 +97,6 @@ public class Drivetrain extends PIDSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new JoystickDrive());
-    
     }
     
 
@@ -117,9 +115,9 @@ public class Drivetrain extends PIDSubsystem {
     			if(!getPIDController().isEnabled()){
     				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
     				getPIDController().reset();
-    				Gyro.reset();
+    				gyro.reset();
     				enable();
-    				Gyro.reset();
+    				gyro.reset();
     			}
     			//Set the forward move speed to the move parameter
     			moveSpeed = move;
@@ -137,15 +135,8 @@ public class Drivetrain extends PIDSubsystem {
     		getPIDController().reset();
     	}
     	
-    	/**	
-    	// Simplified IF statement. If leftValue is in the deadband range(-JoystickDeadband, JoystickDeadband), it returns 0
-    	leftValue = (leftValue < RobotMap.JOYSTICK_DEADBAND && leftValue > -RobotMap.JOYSTICK_DEADBAND ? 0 : leftValue);
-    	
-    	// Simplified IF statement. If rightValue is in the deadband range(-JoystickDeadband, JoystickDeadband), it returns 0
-    	rightValue = (rightValue < RobotMap.JOYSTICK_DEADBAND && rightValue > -RobotMap.JOYSTICK_DEADBAND ? 0 : rightValue);
-    	
-    	//System.out.println("Tank Drive: " + leftValue + ", " + rightValue);
-    */
+    
+    
     	drivetrain.arcadeDrive(move, rotate);
     }
     
@@ -158,26 +149,22 @@ public class Drivetrain extends PIDSubsystem {
      * Solenoid Methods
      */
     public void extend(){
-    	Piston.set(true);	
+    	piston.set(true);	
     	//Piston2.set(true);
     }
     
     public void retract(){
-    	Piston.set(false);	
+    	piston.set(false);	
     	//Piston2.set(false);
     }
     
     public void togglePiston(){
-    	Piston.set(!Piston.get());	
+    	piston.set(!piston.get());	
     }
-    
-  
     
     /*
      * Encoder Methods
      */
-    
-   
     public double getEncoderRPM(int encoderNum){
     	switch(encoderNum){
     		case LEncoder: //if = 0
@@ -194,14 +181,12 @@ public class Drivetrain extends PIDSubsystem {
     	case LEncoder: //if = 0
     		return leftGeartrainEncoder.getDistance();
     	case REncoder: //if = 1
-    		return -rightGeartrainEncoder.getDistance();
+    		return rightGeartrainEncoder.getDistance() * Constants.DRIVETRAIN_ENCODER_PERCENT_ERROR;
     	default:
     		return 0.0;
     	}
     }
-    
-
-    
+   
     public boolean getEncoderDirection(int encoderNum){
     	switch(encoderNum){
     	case LEncoder: //if = 0
@@ -212,6 +197,11 @@ public class Drivetrain extends PIDSubsystem {
     		return false;
     	}
     }
+    
+    public double getEncoderDifference(){
+    	return getEncoderDistance(LEncoder) - getEncoderDistance(REncoder);
+    }
+    
     public void resetEncoders(){
     	leftGeartrainEncoder.reset();
     	rightGeartrainEncoder.reset();
@@ -219,18 +209,21 @@ public class Drivetrain extends PIDSubsystem {
     
     
    
-    
-    /*
-     * Gyro Methods
-     */
-    public double getAngle(){
-    	return Gyro.getAngle();
-    }
-    
-    public void resetGyro(){
-    	Gyro.reset();
-    }
-    
+   
+
+  
+/*
+ * Rotation Sensor Methods
+ */
+  
+  public double getAngle(){
+	  return rotationSensor.getAngle() *Constants.ENCODER_TO_DEGREES;
+  }
+  
+  public void resetAngle(){
+	  rotationSensor.reset();
+  }
+  
   public double rotateByGyro(double targetAngle, double tolerance) {
 	double difference = getAngle() - targetAngle;
 	
@@ -239,7 +232,7 @@ public class Drivetrain extends PIDSubsystem {
 //	}
 	
 	return difference / targetAngle;
-}
+  }
     
     
     /* PID Methods
@@ -247,7 +240,7 @@ public class Drivetrain extends PIDSubsystem {
      */
     
     public double returnPIDInput(){
-    	return Gyro.getAngle();
+    	return gyro.getAngle();
     }
     
     public boolean getUsePID() {
@@ -269,14 +262,11 @@ public class Drivetrain extends PIDSubsystem {
     
     
 
-    
-    
-    
-    
-    
     /* For Logging the Encoder and Gyro Values to the SmartDashboard */
     public void sendToDashboard(){
     	if(Constants.DEBUG){
+    		
+    	//Encoder Info
     	SmartDashboard.putNumber("Left Geartrain Encoder Distance: ", Robot.drivetrain.getEncoderDistance(LEncoder));
     	SmartDashboard.putString("Left Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(LEncoder) ? "Clockwise" : "Counter-Clockwise"));
     	SmartDashboard.putNumber("Left Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(LEncoder));
@@ -286,13 +276,19 @@ public class Drivetrain extends PIDSubsystem {
     	SmartDashboard.putNumber("Right Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(REncoder));
     	
     	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
-    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(Robot.drivetrain.getEncoderRPM(LEncoder) - Robot.drivetrain.getEncoderRPM(REncoder)));
+    	SmartDashboard.putNumber("Right Geartrain Encoder RAW: ", Robot.drivetrain.rightGeartrainEncoder.get());
+    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(getEncoderDifference()));
+    	
+    	// Accelerometer Info
+    	SmartDashboard.putNumber("Accelerometer X", accelerometer.getX());
+    	SmartDashboard.putNumber("Accelerometer Y", accelerometer.getY());
+    	SmartDashboard.putNumber("Accelerometer Z", accelerometer.getZ());
+    	
+
     	
     	}
     	
-    	SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
-    	
-    	
+    	SmartDashboard.putNumber("Drivetrain Angle: ", Robot.drivetrain.getAngle());
     	
     	SmartDashboard.putBoolean("Drivetrain PID", getUsePID());
     	

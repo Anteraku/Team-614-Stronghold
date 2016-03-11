@@ -9,51 +9,38 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PewPewMeasureRetrieve extends Command {
+public class PewPewRevOut extends Command {
 
-    public PewPewMeasureRetrieve() {
+    public PewPewRevOut() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.shooter);
+      requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     	setTimeout(5);
-    
-    	
-//    	Robot.shooter.leftFlywheelPID.setInputRange(0,800000);
-//    	Robot.shooter.leftFlywheelPID.setAbsoluteTolerance(1000.0);
-//    	Robot.shooter.leftFlywheelPID.setSetpoint(760000.0);
-//    	
-//    	Robot.shooter.rightFlywheelPID.setInputRange(0,800000);
-//    	Robot.shooter.rightFlywheelPID.setAbsoluteTolerance(1000.0);
-//    	Robot.shooter.rightFlywheelPID.setSetpoint(760000.0);
-    	
-    	Robot.shooter.shootMode(-Constants.MOTOR_REVERSE, false);
+//    
+//    	Robot.shooter.revUpForward();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	
-    }
+    	Robot.shooter.shootMode(Constants.MOTOR_REVERSE, false);    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	 return !(OI.driverGamepad.getButton(OI.PEW_PEW_MEASURE_RETRIEVE));
-    	//return isTimedOut();
+        //return !(OI.driverGamepad.getButton(OI.PEW_PEW_MEASURE_OUT));
+    	return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.shooter.stopFlywheel();
-    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.shooter.stopFlywheel();
     }
 }
