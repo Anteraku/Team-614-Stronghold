@@ -19,22 +19,24 @@ import org.usfirst.frc.team614.robot.subsystems.VisionProcessor;
 import org.usfirst.frc.team614.robot.util.CameraFeeds;
 import org.usfirst.frc.team614.robot.commands.DoNothing;
 import org.usfirst.frc.team614.robot.commands.autonomous.DropItLikeItsHot;
+import org.usfirst.frc.team614.robot.commands.autonomous.GoOverCF;
+import org.usfirst.frc.team614.robot.commands.autonomous.GoOverRockwall;
+import org.usfirst.frc.team614.robot.commands.autonomous.GoThroughPort;
 import org.usfirst.frc.team614.robot.commands.autonomous.Shoot;
+import org.usfirst.frc.team614.robot.commands.autonomous.ShootThroughCF;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
-import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.drivetrain.ResetDrivetrainEncoders;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 import org.usfirst.frc.team614.robot.commands.shooter.LowerLift;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
 import org.usfirst.frc.team614.robot.commands.shooter.RaiseLift;
-import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence; 
 import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -90,7 +92,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
-//		SmartDashboard.putData(visionProcessor);
+		SmartDashboard.putData(visionProcessor);
 		SmartDashboard.putData(new PewPewRevOut());
 		SmartDashboard.putData(new TEDIn(.5));
 		SmartDashboard.putData(new TEDOut(.5));
@@ -184,7 +186,7 @@ public class Robot extends IterativeRobot {
     		
     		drivetrain.sendToDashboard();
     		shooter.sendToDashboard();
-//    		visionProcessor.sendToDashboard();
+    		visionProcessor.sendToDashboard();
     	}
     }
    
@@ -193,8 +195,20 @@ public class Robot extends IterativeRobot {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
 	
 	autonomousMode.addDefault("1) Shoot From Spy Box", new Shoot());
+	
 	autonomousMode.addObject("2) How Low Can You Go", new DropItLikeItsHot());
-
+	autonomousMode.addObject("3) Go Over CF", new GoOverCF());
+	autonomousMode.addObject("4) Go Through Port",  new GoThroughPort());
+	autonomousMode.addObject("5) Go Over Rockwall", new GoOverRockwall());
+	
+	autonomousMode.addObject("Shoot CF 2", new ShootThroughCF(2));
+	autonomousMode.addObject("Shoot CF 3", new ShootThroughCF(3));
+	autonomousMode.addObject("Shoot CF 4", new ShootThroughCF(4));
+	autonomousMode.addObject("Shoot CF 5", new ShootThroughCF(5));
+	
+	autonomousMode.addObject("Line Up Shot", new LineUpShot());
+	
+	
 	autonomousMode.addObject("3) Drive For Time: 3, .8, F", new DriveStraightForATime(3, .8, true, true));
 	autonomousMode.addObject("4) Drive For Time Backwards: 3, .8, B", new DriveStraightForATime(3, .8, true, false));
 	autonomousMode.addObject("5) Drive For a Distance: 24, .8, F", new DriveStraightForADistance(24, .8, true, false));

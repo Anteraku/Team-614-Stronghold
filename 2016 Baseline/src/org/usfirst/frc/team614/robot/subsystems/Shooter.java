@@ -5,8 +5,6 @@ import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShooterDrive;
-import org.usfirst.frc.team614.robot.commands.shooter.ShootSequence;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -95,7 +93,7 @@ public class Shooter extends PIDSubsystem {
 		TEDMotor.setSafetyEnabled(false);
 	}
 	
-	  public void initDefaultCommand() {
+	public void initDefaultCommand() {
 	        // Set the default command for a subsystem here.
 	    	setDefaultCommand(new ShooterDrive());
 	
@@ -104,14 +102,13 @@ public class Shooter extends PIDSubsystem {
 	    }
 	    
 	/*
-	 * Motor Methods
+	 * Flywheel Methods
 	 */
-	
+
 	/**
 	 * Spins up the shooter flywheel to shoot out
 	 */
-	  
-	  public void shootMode(double value, boolean usePID){
+	public void shootMode(double value, boolean usePID){
 		  
 		//  value = value * Constants.DRIVE_MOTOR_MAX_SPEED;
 	    	
@@ -176,39 +173,22 @@ public class Shooter extends PIDSubsystem {
 	 */
 	
 	public void stopFlywheel(){
-		leftMotor.set(0);
-		rightMotor.set(0);
-	}
-	
-	
-	/*
-	 * Servo Methods
-	 */
-	
-	/**
-	 * Moves the servo to hit the ball into the flywheel
-	 */
-//	public void flickBall(){
-//		servo.set(Constants.SERVO_ANGLE);
-//	}
-//	
-	public void resetServo(){
-		servo.set(0);
-	}
-	
+		flywheelDrive.stopMotor();	}
+
 	
 	/*
 	 * AngleMotor Methods
 	 */
-	 
-	 public void setMotorSpeed(double motorSpeed){
+	public void setMotorSpeed(double motorSpeed){
 		 if(motorSpeed <0){
 			 angleMotor.set(motorSpeed*Constants.ANGLE_REDUCTION_SPEED_DOWN);
 		 }
-		 if(motorSpeed>0){
+		 else if(motorSpeed>0){
 			 angleMotor.set(motorSpeed* Constants.ANGLE_REDUCTION_SPEED_UP);
 		 }
-		
+		 else{
+			 angleMotor.set(0);
+		 }
 	 }
 	 
 	 /*
@@ -232,10 +212,10 @@ public class Shooter extends PIDSubsystem {
 	/*
 	 * TED Methods
 	 */
-	
 	public void controlTED(double motorSpeed){
 		TEDMotor.set(motorSpeed * Constants.TED_REDUCTION_SPEED);
 	}
+	
 	public void TEDOut(){
 		TEDMotor.set(.7);
 	}
@@ -252,10 +232,7 @@ public class Shooter extends PIDSubsystem {
 	
 	/*
 	 * Encoder Methods
-	 */
-	
-	
-	
+	 */	
 	public double getLeftEncoderRPM(){
 		return leftEncoder.getRate();
 	}
@@ -292,7 +269,6 @@ public class Shooter extends PIDSubsystem {
     	return leftEncoder.getRate();
     }
    
-    
     public boolean getUsePID() {
     	return usePID;
     }
@@ -312,11 +288,12 @@ public class Shooter extends PIDSubsystem {
 	
 	
 	public void sendToDashboard(){
+		if(false){
 		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
 		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
 		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
 		SmartDashboard.putBoolean("Shooter PID", getUsePID());
-		System.out.println(getLeftEncoderRPM() + "      " + getRightEncoderRPM());
+		}
 	}
 
 

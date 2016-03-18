@@ -1,6 +1,5 @@
 package org.usfirst.frc.team614.robot.commands.drivetrain;
 
-import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

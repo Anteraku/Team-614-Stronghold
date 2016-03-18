@@ -5,8 +5,14 @@ package org.usfirst.frc.team614.robot;
 import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.commands.drivetrain.SwitchGears;
 import org.usfirst.frc.team614.robot.commands.drivetrain.ToggleDrivetrainPID;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevIn;
+import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
+import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
+import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 import org.usfirst.frc.team614.robot.commands.shooter.ToggleShooterPID;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
+
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -46,17 +52,20 @@ public class OI {
 	//Gamepads
 	
 		//Operator Gamepad
-			public static final int PEW_PEW_MEASURE_OUT = Gamepad.button_A;
-			public static final int PEW_PEW_MEASURE_RETRIEVE = Gamepad.button_B;
-			public static final int PEW_PEW_SHOOT = Gamepad.button_R_Shoulder;
 			public static final int TOGGLE_SHOOTER_PID = Gamepad.button_Back;
-			public static final int TED_OUT = Gamepad.button_R_Shoulder;
+			
+			public static final int PEW_PEW_REV_IN = Gamepad.button_A;
+			public static final int PEW_PEW_REV_OUT = Gamepad.button_Y;
+
+			public static final int TED_OUT = Gamepad.button_X;
+			public static final int TED_IN = Gamepad.button_B;
 			
 		//Driver Gamepad
 			public static final int TURN_TO_ANGLE = Gamepad.button_X;
 			public static final int SWITCH_GEARS = Gamepad.button_Start;
 			public static final int TOGGLE_DRIVETRAIN_PID = Gamepad.button_Back;
-	
+			public static final int TURN_AROUND_FAST = Gamepad.button_A;
+			public static final int LINE_UP_SHOT = Gamepad.button_Y;
 	
 	// Gamepads
 			
@@ -66,18 +75,29 @@ public class OI {
 		
 		//Operator Gamepad
 			private static final Button toggleShooterPID = new JoystickButton(operatorGamepad, TOGGLE_SHOOTER_PID);
+			private static final Button revIn = new JoystickButton(operatorGamepad, PEW_PEW_REV_IN);
+			private static final Button revOut = new JoystickButton(operatorGamepad, PEW_PEW_REV_OUT);
+			
+			private static final Button tedIn = new JoystickButton(operatorGamepad, TED_IN);
+			private static final Button tedOut = new JoystickButton(operatorGamepad, TED_OUT);
+	
 			
 		//Driver Gamepad
 			private static final Button turnToAngle = new JoystickButton(driverGamepad, TURN_TO_ANGLE);
 			private static final Button switchGears = new JoystickButton(driverGamepad, SWITCH_GEARS);
 			private static final Button toggleDrivetrainPID = new JoystickButton(driverGamepad, TOGGLE_DRIVETRAIN_PID);
+			private static final Button turnAroundFast = new JoystickButton(driverGamepad, TURN_AROUND_FAST);
+			private static final Button lineUpShot = new JoystickButton(driverGamepad, LINE_UP_SHOT);
 		
 	public OI(){
 			
 	//Operator Commands
 		
 		//Control Buttons
-		
+			revIn.whenPressed(new PewPewRevIn());
+			revOut.whenPressed(new PewPewRevOut());
+			tedIn.whenPressed(new TEDIn(1));
+			tedOut.whenPressed(new TEDOut(1));
 
 		//Technical Buttons
 			toggleShooterPID.whenPressed(new ToggleShooterPID());
@@ -87,9 +107,12 @@ public class OI {
 		
 		//Control Buttons
 			turnToAngle.whenPressed(new TurnToAngle(90, Constants.MOTOR_TURN_SPEED, 0));
+			turnAroundFast.whenPressed(new TurnToAngle(180, 1, 0));
+			lineUpShot.whileHeld(new LineUpShot());
 		//Technical Buttons
 			switchGears.toggleWhenPressed(new SwitchGears());
 			toggleDrivetrainPID.whenPressed(new ToggleDrivetrainPID());
+			
 		
 		
 		

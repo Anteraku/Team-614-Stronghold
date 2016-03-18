@@ -49,9 +49,7 @@ public class DriveStraightForADistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	//return Robot.drivetrain.getEncoderTrueDistance(Robot.drivetrain.LEncoder) >= distance || Robot.drivetrain.getEncoderTrueDistance(Robot.drivetrain.REncoder) >= distance;    
-    //return Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder) >= distance/Robot.drivetrain.distancePerPulse || Robot.drivetrain.getEncoderDistance(Robot.drivetrain.REncoder) >distance/Robot.drivetrain.distancePerPulse;
-    	if(Robot.drivetrain.LEncoder > Robot.drivetrain.REncoder){
+    		if(Robot.drivetrain.LEncoder > Robot.drivetrain.REncoder){
     	
     		if(goForward) {
     			return (Math.abs(Robot.drivetrain.getEncoderDistance(Robot.drivetrain.LEncoder)) >= distance);

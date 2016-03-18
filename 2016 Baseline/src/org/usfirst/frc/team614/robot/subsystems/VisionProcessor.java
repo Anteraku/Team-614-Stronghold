@@ -1,5 +1,7 @@
 package org.usfirst.frc.team614.robot.subsystems;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team614.robot.commands.visionProcessor.ProcessData;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,7 +16,7 @@ import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 public class VisionProcessor extends Subsystem {
   
 	private NetworkTable roboRealmInfo;
-	//private NumberArray goalBoundaries;
+	private NumberArray goalBoundaries;
 	//private NumberArray containerCrosshair;
 	private boolean hasGoal;
 	public boolean hasContainer;
@@ -23,19 +25,21 @@ public class VisionProcessor extends Subsystem {
 	private final double imageWidth = 320;
 	private double targetX;
 	
-	private double thresholdX = 20.0;
+	private double thresholdX = 5;
 	private double thresholdY = 0.1;
 	
 
-	private double[] goalX = new double[2];
+	private double[] goalX;
+	private ArrayList goalCoord =  new ArrayList();
 	private double goalWidth;
 	
 	public VisionProcessor() {
 		super("Vision Processor");
 		roboRealmInfo = NetworkTable.getTable("SmartDashboard");
-		//goalBoundaries = new NumberArray();
+		goalBoundaries = new NumberArray();
 		//containerCrosshair = new NumberArray();
-		targetX = imageWidth / 1.6;
+		goalX = new double[2];
+		targetX = imageWidth *.65;
 	}
 	
 	public void processData() {
@@ -48,9 +52,13 @@ public class VisionProcessor extends Subsystem {
 //				hasContainer = false;
 //			}
 			blobCount = roboRealmInfo.getNumber("BLOB_COUNT", blobCount);
-			roboRealmInfo.getNumberArray("MEW_COORDINATES", goalX);
+			roboRealmInfo.getNumberArray("MEQ_COORDINATES", goalX);
+			roboRealmInfo.retrieveValue("MEQ_COORDINATES", goalBoundaries);
 //			roboRealmInfo.getNumberArray("MEQ_COORDINATES", goalBoundaries);
-			if (goalX.length >0) {			
+			//if (goalX.length >0) {			
+			if(roboRealmInfo.getNumberArray("MEQ_COORDINATES").length > 0){
+				goalX[0] = goalBoundaries.get(0);
+				goalX[1] = goalBoundaries.get(2);
 				hasGoal = true;
 			} else {
 				hasGoal = false;
@@ -65,7 +73,7 @@ public class VisionProcessor extends Subsystem {
 		double rotate;
 		
 		if (hasGoal) {
-			double difference = targetX - ((goalX[0] + goalX[2]) / 2);
+			double difference = targetX - ((goalX[0] + goalX[1]) / 2);
 			
 			if (Math.abs(difference) <= thresholdX) {
 				difference = 0.0;
@@ -129,10 +137,18 @@ public class VisionProcessor extends Subsystem {
 		SmartDashboard.putNumber("Target Width", goalWidth);
 	
 		SmartDashboard.putNumber("Rotate Speed", getRotate());
+	SmartDashboard.putNumber("goalX[0]", goalX[0]);
+		SmartDashboard.putNumber("goalX[1]", goalX[1]);
 		SmartDashboard.putNumber("goalX[0]", goalX[0]);
 		SmartDashboard.putNumber("goalX[1]", goalX[1]);
-		SmartDashboard.putNumber("goalX.length", goalX.length);
+		SmartDashboard.putNumber("goalX[0]", goalX[0]);
+		SmartDashboard.putNumber("goalX[1]", goalX[1]);
+		SmartDashboard.putNumber("goalX[0]", goalX[0]);
+		SmartDashboard.putNumber("goalX[1]", goalX[1]);
+		SmartDashboard.putNumber("goalBoundaries.size()", goalBoundaries.size());
+		
 		SmartDashboard.putNumber("Blob Count", blobCount);
+//		SmartDashboard.putNumber("Blob Count Test", blobCount = roboRealmInfo.getNumber("BLOB_COUNT", blobCount));
 	
 	}
 

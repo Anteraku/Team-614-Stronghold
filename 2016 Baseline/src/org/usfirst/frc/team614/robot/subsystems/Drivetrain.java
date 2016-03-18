@@ -6,13 +6,15 @@ import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
-import org.usfirst.frc.team614.robot.RobotDrive;
+
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 //import edu.wpi.first.wpilibj.RobotDrive;
@@ -24,8 +26,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
   
  */
 public class Drivetrain extends PIDSubsystem {
-    
-	
+    	
 	private RobotDrive drivetrain;
 	
 	private VictorSP leftMotor,rightMotor; 
@@ -33,33 +34,32 @@ public class Drivetrain extends PIDSubsystem {
 	private Encoder leftGeartrainEncoder, rightGeartrainEncoder;
 	public static final int LEncoder = 0;
 	public static final int REncoder = 1;
-	public double distancePerPulse;
+	private double distancePerPulse;
 	
 	//Variables specific for drivetrain PID loop
 	private boolean usePID = true;
 	private double moveSpeed = 0.0;
 	private double pidOutput = 0.0;
 	
-	public Solenoid piston;
+	private Solenoid piston;
 	
 	private AnalogGyro gyro;
 	private EncoderRotationSensor rotationSensor;
-	private BuiltInAccelerometer accelerometer;
-	
-	// FRC provided drivetrain class
-	
+	private BuiltInAccelerometer accelerometer;	
 	
 	public Drivetrain(){
 		
 		super("Drivetrain", Constants.Kp, Constants.Ki, Constants.Kd);
 			
-		 //Initializes drivetrain class
-		 drivetrain = new RobotDrive(rightMotor, leftMotor);
+		
 		 
 		//Initializes the motors
  		leftMotor = new VictorSP(RobotMap.leftGeartrainMotor);
  		rightMotor = new VictorSP(RobotMap.rightGeartrainMotor);
  		
+ 		//Initializes drivetrain class
+		drivetrain = new RobotDrive(rightMotor, leftMotor);
+		 
  		//Initializes the Encoders
  		leftGeartrainEncoder = new Encoder(RobotMap.leftGeartrainEncoder_A, RobotMap.leftGeartrainEncoder_B);
  		rightGeartrainEncoder = new Encoder(RobotMap.rightGeartrainEncoder_A, RobotMap.rightGeartrainEncoder_B);
@@ -115,9 +115,9 @@ public class Drivetrain extends PIDSubsystem {
     			if(!getPIDController().isEnabled()){
     				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
     				getPIDController().reset();
-    				gyro.reset();
+    				resetAngle();
     				enable();
-    				gyro.reset();
+    				resetAngle();
     			}
     			//Set the forward move speed to the move parameter
     			moveSpeed = move;
@@ -206,41 +206,37 @@ public class Drivetrain extends PIDSubsystem {
     	leftGeartrainEncoder.reset();
     	rightGeartrainEncoder.reset();
     }
-    
-    
-   
-   
 
-  
+    
 /*
- * Rotation Sensor Methods
+ 	* Rotation Sensor Methods
  */
-  
-  public double getAngle(){
+    public double getAngle(){
 	  return rotationSensor.getAngle() *Constants.ENCODER_TO_DEGREES;
   }
   
-  public void resetAngle(){
+    public void resetAngle(){
 	  rotationSensor.reset();
+	  //resetEncoders();
+	  
   }
   
-  public double rotateByGyro(double targetAngle, double tolerance) {
-	double difference = getAngle() - targetAngle;
+    public double rotateByGyro(double targetAngle, double tolerance) {
+    	double difference = getAngle() - targetAngle;
 	
-//	if (Math708.isWithinThreshold(getIRDistance(), targetAngle, tolerance)) {
-//		difference = 0.0;
-//	}
+    	//	if (Math708.isWithinThreshold(getIRDistance(), targetAngle, tolerance)) {
+    	//		difference = 0.0;
+    	//	}
 	
-	return difference / targetAngle;
+    	return difference / targetAngle;
   }
     
     
     /* PID Methods
      * 
      */
-    
     public double returnPIDInput(){
-    	return gyro.getAngle();
+    	return getAngle();
     }
     
     public boolean getUsePID() {
@@ -260,8 +256,6 @@ public class Drivetrain extends PIDSubsystem {
     	usePID = !usePID;
     }
     
-    
-
     /* For Logging the Encoder and Gyro Values to the SmartDashboard */
     public void sendToDashboard(){
     	if(Constants.DEBUG){
