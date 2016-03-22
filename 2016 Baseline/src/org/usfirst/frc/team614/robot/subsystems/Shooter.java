@@ -5,7 +5,9 @@ import org.usfirst.frc.team614.robot.Constants;
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShooterDrive;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -88,9 +90,10 @@ public class Shooter extends PIDSubsystem {
 		rightFlywheelPID.setAbsoluteTolerance(1000);
 		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
 		
-		leftMotor.setSafetyEnabled(false);
-		rightMotor.setSafetyEnabled(false);
-		TEDMotor.setSafetyEnabled(false);
+//		leftMotor.setSafetyEnabled(false);
+//		rightMotor.setSafetyEnabled(false);
+//		TEDMotor.setSafetyEnabled(false);
+		 
 	}
 	
 	public void initDefaultCommand() {
@@ -111,7 +114,7 @@ public class Shooter extends PIDSubsystem {
 	public void shootMode(double value, boolean usePID){
 		  
 		//  value = value * Constants.DRIVE_MOTOR_MAX_SPEED;
-	    	
+	
 	    	if(usePID){
 	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
 	    		if(!leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
@@ -216,12 +219,15 @@ public class Shooter extends PIDSubsystem {
 		TEDMotor.set(motorSpeed * Constants.TED_REDUCTION_SPEED);
 	}
 	
-	public void TEDOut(){
-		TEDMotor.set(.7);
+	public void TEDOut(double speed){
+		//TEDMotor.set(.7);
+TEDMotor.set(speed);
 	}
 	
-	public void TEDIn(){
-		TEDMotor.set(-.1);//to swing back very fast but for a short time
+	public void TEDIn(double speed){
+		TEDMotor.set(speed);
+		
+		//TEDMotor.set(-.1);//to swing back very fast but for a short time
 		//TEDMotor.set(-.3); //to swing slower but for a longer time
 	}
 	

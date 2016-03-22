@@ -9,14 +9,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LineUpShot extends Command {
 
+	double initialRotate;
+	
     public LineUpShot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	
     	requires(Robot.visionProcessor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    initialRotate = Robot.visionProcessor.getRotate();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -27,7 +31,14 @@ public class LineUpShot extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.visionProcessor.getRotate() == 0;
+    	if( initialRotate >0){
+    		return Robot.visionProcessor.getRotate() == 0 || Robot.visionProcessor.getRotate() <0;
+    	}
+    	else if(initialRotate<0){
+    		return Robot.visionProcessor.getRotate() == 0 || Robot.visionProcessor.getRotate() >0;
+    	}
+//    	return Robot.visionProcessor.getRotate() == 0;
+       return true;
     }
 
     // Called once after isFinished returns true

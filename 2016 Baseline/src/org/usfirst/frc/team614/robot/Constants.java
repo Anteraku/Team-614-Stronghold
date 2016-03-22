@@ -39,7 +39,7 @@ public final class Constants {
 	/*
 	 * Shooter
 	 */
-	public static final double MOTOR_FORWARD = 1;
+	public static final double MOTOR_FORWARD = 1.0;
 	public static final double MOTOR_REVERSE = 1.0;
 	public static final double MOTOR_UP = .1; //not used
 	public static final double MOTOR_DOWN = .1; //not used
@@ -51,7 +51,7 @@ public final class Constants {
 	public static final double FLYWHEEL_SHOOT_SPEED = 1;
 	public static final double FLYWHEEL_RETRIEVE_SPEED = -0.6;
 	//public static final double SHOOTER_WHEEL_DIAMETER = 5;
-	public static final double TED_REDUCTION_SPEED = .5;
+	public static final double TED_REDUCTION_SPEED = 1;
 
 	/*
 	 * Statistics / SmartDashboard

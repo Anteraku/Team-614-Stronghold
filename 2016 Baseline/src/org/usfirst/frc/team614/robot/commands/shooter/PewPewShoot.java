@@ -29,7 +29,7 @@ public class PewPewShoot extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(isTimedOut()){
-   	 Robot.shooter.TEDOut();
+   	 Robot.shooter.TEDOut(.7);
     	}
     }
 
@@ -40,7 +40,7 @@ public class PewPewShoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.TEDIn();
+    	Robot.shooter.TEDIn(.5);
     	setTimeout(.25);
     	while(!isTimedOut()){
     		Robot.shooter.stopTED();

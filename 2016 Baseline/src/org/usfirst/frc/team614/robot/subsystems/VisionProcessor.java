@@ -23,10 +23,13 @@ public class VisionProcessor extends Subsystem {
 	private double blobCount;
 	
 	private final double imageWidth = 320;
+	private final double imageHeight = 240;
 	private double targetX;
 	
-	private double thresholdX = 5;
+	private double thresholdX = 7.5;
 	private double thresholdY = 0.1;
+	
+	private double YLimit = imageHeight * .5;
 	
 
 	private double[] goalX;
@@ -59,6 +62,9 @@ public class VisionProcessor extends Subsystem {
 			if(roboRealmInfo.getNumberArray("MEQ_COORDINATES").length > 0){
 				goalX[0] = goalBoundaries.get(0);
 				goalX[1] = goalBoundaries.get(2);
+				
+				//goalX = getGoalX();
+				
 				hasGoal = true;
 			} else {
 				hasGoal = false;
@@ -81,11 +87,11 @@ public class VisionProcessor extends Subsystem {
 			
 			rotate = difference / targetX;
 			
-			if (Math.abs(rotate) < 0.65 && Math.abs(rotate) != 0.0) {
+			if (Math.abs(rotate) < 0.4 && Math.abs(rotate) != 0.0) {
 				if (rotate >= 0.0) {
-					rotate = 0.65;
+					rotate = 0.4;
 				} else {
-					rotate = -0.65;
+					rotate = -0.4;
 				}
 			}
 		} else {
@@ -123,7 +129,30 @@ public class VisionProcessor extends Subsystem {
 		return move;
 	}
 	
-	
+	public double[] getGoalX(){
+		
+		int index = 0;
+		double largestGoalWidth = 0;
+		double [] goals = new double[goalBoundaries.size()];
+		
+		for(int i = 0;i<goalBoundaries.size();i++){
+			goals[i] = goalBoundaries.get(i);
+		}
+		
+		for(int i = 0;i<goals.length;i+=8){
+			if(goals[i+1]<YLimit || goals[i+3]<YLimit || goals[i+5]<YLimit || goals[i+7]<YLimit){
+				break;
+			}
+			double currGoalWidth = (goals[i] + goals[i+2]) / 2;
+			if(currGoalWidth > largestGoalWidth){
+				largestGoalWidth = currGoalWidth;
+				index = i;
+			}
+			
+		}
+		return new double [] {goalBoundaries.get(index), goalBoundaries.get(index+2)};
+		
+	}
 	/**
 	 * Returns if the robot sees a tote
 	 * @return

@@ -1,9 +1,6 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
-import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
-import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
+import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -11,22 +8,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class Shoot extends CommandGroup {
+public class LineUpThenShoot extends CommandGroup {
     
-    public  Shoot() {
+    public  LineUpThenShoot() {
     	
-    	addSequential(new TEDIn(.2, .5));
+    	addSequential(new LineUpShot());
     	addSequential(new WaitCommand(.5));
+    	addSequential(new LineUpShot());
     	
-    	//Rev up and shoot at goal
-    	addParallel(new PewPewRevOut(false));
-    	
-    	addSequential(new WaitCommand(2.5));
-    	addSequential(new TEDIn(.2, 1));
-    	addSequential(new TEDOut(1, 1));
-    	
-    	addSequential(new TEDIn(.2, 1));
-    	
+    	addSequential(new Shoot());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
