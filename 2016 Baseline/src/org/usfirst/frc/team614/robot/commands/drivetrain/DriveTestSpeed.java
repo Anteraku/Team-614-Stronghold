@@ -1,6 +1,5 @@
-package org.usfirst.frc.team614.robot.commands.shooter;
+package org.usfirst.frc.team614.robot.commands.drivetrain;
 
-import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.OI;
 import org.usfirst.frc.team614.robot.Robot;
 
@@ -9,47 +8,41 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
+public class DriveTestSpeed extends Command {
 
-public class PewPewShoot extends Command {
-
-	private double timeout;
 	
-    public PewPewShoot(double time) {
+	boolean usePID;
+	double moveSpeed;
+    public DriveTestSpeed(double moveSpeed, boolean usePID) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooter);
-    	timeout = time;
+    	requires(Robot.drivetrain);
+    	this.usePID = usePID;
+    	this.moveSpeed = moveSpeed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	 setTimeout(timeout);
     }
 
-    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(isTimedOut()){
-   	 Robot.shooter.TEDOut(.7);
-    	}
+    	Robot.drivetrain.arcadeDriveMode(moveSpeed, 0, usePID);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !(OI.operatorGamepad.getButton(OI.operatorGamepad.button_R_Shoulder));
+    	return  !(OI.driverGamepad.getButton(OI.DRIVE_TEST_SPEED));
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.TEDIn(.5);
-    	setTimeout(.25);
-    	while(!isTimedOut()){
-    		Robot.shooter.stopTED();
-    	}
+    	Robot.drivetrain.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.drivetrain.stop();
     }
 }

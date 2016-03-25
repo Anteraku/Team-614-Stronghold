@@ -17,20 +17,21 @@ public class DropItLikeItsHot extends CommandGroup {
 	
 	
     public  DropItLikeItsHot() {
-//    	//Just with time
-//    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
-//    	addSequential(new LowerLift());
-//    	addSequential(new WaitCommand(2.0));
-//    	addSequential(new DriveStraightForATime(4.0, 0.7, true, false));
-    	
-    	
-    	//With time and distance
-    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, false));
+    	//Just with time
+    	addParallel(new DriveStraightForATime(2.0, 0.7, true, false));
+    	addSequential(new WaitCommand(1));
     	addSequential(new LowerLift());
-    	addSequential(new WaitCommand(1.0));
-    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
-    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, false));
-    	addSequential(new RaiseLift());
+//    	addSequential(new WaitCommand(2.0));
+    	addSequential(new DriveStraightForATime(3.0, 0.7, true, false));
+    	
+    	
+//    	//With time and distance
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, false));
+//    	addSequential(new LowerLift());
+//    	addSequential(new WaitCommand(1.0));
+//    	addSequential(new DriveStraightForATime(2.0, 0.7, true, false));
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, false));
+//    	addSequential(new RaiseLift());
     	
     	
         // Add Commands here:

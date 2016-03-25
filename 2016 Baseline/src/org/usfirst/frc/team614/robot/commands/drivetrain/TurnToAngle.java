@@ -17,7 +17,6 @@ public class TurnToAngle extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
-    	Robot.drivetrain.resetAngle();
     	
     	this.rotationSpeed = rotationSpeed;
     	this.position = position;
@@ -45,6 +44,7 @@ public class TurnToAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.resetAngle();
+    	Robot.drivetrain.resetEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -58,10 +58,10 @@ public class TurnToAngle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		if(Robot.drivetrain.getAngle() >= targetAngle && targetAngle > 0)
+		if(Robot.drivetrain.getAngle()%360 >= targetAngle && targetAngle > 0)
 		{
 			return true;
-		} else if(Robot.drivetrain.getAngle() <= targetAngle && targetAngle < 0){
+		} else if(Robot.drivetrain.getAngle()%360 <= targetAngle && targetAngle < 0){
 			return true;
 		}
 		return false;

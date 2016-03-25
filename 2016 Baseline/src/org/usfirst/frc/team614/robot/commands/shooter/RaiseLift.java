@@ -16,7 +16,6 @@ public class RaiseLift extends Command {
         // eg. requires(chassis);
     	requires(Robot.shooter);
     	
-    
     }
 
     // Called just before this Command runs the first time

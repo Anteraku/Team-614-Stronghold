@@ -24,8 +24,7 @@ public class DriveStraightForADistance extends Command {
     	this.speed = speed;
     	this.usePID = usePID;
     	this.goForward = goForward;
-    	Robot.drivetrain.resetEncoders();
-    	Robot.drivetrain.resetAngle();
+    	
     }
 
     // Called just before this Command runs the first time

@@ -5,6 +5,7 @@ package org.usfirst.frc.team614.robot;
 import org.team708.robot.util.Gamepad;
 import org.usfirst.frc.team614.robot.commands.autonomous.LineUpThenShoot;
 import org.usfirst.frc.team614.robot.commands.autonomous.Shoot;
+import org.usfirst.frc.team614.robot.commands.drivetrain.DriveTestSpeed;
 import org.usfirst.frc.team614.robot.commands.drivetrain.SwitchGears;
 import org.usfirst.frc.team614.robot.commands.drivetrain.ToggleDrivetrainPID;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevIn;
@@ -68,9 +69,12 @@ public class OI {
 			public static final int TURN_TO_ANGLE = Gamepad.button_X;
 			public static final int SWITCH_GEARS = Gamepad.button_Start;
 			public static final int TOGGLE_DRIVETRAIN_PID = Gamepad.button_Back;
+			
 			public static final int TURN_AROUND_FAST = Gamepad.button_A;
 			public static final int LINE_UP_SHOT = Gamepad.button_Y;
 			public static final int LINE_UP_THEN_SHOOT = Gamepad.button_B;
+			
+			public static final int DRIVE_TEST_SPEED = Gamepad.button_R_Shoulder;
 	
 	// Gamepads
 			
@@ -94,7 +98,7 @@ public class OI {
 			private static final Button turnAroundFast = new JoystickButton(driverGamepad, TURN_AROUND_FAST);
 			private static final Button lineUpShot = new JoystickButton(driverGamepad, LINE_UP_SHOT);
 			private static final Button lineUpThenShoot = new JoystickButton(driverGamepad, LINE_UP_THEN_SHOOT);
-		
+			private static final Button driveTestSpeed = new JoystickButton(driverGamepad, DRIVE_TEST_SPEED);
 	public OI(){
 			
 	//Operator Commands
@@ -117,6 +121,8 @@ public class OI {
 			turnAroundFast.whenPressed(new TurnToAngle(180, 1, 0));
 			lineUpShot.whileHeld(new LineUpShot());
 			lineUpThenShoot.whenPressed(new LineUpThenShoot());
+			
+			driveTestSpeed.whileHeld(new DriveTestSpeed(.7, true));
 		//Technical Buttons
 			switchGears.toggleWhenPressed(new SwitchGears());
 			toggleDrivetrainPID.whenPressed(new ToggleDrivetrainPID());

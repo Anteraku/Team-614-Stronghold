@@ -113,11 +113,11 @@ public class Drivetrain extends PIDSubsystem {
     		if(rotate == 0.0 && move != 0.0) {
     			
     			if(!getPIDController().isEnabled()){
+//    				getPIDController().reset();
     				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-    				getPIDController().reset();
-    				resetAngle();
+//    				resetAngle();
     				enable();
-    				resetAngle();
+//    				resetAngle();
     			}
     			//Set the forward move speed to the move parameter
     			moveSpeed = move;
@@ -262,21 +262,21 @@ public class Drivetrain extends PIDSubsystem {
     		
     	//Encoder Info
     	SmartDashboard.putNumber("Left Geartrain Encoder Distance: ", Robot.drivetrain.getEncoderDistance(LEncoder));
-    	SmartDashboard.putString("Left Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(LEncoder) ? "Clockwise" : "Counter-Clockwise"));
-    	SmartDashboard.putNumber("Left Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(LEncoder));
+//    	SmartDashboard.putString("Left Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(LEncoder) ? "Clockwise" : "Counter-Clockwise"));
+//    	SmartDashboard.putNumber("Left Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(LEncoder));
     	
     	SmartDashboard.putNumber("Right Geartrain Encoder Distance: ", Robot.drivetrain.getEncoderDistance(REncoder));
-    	SmartDashboard.putString("Right Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(REncoder) ? "Clockwise" : "Counter-Clockwise"));
-    	SmartDashboard.putNumber("Right Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(REncoder));
+//    	SmartDashboard.putString("Right Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(REncoder) ? "Clockwise" : "Counter-Clockwise"));
+//    	SmartDashboard.putNumber("Right Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(REncoder));
     	
-    	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
-    	SmartDashboard.putNumber("Right Geartrain Encoder RAW: ", Robot.drivetrain.rightGeartrainEncoder.get());
-    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(getEncoderDifference()));
+//    	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
+//    	SmartDashboard.putNumber("Right Geartrain Encoder RAW: ", Robot.drivetrain.rightGeartrainEncoder.get());
+//    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(getEncoderDifference()));
     	
     	// Accelerometer Info
-    	SmartDashboard.putNumber("Accelerometer X", accelerometer.getX());
-    	SmartDashboard.putNumber("Accelerometer Y", accelerometer.getY());
-    	SmartDashboard.putNumber("Accelerometer Z", accelerometer.getZ());
+//    	SmartDashboard.putNumber("Accelerometer X", accelerometer.getX());
+//    	SmartDashboard.putNumber("Accelerometer Y", accelerometer.getY());
+//    	SmartDashboard.putNumber("Accelerometer Z", accelerometer.getZ());
     	
 
     	

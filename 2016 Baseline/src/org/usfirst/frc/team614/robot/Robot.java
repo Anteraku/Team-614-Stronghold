@@ -25,6 +25,8 @@ import org.usfirst.frc.team614.robot.commands.autonomous.GoThroughPort;
 import org.usfirst.frc.team614.robot.commands.autonomous.LineUpThenShoot;
 import org.usfirst.frc.team614.robot.commands.autonomous.Shoot;
 import org.usfirst.frc.team614.robot.commands.autonomous.ShootThroughCF;
+import org.usfirst.frc.team614.robot.commands.autonomous.ShootThroughPort;
+import org.usfirst.frc.team614.robot.commands.autonomous.ShootThroughRockWall;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForADistance;
 import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.ResetDrivetrainEncoders;
@@ -100,9 +102,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new TEDIn(.5, 1));
 		SmartDashboard.putData(new TEDOut(.5, 1));
 		SmartDashboard.putData(new ResetDrivetrainEncoders());
-		SmartDashboard.putData(new TurnToAngle(90, 1, 0));
+		SmartDashboard.putData(new TurnToAngle(90, .5, 0));
 		SmartDashboard.putData(new LineUpShot());
 		SmartDashboard.putData(new LineUpThenShoot());
+		SmartDashboard.putData(new LowerLift());
+		SmartDashboard.putData(new RaiseLift());
         autonomousMode = new SendableChooser();
         addAutonomousModes();
       
@@ -211,6 +215,21 @@ public class Robot extends IterativeRobot {
 	autonomousMode.addObject("Shoot CF 4", new ShootThroughCF(4));
 	autonomousMode.addObject("Shoot CF 5", new ShootThroughCF(5));
 	
+	autonomousMode.addObject("Shoot Port 2", new ShootThroughPort(2));
+	autonomousMode.addObject("Shoot Port 3", new ShootThroughPort(3));
+	autonomousMode.addObject("Shoot Port 4", new ShootThroughPort(4));
+	autonomousMode.addObject("Shoot Port 5", new ShootThroughPort(5));
+	
+	autonomousMode.addObject("Shoot Rock Wall 2", new ShootThroughRockWall(2));
+	autonomousMode.addObject("Shoot Rock Wall 3", new ShootThroughRockWall(3));
+	autonomousMode.addObject("Shoot Rock Wall 4", new ShootThroughRockWall(4));
+	autonomousMode.addObject("Shoot Rock Wall 5", new ShootThroughRockWall(5));
+	
+	autonomousMode.addObject("Shoot Else 2", new ShootThroughRockWall(2));
+	autonomousMode.addObject("Shoot Else 3", new ShootThroughRockWall(3));
+	autonomousMode.addObject("Shoot Else 4", new ShootThroughRockWall(4));
+	autonomousMode.addObject("Shoot Else 5", new ShootThroughRockWall(5));
+
 	autonomousMode.addObject("Line Up Shot", new LineUpShot());
 	
 	

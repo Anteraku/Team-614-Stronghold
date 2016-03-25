@@ -21,7 +21,7 @@ public class DriveStraightForATime extends Command {
     	this.usePID = usePID;
     	this.goForward = goForward;
     	
-    	Robot.drivetrain.resetEncoders();
+    	
     	
     }
 
@@ -29,7 +29,8 @@ public class DriveStraightForATime extends Command {
     protected void initialize() {
     
     	setTimeout(time);
-    
+    Robot.drivetrain.resetAngle();
+    Robot.drivetrain.resetEncoders();
     	if(goForward){
     		Robot.drivetrain.arcadeDriveMode(-speed, 0.0, usePID);
     	}

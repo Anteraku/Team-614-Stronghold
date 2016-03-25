@@ -6,6 +6,7 @@ import org.usfirst.frc.team614.robot.commands.drivetrain.DriveStraightForATime;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -14,11 +15,16 @@ public class GoOverRockwall extends CommandGroup {
     
     public  GoOverRockwall() {
     	
-    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
-    	addSequential(new DriveStraightForATime(3, 0.7, true , true));
-    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
-    	
-    	addSequential(new TurnToAngle(180.0, 0.7, 0)); //turn so that shooter is facing the tower
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
+//    	addSequential(new WaitCommand(1));
+//    	addSequential(new DriveStraightForATime(5, 0.7, true , true));
+//    	addSequential(new WaitCommand(1));
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
+//    	addSequential(new WaitCommand(.5));
+//    	
+    	addSequential(new DriveStraightForATime(4.1, .7, true, true));
+    	addSequential(new WaitCommand(1));
+//    	addSequential(new TurnToAngle(180.0, 0.5, 0)); //turn so that shooter is facing the tower
     	
     	
         // Add Commands here:

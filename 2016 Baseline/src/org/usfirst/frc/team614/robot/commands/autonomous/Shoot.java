@@ -1,5 +1,6 @@
 package org.usfirst.frc.team614.robot.commands.autonomous;
 
+import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
@@ -16,13 +17,13 @@ public class Shoot extends CommandGroup {
     public  Shoot() {
     	
     	addSequential(new TEDIn(.2, .5));
-    	addSequential(new WaitCommand(.5));
+   
     	
     	//Rev up and shoot at goal
     	addParallel(new PewPewRevOut(false));
     	
     	addSequential(new WaitCommand(2.5));
-    	addSequential(new TEDIn(.2, 1));
+    	addSequential(new TEDIn(.1, 1));
     	addSequential(new TEDOut(1, 1));
     	
     	addSequential(new TEDIn(.2, 1));

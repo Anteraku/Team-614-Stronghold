@@ -27,7 +27,7 @@ this.inTeleop = inTeleop;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shootMode(Constants.MOTOR_REVERSE, false);	
+    	Robot.shooter.shootMode(Constants.MOTOR_REVERSE, Robot.shooter.getUsePID());	
     }
 
     // Make this return true when this Command no longer needs to run execute()

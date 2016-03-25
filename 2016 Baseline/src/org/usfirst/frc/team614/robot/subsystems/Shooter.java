@@ -48,6 +48,7 @@ public class Shooter extends PIDSubsystem {
 		rightMotor = new VictorSP(RobotMap.shooterRightMotor);
 				
 		angleMotor = new VictorSP(RobotMap.shooterAngleMotor);
+		
 		TEDMotor = new Talon(RobotMap.TEDMotor);
 	
 		//Initializes the encoders
@@ -59,9 +60,7 @@ public class Shooter extends PIDSubsystem {
 		
 		
 		distancePerPulse = 10; //change to whatever the rate is when the encoder comes in
-		leftEncoder.setDistancePerPulse(distancePerPulse);
-		rightEncoder.setDistancePerPulse(distancePerPulse);
-		angleEncoder.setDistancePerPulse(distancePerPulse);
+		
 		
 		leftFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, leftEncoder, leftMotor);
 		rightFlywheelPID = new PIDController(Constants.Kp, Constants.Ki, Constants.Kd, rightEncoder, rightMotor);
@@ -221,7 +220,7 @@ public class Shooter extends PIDSubsystem {
 	
 	public void TEDOut(double speed){
 		//TEDMotor.set(.7);
-TEDMotor.set(speed);
+		TEDMotor.set(speed);
 	}
 	
 	public void TEDIn(double speed){
@@ -298,8 +297,9 @@ TEDMotor.set(speed);
 		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
 		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
 		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
-		SmartDashboard.putBoolean("Shooter PID", getUsePID());
+		
 		}
+		SmartDashboard.putBoolean("Shooter PID", getUsePID());
 	}
 
 

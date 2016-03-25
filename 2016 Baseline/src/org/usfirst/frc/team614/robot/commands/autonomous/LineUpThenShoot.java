@@ -14,7 +14,7 @@ public class LineUpThenShoot extends CommandGroup {
     	
     	addSequential(new LineUpShot());
     	addSequential(new WaitCommand(.5));
-    	addSequential(new LineUpShot());
+    	addParallel(new LineUpShot());
     	
     	addSequential(new Shoot());
         // Add Commands here:

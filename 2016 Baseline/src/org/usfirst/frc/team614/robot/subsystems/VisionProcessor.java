@@ -42,7 +42,8 @@ public class VisionProcessor extends Subsystem {
 		goalBoundaries = new NumberArray();
 		//containerCrosshair = new NumberArray();
 		goalX = new double[2];
-		targetX = imageWidth *.65;
+//		targetX = imageWidth *.65;
+		targetX = imageWidth *.5;
 	}
 	
 	public void processData() {
