@@ -1,25 +1,15 @@
-package org.usfirst.frc.team614.robot.commands.autonomous;
-
-import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
-import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
+package org.usfirst.frc.team614.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ *Used to move the robot into place, align with the goal, and then shoot with the servo and motors. 
  */
-public class ShootThroughRockWall extends CommandGroup {
+public class ShootSequence extends CommandGroup {
     
+	private static final double timeToStart = 2;
 	
-    public  ShootThroughRockWall(int position) {
-    	
-    	addSequential(new GoOverRockwall());
-    	
-    	addSequential(new TurnToAngle(0, 0.5, position));
-    	
-    	addSequential(new LineUpShot());
-    	
-    	addSequential(new Shoot());
+    public  ShootSequence() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -36,5 +26,17 @@ public class ShootThroughRockWall extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	 
+//    	Bring the TED outwards to shoot the ball through the flywheels
+    	//addSequential(new TEDIn(.5));
+    	
+    	//**Now assume that the flywheels are already spinning
+    	
+    	//Bring the TED inwards to be ready to load the next ball
+    	//addSequential(new TEDOut(.5));
+    	
+    	//addSequential(new TEDIn(1));
+    	
+    
     }
 }

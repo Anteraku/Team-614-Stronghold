@@ -67,7 +67,7 @@ public class Drivetrain extends PIDSubsystem {
  		distancePerPulse = (Constants.DRIVETRAIN_WHEEL_DIAMETER * Math.PI) / Constants.DRIVETRAIN_ENCODER_PULSES_PER_REV;
  		leftGeartrainEncoder.setDistancePerPulse(distancePerPulse);
  		rightGeartrainEncoder.setDistancePerPulse(distancePerPulse);
- 		rightGeartrainEncoder.setReverseDirection(true);
+// 		rightGeartrainEncoder.setReverseDirection(true);
  		resetEncoders();
 
     	//Initializes the solenoid
@@ -113,11 +113,11 @@ public class Drivetrain extends PIDSubsystem {
     		if(rotate == 0.0 && move != 0.0) {
     			
     			if(!getPIDController().isEnabled()){
-//    				getPIDController().reset();
     				getPIDController().setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-//    				resetAngle();
+    				getPIDController().reset();
+    				resetAngle();
     				enable();
-//    				resetAngle();
+    				resetAngle();
     			}
     			//Set the forward move speed to the move parameter
     			moveSpeed = move;
@@ -269,7 +269,7 @@ public class Drivetrain extends PIDSubsystem {
 //    	SmartDashboard.putString("Right Geartrain Encoder Direction: ", (Robot.drivetrain.getEncoderDirection(REncoder) ? "Clockwise" : "Counter-Clockwise"));
 //    	SmartDashboard.putNumber("Right Geartrain Encoder RPM: ", Robot.drivetrain.getEncoderRPM(REncoder));
     	
-//    	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
+    	SmartDashboard.putNumber("Left Geartrain Encoder RAW: ",  Robot.drivetrain.leftGeartrainEncoder.get());
 //    	SmartDashboard.putNumber("Right Geartrain Encoder RAW: ", Robot.drivetrain.rightGeartrainEncoder.get());
 //    	SmartDashboard.putNumber("Left and Right Encoder Difference", Math.abs(getEncoderDifference()));
     	

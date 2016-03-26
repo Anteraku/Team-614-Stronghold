@@ -58,10 +58,10 @@ public class TurnToAngle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		if(Robot.drivetrain.getAngle()%360 >= targetAngle && targetAngle > 0)
+		if(Robot.drivetrain.getAngle() >= targetAngle && targetAngle > 0)
 		{
 			return true;
-		} else if(Robot.drivetrain.getAngle()%360 <= targetAngle && targetAngle < 0){
+		} else if(Robot.drivetrain.getAngle() <= targetAngle && targetAngle < 0){
 			return true;
 		}
 		return false;

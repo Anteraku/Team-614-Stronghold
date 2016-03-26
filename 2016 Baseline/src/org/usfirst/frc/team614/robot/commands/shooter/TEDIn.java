@@ -11,25 +11,33 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TEDIn extends Command {
 
 	double time, speed;
-    public TEDIn(double time, double speed) {
+	
+	boolean doICare;
+	
+    public TEDIn(double time, double speed, boolean doICare) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooter);
     	
     	this.time = time;
     	this.speed = speed;
+    	this.doICare = doICare;
+    }
+    
+    public TEDIn(double time, double speed) {
+    	this(time, speed, false);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(time);
-    	
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.TEDIn(-speed);
+//    	if (!(doICare) && !(Robot.shooter.tedIn)) {
+    		Robot.shooter.TEDIn(-speed);
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,12 +47,13 @@ public class TEDIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+//    	Robot.shooter.tedIn = true;
     	Robot.shooter.stopTED();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.stopTED();
+    	end();
     }
 }

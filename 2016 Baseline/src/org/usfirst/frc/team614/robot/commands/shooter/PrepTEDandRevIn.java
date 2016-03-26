@@ -1,25 +1,16 @@
-package org.usfirst.frc.team614.robot.commands.autonomous;
-
-import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
-import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
+package org.usfirst.frc.team614.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ShootThroughRockWall extends CommandGroup {
+public class PrepTEDandRevIn extends CommandGroup {
     
-	
-    public  ShootThroughRockWall(int position) {
+    public  PrepTEDandRevIn() {
     	
-    	addSequential(new GoOverRockwall());
-    	
-    	addSequential(new TurnToAngle(0, 0.5, position));
-    	
-    	addSequential(new LineUpShot());
-    	
-    	addSequential(new Shoot());
+    	addSequential(new TEDIn(.5,.8, true));
+    	addSequential(new PewPewRevIn(true));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

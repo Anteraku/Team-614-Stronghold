@@ -32,10 +32,10 @@ public class LineUpShot extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if( initialRotate >0){
-    		return Robot.visionProcessor.getRotate() == 0 || Robot.visionProcessor.getRotate() <0;
+    		return Robot.visionProcessor.getRotate() <= 0;
     	}
     	else if(initialRotate<0){
-    		return Robot.visionProcessor.getRotate() == 0 || Robot.visionProcessor.getRotate() >0;
+    		return Robot.visionProcessor.getRotate() >= 0;
     	}
 //    	return Robot.visionProcessor.getRotate() == 0;
        return true;

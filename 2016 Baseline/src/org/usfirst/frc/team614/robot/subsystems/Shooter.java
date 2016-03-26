@@ -2,6 +2,7 @@
 package org.usfirst.frc.team614.robot.subsystems;
 
 import org.usfirst.frc.team614.robot.Constants;
+import org.usfirst.frc.team614.robot.Robot;
 import org.usfirst.frc.team614.robot.RobotMap;
 import org.usfirst.frc.team614.robot.commands.drivetrain.JoystickDrive;
 import org.usfirst.frc.team614.robot.commands.shooter.ShooterDrive;
@@ -38,6 +39,8 @@ public class Shooter extends PIDSubsystem {
 	private AnalogGyro Gyro;
 	
 	private boolean usePID = true;
+	
+//	public boolean tedIn = true;
 	
 	public Shooter() {
 		
@@ -89,9 +92,9 @@ public class Shooter extends PIDSubsystem {
 		rightFlywheelPID.setAbsoluteTolerance(1000);
 		rightFlywheelPID.setSetpoint(Constants.TARGET_RATE);
 		
-//		leftMotor.setSafetyEnabled(false);
-//		rightMotor.setSafetyEnabled(false);
-//		TEDMotor.setSafetyEnabled(false);
+		leftMotor.setSafetyEnabled(false);
+		rightMotor.setSafetyEnabled(false);
+		TEDMotor.setSafetyEnabled(false);
 		 
 	}
 	
@@ -115,22 +118,27 @@ public class Shooter extends PIDSubsystem {
 		//  value = value * Constants.DRIVE_MOTOR_MAX_SPEED;
 	
 	    	if(usePID){
-	    		//Disables the PID controller if it is enabled so the drivetrain can move freely
-	    		if(!leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
-	    		{
-//	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
-//	    		getPIDController().reset();
-	    
-	    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-	    		leftFlywheelPID.reset();
-	    		
-	    		
-	    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
-	    		rightFlywheelPID.reset();
-	    	
-	    		resetFlywheelEncoders();
-	    		enable();
-	    		resetFlywheelEncoders();
+	    		if(value !=0.0){
+		    		//Disables the PID controller if it is enabled so the drivetrain can move freely
+		    		if(!leftFlywheelPID.isEnabled() || !rightFlywheelPID.isEnabled())
+		    		{
+		//	    		getPIDController().setPID(Constants.Kp,  Constants.Ki,  Constants.Kd);
+		//	    		getPIDController().reset();
+			    
+			    		leftFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+			    		leftFlywheelPID.reset();
+			    		
+			    		
+			    		rightFlywheelPID.setPID(Constants.Kp, Constants.Ki, Constants.Kd);
+			    		rightFlywheelPID.reset();
+			    	
+			    		resetFlywheelEncoders();
+			    		rightFlywheelPID.enable();
+			    		leftFlywheelPID.enable();
+			    		resetFlywheelEncoders();
+		    		}
+		    		
+		    		
 	    		}
 	    		else if(leftFlywheelPID.isEnabled() || rightFlywheelPID.isEnabled()) {
 //	    			getPIDController().reset();
@@ -215,6 +223,13 @@ public class Shooter extends PIDSubsystem {
 	 * TED Methods
 	 */
 	public void controlTED(double motorSpeed){
+		
+//		if (motorSpeed > 0.0) {
+//			tedIn = false;
+//		} else if (motorSpeed < 0.0) {
+//			tedIn = true;
+//		} else { }
+//		
 		TEDMotor.set(motorSpeed * Constants.TED_REDUCTION_SPEED);
 	}
 	
@@ -225,7 +240,6 @@ public class Shooter extends PIDSubsystem {
 	
 	public void TEDIn(double speed){
 		TEDMotor.set(speed);
-		
 		//TEDMotor.set(-.1);//to swing back very fast but for a short time
 		//TEDMotor.set(-.3); //to swing slower but for a longer time
 	}
@@ -284,8 +298,9 @@ public class Shooter extends PIDSubsystem {
     
     public void usePIDOutput(double output){
     	pidOutput = output;
-    	flywheelDrive.arcadeDrive(moveSpeed, -output);
-    }
+//    	flywheelDrive.arcadeDrive(moveSpeed, -output);
+flywheelDrive.tankDrive(output, output);
+}
     
     public void togglePID(){
     	usePID = !usePID;
@@ -293,11 +308,11 @@ public class Shooter extends PIDSubsystem {
 	
 	
 	public void sendToDashboard(){
-		if(false){
+		if(Constants.DEBUG){
 		SmartDashboard.putNumber("Left Flywheel RPM: ", getLeftEncoderRPM());
 		SmartDashboard.putNumber("Right Flywheel RPM: ", getRightEncoderRPM());
-		SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
-		
+		//SmartDashboard.putNumber("Lift RPM: ", getAngleEncoderRPM());
+		SmartDashboard.putNumber("pidOutput", pidOutput);
 		}
 		SmartDashboard.putBoolean("Shooter PID", getUsePID());
 	}

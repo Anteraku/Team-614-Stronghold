@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightForATime extends Command {
 
 	private double time, speed;
-	private boolean usePID;
+	private boolean usePID = false;
 	private boolean goForward;
     public DriveStraightForATime(double time, double speed, boolean usePID, boolean goForward) {
         // Use requires() here to declare subsystem dependencies
@@ -18,7 +18,7 @@ public class DriveStraightForATime extends Command {
     	requires(Robot.drivetrain);
     	this.time = time;
     	this.speed = speed;
-    	this.usePID = usePID;
+//    	this.usePID = usePID;
     	this.goForward = goForward;
     	
     	
@@ -27,13 +27,14 @@ public class DriveStraightForATime extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
     	setTimeout(time);
-    Robot.drivetrain.resetAngle();
-    Robot.drivetrain.resetEncoders();
+    	Robot.drivetrain.resetAngle();
+    	Robot.drivetrain.resetEncoders();
+    	
     	if(goForward){
     		Robot.drivetrain.arcadeDriveMode(-speed, 0.0, usePID);
     	}
+    	
     	if(!goForward){
     		Robot.drivetrain.arcadeDriveMode(speed, 0.0, usePID);
     	}

@@ -2,6 +2,7 @@ package org.usfirst.frc.team614.robot.subsystems;
 
 import java.util.ArrayList;
 
+import org.team708.robot.util.Math708;
 import org.usfirst.frc.team614.robot.commands.visionProcessor.ProcessData;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -80,21 +81,32 @@ public class VisionProcessor extends Subsystem {
 		double rotate;
 		
 		if (hasGoal) {
-			double difference = targetX - ((goalX[0] + goalX[1]) / 2);
+
+			double sensorInput = ((goalX[0] + goalX[1]) / 2);
+			double difference = targetX - sensorInput;
 			
 			if (Math.abs(difference) <= thresholdX) {
 				difference = 0.0;
 			}
 			
-			rotate = difference / targetX;
+//			rotate = difference / targetX;
 			
-			if (Math.abs(rotate) < 0.4 && Math.abs(rotate) != 0.0) {
-				if (rotate >= 0.0) {
-					rotate = 0.4;
-				} else {
-					rotate = -0.4;
-				}
+			if(difference <0){
+				rotate = Math708.getClippedPercentError(sensorInput, targetX,-.8, -.5);
 			}
+			else if(difference>0){
+				rotate = Math708.getClippedPercentError(sensorInput, targetX,.5, .8);
+			} else {
+				rotate = 0.0;
+			}
+			
+//			if (Math.abs(rotate) < 0.5 && Math.abs(rotate) != 0.0) {
+//				if (rotate >= 0.0) {
+//					rotate = 0.5;
+//				} else {
+//					rotate = -0.5;
+//				}
+//			}
 		} else {
 			rotate = 0.65;
 		}

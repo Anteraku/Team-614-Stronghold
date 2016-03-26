@@ -12,7 +12,7 @@ public class DriveStraightForADistance extends Command {
 
 	
 	private double distance, speed; 
-	private boolean usePID;
+	private boolean usePID = false;
 	private boolean goForward;
 	
     public DriveStraightForADistance(double distance, double speed, boolean usePID, boolean goForward) {
@@ -22,7 +22,7 @@ public class DriveStraightForADistance extends Command {
     	
     	this.distance = distance; 
     	this.speed = speed;
-    	this.usePID = usePID;
+//    	this.usePID = usePID;
     	this.goForward = goForward;
     	
     }

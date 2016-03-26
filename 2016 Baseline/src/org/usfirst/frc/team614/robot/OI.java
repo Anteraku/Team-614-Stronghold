@@ -11,9 +11,11 @@ import org.usfirst.frc.team614.robot.commands.drivetrain.ToggleDrivetrainPID;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevIn;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewRevOut;
 import org.usfirst.frc.team614.robot.commands.shooter.PewPewShoot;
+import org.usfirst.frc.team614.robot.commands.shooter.PrepTEDandRevIn;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDIn;
 import org.usfirst.frc.team614.robot.commands.shooter.TEDOut;
 import org.usfirst.frc.team614.robot.commands.shooter.ToggleShooterPID;
+import org.usfirst.frc.team614.robot.commands.shooter.TuckTEDAndLowerLift;
 import org.usfirst.frc.team614.robot.commands.visionProcessor.LineUpShot;
 import org.usfirst.frc.team614.robot.commands.drivetrain.TurnToAngle;
 
@@ -63,8 +65,10 @@ public class OI {
 
 			public static final int TED_OUT = Gamepad.button_X;
 			public static final int TED_IN = Gamepad.button_B;
-			public static final int SHOOT_SEQUENCE_2 = Gamepad.button_Y;
+			//public static final int SHOOT_SEQUENCE_2 = Gamepad.button_Y;
 			public static final int SHOOT_SEQUENCE = Gamepad.button_A;
+			public static final int TUCK_TED_AND_LOWER_LIFT = Gamepad.button_Y;
+//			public static final int POP_TED_AND_REV_IN = Gamepad.button_L_Shoulder;
 		//Driver Gamepad
 			public static final int TURN_TO_ANGLE = Gamepad.button_X;
 			public static final int SWITCH_GEARS = Gamepad.button_Start;
@@ -89,8 +93,10 @@ public class OI {
 			
 			private static final Button tedIn = new JoystickButton(operatorGamepad, TED_IN);
 			private static final Button tedOut = new JoystickButton(operatorGamepad, TED_OUT);
-			private static final Button shootSequence2 = new JoystickButton(operatorGamepad, SHOOT_SEQUENCE_2);
+//			private static final Button shootSequence2 = new JoystickButton(operatorGamepad, SHOOT_SEQUENCE_2);
 			private static final Button shootSequence = new JoystickButton(operatorGamepad, SHOOT_SEQUENCE);
+			private static final Button tuckTEDLowerLift = new JoystickButton(operatorGamepad, TUCK_TED_AND_LOWER_LIFT);
+//			private static final Button popTEDAndRevIn = new JoystickButton(operatorGamepad, POP_TED_AND_REV_IN);
 		//Driver Gamepad
 			private static final Button turnToAngle = new JoystickButton(driverGamepad, TURN_TO_ANGLE);
 			private static final Button switchGears = new JoystickButton(driverGamepad, SWITCH_GEARS);
@@ -109,7 +115,9 @@ public class OI {
 			tedIn.whenPressed(new TEDIn(1, 1));
 			tedOut.whenPressed(new TEDOut(1, 1));
 			shootSequence.whenPressed(new Shoot());
-			shootSequence2.whenPressed(new PewPewShoot(3));
+//			shootSequence2.whenPressed(new PewPewShoot(3));
+//			popTEDAndRevIn.whenPressed(new PrepTEDandRevIn());
+			tuckTEDLowerLift.whenPressed(new TuckTEDAndLowerLift());
 		//Technical Buttons
 			toggleShooterPID.whenPressed(new ToggleShooterPID());
 			

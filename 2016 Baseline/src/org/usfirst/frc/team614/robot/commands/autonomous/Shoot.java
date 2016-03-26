@@ -20,14 +20,12 @@ public class Shoot extends CommandGroup {
    
     	
     	//Rev up and shoot at goal
-    	addParallel(new PewPewRevOut(false));
+    	addParallel(new PewPewRevOut(Robot.shooter.getUsePID()));
     	
     	addSequential(new WaitCommand(2.5));
     	addSequential(new TEDIn(.1, 1));
     	addSequential(new TEDOut(1, 1));
-    	
-    	addSequential(new TEDIn(.2, 1));
-    	
+    	    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

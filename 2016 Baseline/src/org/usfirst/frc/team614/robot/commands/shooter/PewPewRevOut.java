@@ -19,14 +19,14 @@ boolean inTeleop;
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(!inTeleop){
-    	setTimeout(6);
+    	setTimeout(6.5);
     	}
 //    	Robot.shooter.revUpForward();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shootMode(-Constants.MOTOR_REVERSE, Robot.shooter.getUsePID());    }
+    	Robot.shooter.shootMode(-Constants.MOTOR_REVERSE, false);    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

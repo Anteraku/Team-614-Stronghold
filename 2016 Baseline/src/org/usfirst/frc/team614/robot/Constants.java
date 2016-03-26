@@ -45,7 +45,7 @@ public final class Constants {
 	public static final double MOTOR_DOWN = .1; //not used
 	
 	public static final double TARGET_RPM = 60 ; //to be changed when encoders come in
-	public static final double TARGET_RATE = 760000; //to be changed when the max rate of the flywheels are
+	public static final double TARGET_RATE = 860000; //to be changed when the max rate of the flywheels are
 	public static final double ANGLE_REDUCTION_SPEED_DOWN = 1;//.5;
 	public static final double ANGLE_REDUCTION_SPEED_UP = 1;//.85;
 	public static final double FLYWHEEL_SHOOT_SPEED = 1;

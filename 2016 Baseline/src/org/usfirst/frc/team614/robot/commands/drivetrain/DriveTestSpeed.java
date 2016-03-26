@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveTestSpeed extends Command {
 
 	
-	boolean usePID;
+	boolean usePID = false;
 	double moveSpeed;
     public DriveTestSpeed(double moveSpeed, boolean usePID) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
-    	this.usePID = usePID;
+//    	this.usePID = usePID;
     	this.moveSpeed = moveSpeed;
     }
 

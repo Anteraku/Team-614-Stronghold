@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerLift extends Command {
 
-	public static final double LOWER_SPEED = -.8;
+	public static final double LOWER_SPEED = .8;
 	
     public LowerLift() {
         // Use requires() here to declare subsystem dependencies
@@ -40,5 +40,6 @@ public class LowerLift extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.shooter.stopAngle();
     }
 }

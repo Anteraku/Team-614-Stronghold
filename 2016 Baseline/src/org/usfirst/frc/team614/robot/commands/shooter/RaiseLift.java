@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RaiseLift extends Command {
 
-	public static final double RAISE_SPEED = .8;
+	public static final double RAISE_SPEED = -.8;
 	
     public RaiseLift() {
         // Use requires() here to declare subsystem dependencies

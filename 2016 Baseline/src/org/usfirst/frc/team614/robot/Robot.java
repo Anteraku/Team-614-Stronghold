@@ -82,9 +82,7 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		visionProcessor = new VisionProcessor();
 		
-		
 		oi = new OI();
-		
 		
 		CameraServer.getInstance().startAutomaticCapture("cam0");
 		
@@ -102,19 +100,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new TEDIn(.5, 1));
 		SmartDashboard.putData(new TEDOut(.5, 1));
 		SmartDashboard.putData(new ResetDrivetrainEncoders());
-		SmartDashboard.putData(new TurnToAngle(90, .5, 0));
+		SmartDashboard.putData(new TurnToAngle(90, 1, 0));
 		SmartDashboard.putData(new LineUpShot());
 		SmartDashboard.putData(new LineUpThenShoot());
-		SmartDashboard.putData(new LowerLift());
-		SmartDashboard.putData(new RaiseLift());
+		
         autonomousMode = new SendableChooser();
         addAutonomousModes();
-      
-  
-      
-        
-               
-//     
     }
 	
 	/**
@@ -145,8 +136,6 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand = (Command) autonomousMode.getSelected();
      
-    	
-    
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
@@ -157,8 +146,6 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
        
         sendStatistics();
-        
-        
     }
 
     public void teleopInit() {
@@ -232,8 +219,9 @@ public class Robot extends IterativeRobot {
 
 	autonomousMode.addObject("Line Up Shot", new LineUpShot());
 	
+	 autonomousMode.addObject("Turn To Angle Position Test", new TurnToAngle(328484, .5, 5));
 	
-	autonomousMode.addObject("3) Drive For Time: 3, .8, F", new DriveStraightForATime(3, .8, true, true));
+	autonomousMode.addObject("3) Drive For Time: 3, .8, F", new DriveStraightForATime(5, .8, false, true));
 	autonomousMode.addObject("4) Drive For Time Backwards: 3, .8, B", new DriveStraightForATime(3, .8, true, false));
 	autonomousMode.addObject("5) Drive For a Distance: 24, .8, F", new DriveStraightForADistance(24, .8, true, false));
 	autonomousMode.addObject("6) Drive For a Distance Backwards: 24, .8, B", new DriveStraightForADistance(24, .8, true, true));

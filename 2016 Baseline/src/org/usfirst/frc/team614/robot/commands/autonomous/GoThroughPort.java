@@ -16,16 +16,21 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class GoThroughPort extends CommandGroup {
     
     public  GoThroughPort() {
+//    	
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
+//    	addSequential(new DriveStraightForATime(.5, 0.7, true, true));
+//    	addSequential(new RaiseLift());
+//    	addSequential(new WaitCommand(1));
+//    	addSequential(new DriveStraightForATime(.5, 0.7, true, true));
+//    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
+//    	addSequential(new LowerLift());
+//    	
+//    	addSequential(new TurnToAngle(180, 0.7, 0));
     	
-    	addSequential(new DriveStraightForADistance(AutoConstants.toDefense, 0.7, true, true));
-    	addSequential(new DriveStraightForATime(.5, 0.7, true, true));
-    	addSequential(new RaiseLift());
-    	addSequential(new WaitCommand(1));
-    	addSequential(new DriveStraightForATime(.5, 0.7, true, true));
-    	addSequential(new DriveStraightForADistance(AutoConstants.toShot, 0.7, true, true));
     	addSequential(new LowerLift());
-    	
-    	addSequential(new TurnToAngle(180, 0.7, 0));
+    	addSequential(new DriveStraightForATime(3,0.7, true, true));
+    	addParallel(new RaiseLift());
+    	addSequential(new DriveStraightForATime(7.0, 0.7, true, true));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
