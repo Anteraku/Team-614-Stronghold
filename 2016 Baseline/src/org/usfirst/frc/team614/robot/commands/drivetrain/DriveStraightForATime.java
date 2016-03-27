@@ -20,9 +20,6 @@ public class DriveStraightForATime extends Command {
     	this.speed = speed;
 //    	this.usePID = usePID;
     	this.goForward = goForward;
-    	
-    	
-    	
     }
 
     // Called just before this Command runs the first time
@@ -31,6 +28,11 @@ public class DriveStraightForATime extends Command {
     	Robot.drivetrain.resetAngle();
     	Robot.drivetrain.resetEncoders();
     	
+    	
+    }
+
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
     	if(goForward){
     		Robot.drivetrain.arcadeDriveMode(-speed, 0.0, usePID);
     	}
@@ -38,10 +40,6 @@ public class DriveStraightForATime extends Command {
     	if(!goForward){
     		Robot.drivetrain.arcadeDriveMode(speed, 0.0, usePID);
     	}
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()

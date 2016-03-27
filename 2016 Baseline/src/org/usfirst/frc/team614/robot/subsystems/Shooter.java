@@ -239,7 +239,7 @@ public class Shooter extends PIDSubsystem {
 	}
 	
 	public void TEDIn(double speed){
-		TEDMotor.set(speed);
+		TEDMotor.set(-speed);
 		//TEDMotor.set(-.1);//to swing back very fast but for a short time
 		//TEDMotor.set(-.3); //to swing slower but for a longer time
 	}

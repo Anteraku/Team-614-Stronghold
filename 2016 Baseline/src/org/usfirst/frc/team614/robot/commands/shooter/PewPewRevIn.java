@@ -11,23 +11,30 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class PewPewRevIn extends Command {
-boolean inTeleop;
-Timer time;
+	boolean inTeleop;
+	boolean hadTED = false;
+	Timer time;
+	
     public PewPewRevIn(boolean inTeleop) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooter);
-this.inTeleop = inTeleop;    
-}
+    	this.inTeleop = inTeleop;    
+    	hadTED = false;
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(!inTeleop){
-    	setTimeout(5);
+    		setTimeout(5);
+    	} else {
+    		if(!hadTED){
+		    	Robot.shooter.TEDOut(.7);
+		    	Timer.delay(.5);
+		    	Robot.shooter.controlTED(0);
+		    	hadTED = true;
+    		}
     	}
-//    	Robot.shooter.TEDIn(.7);
-//    	Timer.delay(.5);
-//    	Robot.shooter.controlTED(0);
     	
     }
 
@@ -39,10 +46,15 @@ this.inTeleop = inTeleop;
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(inTeleop){
+    		if(!(OI.driverGamepad.getButton(OI.PEW_PEW_REV_IN))) {
+    			hadTED = false;
+    		}
+    		
     		return  !(OI.driverGamepad.getButton(OI.PEW_PEW_REV_IN));
     	}
-//    	 return !(OI.driverGamepad.getButton(OI.PEW_PEW_MEASURE_RETRIEVE));
-    	else return isTimedOut();
+    	else {
+    		return isTimedOut();
+    	}
     }
 
     // Called once after isFinished returns true
@@ -54,5 +66,6 @@ this.inTeleop = inTeleop;
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    
     }
 }
