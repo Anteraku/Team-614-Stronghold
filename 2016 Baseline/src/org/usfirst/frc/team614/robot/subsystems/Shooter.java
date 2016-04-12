@@ -40,7 +40,7 @@ public class Shooter extends PIDSubsystem {
 	
 	private boolean usePID = true;
 	
-//	public boolean tedIn = true;
+	public boolean tedIn = true;
 	
 	public Shooter() {
 		

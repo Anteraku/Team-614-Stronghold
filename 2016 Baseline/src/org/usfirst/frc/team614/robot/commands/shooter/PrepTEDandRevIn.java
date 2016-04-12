@@ -9,7 +9,7 @@ public class PrepTEDandRevIn extends CommandGroup {
     
     public  PrepTEDandRevIn() {
     	
-    	addSequential(new TEDIn(.5,.8, true));
+    	addSequential(new TEDOut(.5,.8, true));
     	addSequential(new PewPewRevIn(true));
         // Add Commands here:
         // e.g. addSequential(new Command1());

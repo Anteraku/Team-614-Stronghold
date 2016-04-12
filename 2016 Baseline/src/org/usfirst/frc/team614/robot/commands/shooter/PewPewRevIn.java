@@ -27,29 +27,36 @@ public class PewPewRevIn extends Command {
     protected void initialize() {
     	if(!inTeleop){
     		setTimeout(5);
-    	} else {
-    		if(!hadTED){
-		    	Robot.shooter.TEDOut(.7);
-		    	Timer.delay(.5);
-		    	Robot.shooter.controlTED(0);
-		    	hadTED = true;
-    		}
     	}
+//    		else {
+//    		if(!hadTED){
+//		    	Robot.shooter.TEDOut(-.7);
+//		    	Timer.delay(.5);
+//		    	Robot.shooter.controlTED(0);
+//		    	hadTED = true;
+//    		}
+//    	}
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shootMode(Constants.MOTOR_REVERSE, false);	
+    	if(!hadTED){
+    		Robot.shooter.TEDIn(.7);
+    		Timer.delay(.5);
+    		Robot.shooter.controlTED(0);
+    		hadTED = true;
+    	}
+    	Robot.shooter.shootMode(Constants.MOTOR_REVERSE, false);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(inTeleop){
+    		
     		if(!(OI.driverGamepad.getButton(OI.PEW_PEW_REV_IN))) {
     			hadTED = false;
     		}
-    		
     		return  !(OI.driverGamepad.getButton(OI.PEW_PEW_REV_IN));
     	}
     	else {
@@ -59,13 +66,14 @@ public class PewPewRevIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-//    	Robot.shooter.stopFlywheel();
+   	
     	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	hadTED = false;
     
     }
 }

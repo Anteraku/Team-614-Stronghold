@@ -6,7 +6,7 @@ public final class Constants {
 	/*
 	 * Field Dimensions
 	 */
-	public static final double FIELD_LENGTH = 27.0416;
+	public static final double FIELD_LENGTH = 27.041667;
 	public static final double FIELD_WIDTH = 26.583;
 	public static final double DEFENSE_WIDTH = 3.5;
 	public static final double DEFENSE_LENGTH = 4;

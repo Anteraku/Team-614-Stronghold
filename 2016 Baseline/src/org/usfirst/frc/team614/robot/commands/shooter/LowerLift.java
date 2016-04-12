@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerLift extends Command {
 
-	public static final double LOWER_SPEED = .8;
+	public static final double LOWER_SPEED = .6;
 	
     public LowerLift() {
         // Use requires() here to declare subsystem dependencies

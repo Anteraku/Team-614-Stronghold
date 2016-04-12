@@ -32,7 +32,8 @@ public class DriveTestSpeed extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return  !(OI.driverGamepad.getButton(OI.DRIVE_TEST_SPEED));
+    	return true;
+//    	return  !(OI.driverGamepad.getButton(OI.DRIVE_TEST_SPEED));
     }
 
     // Called once after isFinished returns true

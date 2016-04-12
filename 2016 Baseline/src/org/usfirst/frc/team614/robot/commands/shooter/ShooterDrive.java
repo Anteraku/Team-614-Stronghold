@@ -26,6 +26,9 @@ public class ShooterDrive extends Command {
     	Robot.shooter.setMotorSpeed(OI.operatorGamepad.getAxis(Gamepad.rightStick_Y));
     	Robot.shooter.shootMode(-OI.operatorGamepad.getAxis(Gamepad.leftStick_Y), false);
     	Robot.shooter.controlTED(OI.operatorGamepad.getAxis(Gamepad.rightStick_X));
+    	
+    	Robot.shooter.setMotorSpeed(OI.driverGamepad.getAxis(Gamepad.shoulderAxisRight) - OI.driverGamepad.getAxis(Gamepad.shoulderAxisLeft));
+    	Robot.shooter.controlTED(OI.driverGamepad.getAxis(Gamepad.rightStick_Y));
     }
 
     // Make this return true when this Command no longer needs to run execute()

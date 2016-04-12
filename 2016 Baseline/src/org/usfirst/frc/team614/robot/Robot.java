@@ -190,8 +190,6 @@ public class Robot extends IterativeRobot {
   private void addAutonomousModes() {
 	autonomousMode.addDefault("1) Do Nothing", new DoNothing());
 	
-	autonomousMode.addDefault("1) Shoot From Spy Box", new Shoot());
-	
 	autonomousMode.addObject("2) How Low Can You Go", new DropItLikeItsHot());
 	autonomousMode.addObject("3) Go Over CF", new GoOverCF());
 	autonomousMode.addObject("4) Go Through Port",  new GoThroughPort());

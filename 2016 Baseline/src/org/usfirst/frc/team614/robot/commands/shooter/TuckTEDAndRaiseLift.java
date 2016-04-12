@@ -9,7 +9,7 @@ public class TuckTEDAndRaiseLift extends CommandGroup {
     
     public  TuckTEDAndRaiseLift() {
     	
-    	addSequential(new TEDOut(.5, 1, true));
+    	addSequential(new TEDOut(.5, .8, true));
     	addSequential(new RaiseLift());
         // Add Commands here:
         // e.g. addSequential(new Command1());
